@@ -1,0 +1,93 @@
+#![allow(non_snake_case,non_upper_case_globals)]
+#![recursion_limit="256"]
+
+#[macro_use]
+mod macros;
+mod audio_hardware;
+mod audio_hardware_base;
+mod core_audio_types;
+mod host_time;
+
+pub use audio_hardware::*;
+pub use audio_hardware_base::*;
+pub use core_audio_types::*;
+pub use host_time::*;
+
+use std::os::raw::c_uchar;
+
+pub enum CFDictionary {}
+pub type CFDictionaryRef = *const CFDictionary;
+
+pub type Boolean = c_uchar;
+pub type FourCharCode = u32;
+pub type OSStatus = i32;
+pub type OSType = FourCharCode;
+
+/*
+#[link(name = "CoreAudio", kind = "framework")]
+extern {
+AudioDeviceAddIOProc
+AudioDeviceAddPropertyListener
+AudioDeviceCreateIOProcID
+AudioDeviceCreateIOProcIDWithBlock
+AudioDeviceCreateIOProcIDWithClockedBlock
+AudioDeviceCreateIOProcIDWithClockedProc
+AudioDeviceDestroyIOProcID
+AudioDeviceDuck
+AudioDeviceEnterMode
+AudioDeviceExitMode
+AudioDeviceGetCurrentTime
+AudioDeviceGetNearestStartTime
+AudioDeviceGetProperty
+AudioDeviceGetPropertyInfo
+AudioDeviceRead
+AudioDeviceRemoveIOProc
+AudioDeviceRemovePropertyListener
+AudioDeviceRun
+AudioDeviceSetProperty
+AudioDeviceStart
+AudioDeviceStartAtTime
+AudioDeviceStop
+AudioDeviceTranslateTime
+AudioDeviceWrite
+AudioHardwareAddPropertyListener
+AudioHardwareAddRunLoopSource
+AudioHardwareBeMaster
+AudioHardwareClaimAudioDeviceID
+AudioHardwareClaimAudioStreamID
+AudioHardwareCreateAggregateDevice
+AudioHardwareDestroyAggregateDevice
+AudioHardwareDevicePropertyChanged
+AudioHardwareDevicesCreated
+AudioHardwareDevicesDied
+AudioHardwareGetProperty
+AudioHardwareGetPropertyInfo
+AudioHardwareRemovePropertyListener
+AudioHardwareRemoveRunLoopSource
+AudioHardwareSetProperty
+AudioHardwareStreamPropertyChanged
+AudioHardwareStreamsCreated
+AudioHardwareStreamsDied
+AudioHardwareUnload
+AudioObjectAddPropertyListener
+AudioObjectAddPropertyListenerBlock
+AudioObjectAddPropertyListenerInternal
+AudioObjectCreate
+AudioObjectExists
+AudioObjectGetPropertyData
+AudioObjectGetPropertyDataSize
+AudioObjectHasProperty
+AudioObjectIsPropertySettable
+AudioObjectPropertiesChanged
+AudioObjectRemovePropertyListener
+AudioObjectRemovePropertyListenerBlock
+AudioObjectSetPropertyData
+AudioObjectShow
+AudioObjectsPublishedAndDied
+AudioStreamAddPropertyListener
+AudioStreamGetProperty
+AudioStreamGetPropertyInfo
+AudioStreamRemovePropertyListener
+AudioStreamSetPropertyx
+}
+*/

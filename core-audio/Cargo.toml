@@ -1,0 +1,15 @@
+[package]
+name = "core-audio"
+description = "Bindings to Core Audio for OS X"
+version = "0.0.1"
+authors = ["Dan Glastonbury <dan.glastonbury@gmail.com>"]
+license = "MIT / Apache-2.0"
+
+[features]
+prefer-fixed-point = []
+
+[dependencies]
+bitflags = "1.0"
+core-audio-sys = { path = "../core-audio-sys" }
+core-foundation = "0.4"
+libc = "0.2"
