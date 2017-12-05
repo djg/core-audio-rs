@@ -14,12 +14,12 @@ e! {
         kAudio_FileNotFoundError      = -43,
         kAudio_FilePermissionError    = -54,
         kAudio_TooManyFilesOpenError  = -42,
-        kAudio_BadFilePathError       = fourcc!(b"!pth") as _,
+        kAudio_BadFilePathError       = 0x21707468,
         kAudio_ParamError             = -50,
         kAudio_MemFullError           = -108,
     }
 }
-      
+
 // AudioValueRange
 
 s! {
@@ -96,45 +96,45 @@ pub const kAudioStreamAnyRate: f64 = 0.0;
 
 e! {
     enum AudioFormatID {
-        kAudioFormatLinearPCM               = fourcc!(b"lpcm"),
-        kAudioFormatAC3                     = fourcc!(b"ac-3"),
-        kAudioFormat60958AC3                = fourcc!(b"cac3"),
-        kAudioFormatAppleIMA4               = fourcc!(b"ima4"),
-        kAudioFormatMPEG4AAC                = fourcc!(b"aac "),
-        kAudioFormatMPEG4CELP               = fourcc!(b"celp"),
-        kAudioFormatMPEG4HVXC               = fourcc!(b"hvxc"),
-        kAudioFormatMPEG4TwinVQ             = fourcc!(b"twvq"),
-        kAudioFormatMACE3                   = fourcc!(b"MAC3"),
-        kAudioFormatMACE6                   = fourcc!(b"MAC6"),
-        kAudioFormatULaw                    = fourcc!(b"ulaw"),
-        kAudioFormatALaw                    = fourcc!(b"alaw"),
-        kAudioFormatQDesign                 = fourcc!(b"QDMC"),
-        kAudioFormatQDesign2                = fourcc!(b"QDM2"),
-        kAudioFormatQUALCOMM                = fourcc!(b"Qclp"),
-        kAudioFormatMPEGLayer1              = fourcc!(b".mp1"),
-        kAudioFormatMPEGLayer2              = fourcc!(b".mp2"),
-        kAudioFormatMPEGLayer3              = fourcc!(b".mp3"),
-        kAudioFormatTimeCode                = fourcc!(b"time"),
-        kAudioFormatMIDIStream              = fourcc!(b"midi"),
-        kAudioFormatParameterValueStream    = fourcc!(b"apvs"),
-        kAudioFormatAppleLossless           = fourcc!(b"alac"),
-        kAudioFormatMPEG4AAC_HE             = fourcc!(b"aach"),
-        kAudioFormatMPEG4AAC_LD             = fourcc!(b"aacl"),
-        kAudioFormatMPEG4AAC_ELD            = fourcc!(b"aace"),
-        kAudioFormatMPEG4AAC_ELD_SBR        = fourcc!(b"aacf"),
-        kAudioFormatMPEG4AAC_ELD_V2         = fourcc!(b"aacg"),    
-        kAudioFormatMPEG4AAC_HE_V2          = fourcc!(b"aacp"),
-        kAudioFormatMPEG4AAC_Spatial        = fourcc!(b"aacs"),
-        kAudioFormatAMR                     = fourcc!(b"samr"),
-        kAudioFormatAMR_WB                  = fourcc!(b"sawb"),
-        kAudioFormatAudible                 = fourcc!(b"AUDB"),
-        kAudioFormatiLBC                    = fourcc!(b"ilbc"),
-        kAudioFormatDVIIntelIMA             = 0x6D730011,
-        kAudioFormatMicrosoftGSM            = 0x6D730031,
-        kAudioFormatAES3                    = fourcc!(b"aes3"),
-        kAudioFormatEnhancedAC3             = fourcc!(b"ec-3"),
-        kAudioFormatFLAC                    = fourcc!(b"flac"),
-        kAudioFormatOpus                    = fourcc!(b"opus"),
+        kAudioFormatLinearPCM                           = 0x6c70636d,
+        kAudioFormatAC3                                 = 0x61632d33,
+        kAudioFormat60958AC3                            = 0x63616333,
+        kAudioFormatAppleIMA4                           = 0x696d6134,
+        kAudioFormatMPEG4AAC                            = 0x61616320,
+        kAudioFormatMPEG4CELP                           = 0x63656c70,
+        kAudioFormatMPEG4HVXC                           = 0x68767863,
+        kAudioFormatMPEG4TwinVQ                         = 0x74777671,
+        kAudioFormatMACE3                               = 0x4d414333,
+        kAudioFormatMACE6                               = 0x4d414336,
+        kAudioFormatULaw                                = 0x756c6177,
+        kAudioFormatALaw                                = 0x616c6177,
+        kAudioFormatQDesign                             = 0x51444d43,
+        kAudioFormatQDesign2                            = 0x51444d32,
+        kAudioFormatQUALCOMM                            = 0x51636c70,
+        kAudioFormatMPEGLayer1                          = 0x2e6d7031,
+        kAudioFormatMPEGLayer2                          = 0x2e6d7032,
+        kAudioFormatMPEGLayer3                          = 0x2e6d7033,
+        kAudioFormatTimeCode                            = 0x74696d65,
+        kAudioFormatMIDIStream                          = 0x6d696469,
+        kAudioFormatParameterValueStream                = 0x61707673,
+        kAudioFormatAppleLossless                       = 0x616c6163,
+        kAudioFormatMPEG4AAC_HE                         = 0x61616368,
+        kAudioFormatMPEG4AAC_LD                         = 0x6161636c,
+        kAudioFormatMPEG4AAC_ELD                        = 0x61616365,
+        kAudioFormatMPEG4AAC_ELD_SBR                    = 0x61616366,
+        kAudioFormatMPEG4AAC_ELD_V2                     = 0x61616367,
+        kAudioFormatMPEG4AAC_HE_V2                      = 0x61616370,
+        kAudioFormatMPEG4AAC_Spatial                    = 0x61616373,
+        kAudioFormatAMR                                 = 0x73616d72,
+        kAudioFormatAMR_WB                              = 0x73617762,
+        kAudioFormatAudible                             = 0x41554442,
+        kAudioFormatiLBC                                = 0x696c6263,
+        kAudioFormatDVIIntelIMA                         = 0x6D730011,
+        kAudioFormatMicrosoftGSM                        = 0x6D730031,
+        kAudioFormatAES3                                = 0x61657333,
+        kAudioFormatEnhancedAC3                         = 0x65632d33,
+        kAudioFormatFLAC                                = 0x666c6163,
+        kAudioFormatOpus                                = 0x6f707573,
     }
 }
 
@@ -166,7 +166,6 @@ e! {
         kAppleLosslessFormatFlag_32BitSourceData = 4,
     }
 }
-
 
 cfg_if! {
     if #[cfg(target_endian = "big")] {
@@ -211,37 +210,61 @@ pub fn IsAudioFormatNativeEndian(f: &AudioStreamBasicDescription) -> bool {
 }
 
 #[inline]
-pub fn CalculateLPCMFlags(inValidBitsPerChannel: u32,
-                          inTotalBitsPerChannel: u32,
-                          inIsFloat: bool,
-                          inIsBigEndian: bool,
-                          inIsNonInterleaved: bool) -> AudioFormatFlags {
-    (match inIsFloat { true => kAudioFormatFlagIsFloat, _ => kAudioFormatFlagIsSignedInteger }) |
-    (match inIsBigEndian { true => kAudioFormatFlagIsBigEndian, _ => 0 }) |
-    (if inValidBitsPerChannel == inTotalBitsPerChannel {
-        kAudioFormatFlagIsPacked
-    } else {
-        kAudioFormatFlagIsAlignedHigh
-    }) |
-    (match inIsNonInterleaved { true => kAudioFormatFlagIsNonInterleaved, _ =>  0 })
+pub fn CalculateLPCMFlags(
+    inValidBitsPerChannel: u32,
+    inTotalBitsPerChannel: u32,
+    inIsFloat: bool,
+    inIsBigEndian: bool,
+    inIsNonInterleaved: bool,
+) -> AudioFormatFlags {
+    (match inIsFloat {
+         true => kAudioFormatFlagIsFloat,
+         _ => kAudioFormatFlagIsSignedInteger,
+     }) |
+        (match inIsBigEndian {
+             true => kAudioFormatFlagIsBigEndian,
+             _ => 0,
+         }) |
+        (if inValidBitsPerChannel == inTotalBitsPerChannel {
+             kAudioFormatFlagIsPacked
+         } else {
+             kAudioFormatFlagIsAlignedHigh
+         }) |
+        (match inIsNonInterleaved {
+             true => kAudioFormatFlagIsNonInterleaved,
+             _ => 0,
+         })
 }
 
 #[inline]
-pub fn FillOutASBDForLPCM(outASBD: &mut AudioStreamBasicDescription,
-                          inSampleRate: f64,
-                          inChannelsPerFrame: u32,
-                          inValidBitsPerChannel: u32,
-                          inTotalBitsPerChannel: u32,
-                          inIsFloat: bool,
-                          inIsBigEndian: bool,
-                          inIsNonInterleaved: bool)
-{
+pub fn FillOutASBDForLPCM(
+    outASBD: &mut AudioStreamBasicDescription,
+    inSampleRate: f64,
+    inChannelsPerFrame: u32,
+    inValidBitsPerChannel: u32,
+    inTotalBitsPerChannel: u32,
+    inIsFloat: bool,
+    inIsBigEndian: bool,
+    inIsNonInterleaved: bool,
+) {
     outASBD.mSampleRate = inSampleRate;
     outASBD.mFormatID = kAudioFormatLinearPCM;
-    outASBD.mFormatFlags = CalculateLPCMFlags(inValidBitsPerChannel, inTotalBitsPerChannel, inIsFloat, inIsBigEndian, inIsNonInterleaved);
-    outASBD.mBytesPerPacket = match inIsNonInterleaved { true => 1, _ => inChannelsPerFrame } * (inTotalBitsPerChannel / 8);
+    outASBD.mFormatFlags = CalculateLPCMFlags(
+        inValidBitsPerChannel,
+        inTotalBitsPerChannel,
+        inIsFloat,
+        inIsBigEndian,
+        inIsNonInterleaved,
+    );
+    outASBD.mBytesPerPacket = match inIsNonInterleaved {
+        true => 1,
+        _ => inChannelsPerFrame,
+    } * (inTotalBitsPerChannel / 8);
     outASBD.mFramesPerPacket = 1;
-    outASBD.mBytesPerFrame = match inIsNonInterleaved { true => 1, _ => inChannelsPerFrame } * (inTotalBitsPerChannel / 8);
+    outASBD.mBytesPerFrame = match inIsNonInterleaved {
+        true => 1,
+        _ => inChannelsPerFrame,
+    } * (inTotalBitsPerChannel / 8);
     outASBD.mChannelsPerFrame = inChannelsPerFrame;
     outASBD.mBitsPerChannel = inValidBitsPerChannel;
 }
@@ -324,7 +347,10 @@ s! {
     }
 }
 
-pub fn FillOutAudioTimeStampWithSampleTime(outATS: &mut AudioTimeStamp, inSampleTime: f64) {
+pub fn FillOutAudioTimeStampWithSampleTime(
+    outATS: &mut AudioTimeStamp,
+    inSampleTime: f64,
+) {
     outATS.mSampleTime = inSampleTime;
     outATS.mHostTime = 0;
     outATS.mRateScalar = 0.0;
@@ -333,7 +359,10 @@ pub fn FillOutAudioTimeStampWithSampleTime(outATS: &mut AudioTimeStamp, inSample
     outATS.mFlags = kAudioTimeStampSampleTimeValid;
 }
 
-pub fn FillOutAudioTimeStampWithHostTime(outATS: &mut AudioTimeStamp, inHostTime: u64) {
+pub fn FillOutAudioTimeStampWithHostTime(
+    outATS: &mut AudioTimeStamp,
+    inHostTime: u64,
+) {
     outATS.mSampleTime = 0.0;
     outATS.mHostTime = inHostTime;
     outATS.mRateScalar = 0.0;
@@ -342,9 +371,11 @@ pub fn FillOutAudioTimeStampWithHostTime(outATS: &mut AudioTimeStamp, inHostTime
     outATS.mFlags = kAudioTimeStampHostTimeValid;
 }
 
-pub fn FillOutAudioTimeStampWithSampleAndHostTime(outATS: &mut AudioTimeStamp,
-                                                  inSampleTime: f64,
-                                                  inHostTime: u64) {
+pub fn FillOutAudioTimeStampWithSampleAndHostTime(
+    outATS: &mut AudioTimeStamp,
+    inSampleTime: f64,
+    inHostTime: u64,
+) {
     outATS.mSampleTime = inSampleTime;
     outATS.mHostTime = inHostTime;
     outATS.mRateScalar = 0.0;
@@ -357,6 +388,7 @@ pub fn FillOutAudioTimeStampWithSampleAndHostTime(outATS: &mut AudioTimeStamp,
 // AudioClassDescription
 
 s! {
+    #[derive(Clone, Copy)]
     struct AudioClassDescription {
         pub mType:  OSType,
         pub mSubType: OSType,
@@ -692,23 +724,24 @@ s! {
         pub mCoordinates: [f32;3],
     }
 
+    #[derive(Clone, Copy)]
     struct AudioChannelLayout {
         pub mChannelLayoutTag: AudioChannelLayoutTag,
         pub mChannelBitmap: AudioChannelBitmap,
         pub mNumberChannelDescriptions: u32,
-            mChannelDescriptions: [AudioChannelDescription;0],
+            mChannelDescriptions: [AudioChannelDescription;1],
     }
 }
 
 impl AudioChannelLayout {
     pub fn channel_descriptions(&self) -> &[AudioChannelDescription] {
         unsafe {
-            slice::from_raw_parts(&self.mChannelDescriptions as *const _,
-                                  self.mNumberChannelDescriptions as _)
+            slice::from_raw_parts(
+                &self.mChannelDescriptions as *const _,
+                self.mNumberChannelDescriptions as _,
+            )
         }
     }
 }
 
-pub fn AudioChannelLayoutTag_GetNumberOfChannels(inLayoutTag: AudioChannelLayoutTag) -> u32 {
-    inLayoutTag & 0x0000FFFF
-}
+pub fn AudioChannelLayoutTag_GetNumberOfChannels(inLayoutTag: AudioChannelLayoutTag) -> u32 { inLayoutTag & 0x0000FFFF }

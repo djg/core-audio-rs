@@ -3,17 +3,20 @@ extern crate bitflags;
 pub extern crate core_audio_sys as ffi;
 extern crate core_foundation;
 extern crate libc;
-
 #[macro_use]
-mod call;
+extern crate ffi_binding;
 
 mod error;
+#[macro_use]
+mod call;
 mod core_audio_types;
 mod audio_hardware;
 mod host_time;
+mod util;
 
 pub type Result<T> = ::std::result::Result<T, error::Error>;
 
+pub use error::*;
 pub use core_audio_types::*;
 pub use audio_hardware::*;
 pub use host_time::*;
@@ -49,4 +52,3 @@ bitflags! {
         const METERS = ffi::kAudioChannelFlags_Meters;
     }
 }
-

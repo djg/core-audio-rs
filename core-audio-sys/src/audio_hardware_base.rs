@@ -49,23 +49,23 @@ e! {
 
 e! {
     enum AudioObjectPropertyScope {
-        kAudioObjectPropertyScopeGlobal         = fourcc!(b"glob"),
-        kAudioObjectPropertyScopeInput          = fourcc!(b"inpt"),
-        kAudioObjectPropertyScopeOutput         = fourcc!(b"outp"),
-        kAudioObjectPropertyScopePlayThrough    = fourcc!(b"ptru"),
+        kAudioObjectPropertyScopeGlobal = 0x676c6f62,
+        kAudioObjectPropertyScopeInput = 0x696e7074,
+        kAudioObjectPropertyScopeOutput = 0x6f757470,
+        kAudioObjectPropertyScopePlayThrough = 0x70747275,
         kAudioObjectPropertyElementMaster       = 0,
     }
 }
 
 e! {
     enum AudioObjectPropertySelector {
-        kAudioObjectPropertySelectorWildcard    = fourcc!(b"****"),
+        kAudioObjectPropertySelectorWildcard = 0x2a2a2a2a,
     }
 }
 
 e! {
     enum AudioObjectPropertyScope {
-        kAudioObjectPropertyScopeWildcard       = fourcc!(b"****"),
+        kAudioObjectPropertyScopeWildcard = 0x2a2a2a2a,
     }
 }
 
@@ -77,7 +77,7 @@ e! {
 
 e! {
     enum AudioClassID {
-        kAudioObjectClassIDWildcard             = fourcc!(b"****"),
+        kAudioObjectClassIDWildcard = 0x2a2a2a2a,
     }
 }
 
@@ -86,7 +86,7 @@ e! {
 
 e! {
     enum AudioClassID {
-        kAudioObjectClassID = fourcc!(b"aobj"),
+        kAudioObjectClassID = 0x616f626a,
     }
 }
 
@@ -109,13 +109,13 @@ e! {
         kAudioObjectPropertyFirmwareVersion     = 0x6677766e, // "fwvn"
     }
 }
-    
+
 //==================================================================================================
 // AudioPlugIn Constants
 
 e! {
     enum AudioClassID {
-        kAudioPlugInClassID = fourcc!(b"aplg"),
+        kAudioPlugInClassID = 0x61706c67,
     }
 }
 
@@ -124,13 +124,13 @@ e! {
 
 e! {
     enum AudioObjectPropertySelector {
-        kAudioPlugInPropertyBundleID                  = fourcc!(b"piid"),
-        kAudioPlugInPropertyDeviceList                = fourcc!(b"dev#"),
-        kAudioPlugInPropertyTranslateUIDToDevice      = fourcc!(b"uidd"),
-        kAudioPlugInPropertyBoxList                   = fourcc!(b"box#"),
-        kAudioPlugInPropertyTranslateUIDToBox         = fourcc!(b"uidb"),
-        kAudioPlugInPropertyClockDeviceList           = fourcc!(b"clk#"),
-        kAudioPlugInPropertyTranslateUIDToClockDevice = fourcc!(b"uidc"),
+        kAudioPlugInPropertyBundleID = 0x70696964,
+        kAudioPlugInPropertyDeviceList = 0x64657623,
+        kAudioPlugInPropertyTranslateUIDToDevice = 0x75696464,
+        kAudioPlugInPropertyBoxList = 0x626f7823,
+        kAudioPlugInPropertyTranslateUIDToBox = 0x75696462,
+        kAudioPlugInPropertyClockDeviceList = 0x636c6b23,
+        kAudioPlugInPropertyTranslateUIDToClockDevice = 0x75696463,
     }
 }
 
@@ -138,7 +138,7 @@ e! {
 // AudioTransportManager Constants
 e! {
     enum AudioClassID  {
-        kAudioTransportManagerClassID   = fourcc!(b"trpm"),
+        kAudioTransportManagerClassID = 0x7472706d,
     }
 }
 
@@ -148,9 +148,9 @@ e! {
 e! {
     enum AudioObjectPropertySelector
     {
-        kAudioTransportManagerPropertyEndPointList              = fourcc!(b"end#"),
-        kAudioTransportManagerPropertyTranslateUIDToEndPoint    = fourcc!(b"uide"),
-        kAudioTransportManagerPropertyTransportType             = fourcc!(b"tran"),
+        kAudioTransportManagerPropertyEndPointList = 0x656e6423,
+        kAudioTransportManagerPropertyTranslateUIDToEndPoint = 0x75696465,
+        kAudioTransportManagerPropertyTransportType = 0x7472616e,
     }
 }
 
@@ -160,7 +160,7 @@ e! {
 e! {
     enum AudioClassID
     {
-        kAudioBoxClassID    = fourcc!(b"abox"),
+        kAudioBoxClassID = 0x61626f78,
     }
 }
 
@@ -170,16 +170,16 @@ e! {
 e! {
     enum AudioObjectPropertySelector
     {
-        kAudioBoxPropertyBoxUID             = fourcc!(b"buid"),
-        kAudioBoxPropertyTransportType      = fourcc!(b"tran"),
-        kAudioBoxPropertyHasAudio           = fourcc!(b"bhau"),
-        kAudioBoxPropertyHasVideo           = fourcc!(b"bhvi"),
-        kAudioBoxPropertyHasMIDI            = fourcc!(b"bhmi"),
-        kAudioBoxPropertyIsProtected        = fourcc!(b"bpro"),
-        kAudioBoxPropertyAcquired           = fourcc!(b"bxon"),
-        kAudioBoxPropertyAcquisitionFailed  = fourcc!(b"bxof"),
-        kAudioBoxPropertyDeviceList         = fourcc!(b"bdv#"),
-        kAudioBoxPropertyClockDeviceList    = fourcc!(b"bcl#"),
+        kAudioBoxPropertyBoxUID = 0x62756964,
+        kAudioBoxPropertyTransportType = 0x7472616e,
+        kAudioBoxPropertyHasAudio = 0x62686175,
+        kAudioBoxPropertyHasVideo = 0x62687669,
+        kAudioBoxPropertyHasMIDI = 0x62686d69,
+        kAudioBoxPropertyIsProtected = 0x6270726f,
+        kAudioBoxPropertyAcquired = 0x62786f6e,
+        kAudioBoxPropertyAcquisitionFailed = 0x62786f66,
+        kAudioBoxPropertyDeviceList = 0x62647623,
+        kAudioBoxPropertyClockDeviceList = 0x62636c23,
     }
 }
 
@@ -189,7 +189,7 @@ e! {
 e! {
     enum AudioClassID
     {
-        kAudioDeviceClassID = fourcc!(b"adev"),
+        kAudioDeviceClassID = 0x61646576,
     }
 }
 
@@ -197,19 +197,19 @@ e! {
     enum u32
     {
         kAudioDeviceTransportTypeUnknown        = 0,
-        kAudioDeviceTransportTypeBuiltIn        = fourcc!(b"bltn"),
-        kAudioDeviceTransportTypeAggregate      = fourcc!(b"grup"),
-        kAudioDeviceTransportTypeVirtual        = fourcc!(b"virt"),
-        kAudioDeviceTransportTypePCI            = fourcc!(b"pci "),
-        kAudioDeviceTransportTypeUSB            = fourcc!(b"usb "),
-        kAudioDeviceTransportTypeFireWire       = fourcc!(b"1394"),
-        kAudioDeviceTransportTypeBluetooth      = fourcc!(b"blue"),
-        kAudioDeviceTransportTypeBluetoothLE    = fourcc!(b"blea"),
-        kAudioDeviceTransportTypeHDMI           = fourcc!(b"hdmi"),
-        kAudioDeviceTransportTypeDisplayPort    = fourcc!(b"dprt"),
-        kAudioDeviceTransportTypeAirPlay        = fourcc!(b"airp"),
-        kAudioDeviceTransportTypeAVB            = fourcc!(b"eavb"),
-        kAudioDeviceTransportTypeThunderbolt    = fourcc!(b"thun"),
+        kAudioDeviceTransportTypeBuiltIn = 0x626c746e,
+        kAudioDeviceTransportTypeAggregate = 0x67727570,
+        kAudioDeviceTransportTypeVirtual = 0x76697274,
+        kAudioDeviceTransportTypePCI = 0x70636920,
+        kAudioDeviceTransportTypeUSB = 0x75736220,
+        kAudioDeviceTransportTypeFireWire = 0x31333934,
+        kAudioDeviceTransportTypeBluetooth = 0x626c7565,
+        kAudioDeviceTransportTypeBluetoothLE = 0x626c6561,
+        kAudioDeviceTransportTypeHDMI = 0x68646d69,
+        kAudioDeviceTransportTypeDisplayPort = 0x64707274,
+        kAudioDeviceTransportTypeAirPlay = 0x61697270,
+        kAudioDeviceTransportTypeAVB = 0x65617662,
+        kAudioDeviceTransportTypeThunderbolt = 0x7468756e,
     }
 }
 
@@ -219,26 +219,26 @@ e! {
 e! {
     enum AudioObjectPropertySelector
     {
-        kAudioDevicePropertyConfigurationApplication        = fourcc!(b"capp"),
-        kAudioDevicePropertyDeviceUID                       = fourcc!(b"uid "),
-        kAudioDevicePropertyModelUID                        = fourcc!(b"muid"),
-        kAudioDevicePropertyTransportType                   = fourcc!(b"tran"),
-        kAudioDevicePropertyRelatedDevices                  = fourcc!(b"akin"),
-        kAudioDevicePropertyClockDomain                     = fourcc!(b"clkd"),
-        kAudioDevicePropertyDeviceIsAlive                   = fourcc!(b"livn"),
-        kAudioDevicePropertyDeviceIsRunning                 = fourcc!(b"goin"),
-        kAudioDevicePropertyDeviceCanBeDefaultDevice        = fourcc!(b"dflt"),
-        kAudioDevicePropertyDeviceCanBeDefaultSystemDevice  = fourcc!(b"sflt"),
-        kAudioDevicePropertyLatency                         = fourcc!(b"ltnc"),
-        kAudioDevicePropertyStreams                         = fourcc!(b"stm#"),
-        kAudioObjectPropertyControlList                     = fourcc!(b"ctrl"),
-        kAudioDevicePropertySafetyOffset                    = fourcc!(b"saft"),
-        kAudioDevicePropertyNominalSampleRate               = fourcc!(b"nsrt"),
-        kAudioDevicePropertyAvailableNominalSampleRates     = fourcc!(b"nsr#"),
-        kAudioDevicePropertyIcon                            = fourcc!(b"icon"),
-        kAudioDevicePropertyIsHidden                        = fourcc!(b"hidn"),
-        kAudioDevicePropertyPreferredChannelsForStereo      = fourcc!(b"dch2"),
-        kAudioDevicePropertyPreferredChannelLayout          = fourcc!(b"srnd"),
+        kAudioDevicePropertyConfigurationApplication = 0x63617070,
+        kAudioDevicePropertyDeviceUID = 0x75696420,
+        kAudioDevicePropertyModelUID = 0x6d756964,
+        kAudioDevicePropertyTransportType = 0x7472616e,
+        kAudioDevicePropertyRelatedDevices = 0x616b696e,
+        kAudioDevicePropertyClockDomain = 0x636c6b64,
+        kAudioDevicePropertyDeviceIsAlive = 0x6c69766e,
+        kAudioDevicePropertyDeviceIsRunning = 0x676f696e,
+        kAudioDevicePropertyDeviceCanBeDefaultDevice = 0x64666c74,
+        kAudioDevicePropertyDeviceCanBeDefaultSystemDevice = 0x73666c74,
+        kAudioDevicePropertyLatency = 0x6c746e63,
+        kAudioDevicePropertyStreams = 0x73746d23,
+        kAudioObjectPropertyControlList = 0x6374726c,
+        kAudioDevicePropertySafetyOffset = 0x73616674,
+        kAudioDevicePropertyNominalSampleRate = 0x6e737274,
+        kAudioDevicePropertyAvailableNominalSampleRates = 0x6e737223,
+        kAudioDevicePropertyIcon = 0x69636f6e,
+        kAudioDevicePropertyIsHidden = 0x6869646e,
+        kAudioDevicePropertyPreferredChannelsForStereo = 0x64636832,
+        kAudioDevicePropertyPreferredChannelLayout = 0x73726e64,
     }
 }
 
@@ -248,25 +248,25 @@ e! {
 e! {
     enum AudioObjectPropertySelector
     {
-        kAudioClockDeviceClassID    = fourcc!(b"aclk"),
+        kAudioClockDeviceClassID = 0x61636c6b,
     }
 }
-    
+
 //==================================================================================================
 // AudioClockDevice Properties
 
 e! {
     enum AudioObjectPropertySelector
     {
-        kAudioClockDevicePropertyDeviceUID                   = fourcc!(b"cuid"),
-        kAudioClockDevicePropertyTransportType               = fourcc!(b"tran"),
-        kAudioClockDevicePropertyClockDomain                 = fourcc!(b"clkd"),
-        kAudioClockDevicePropertyDeviceIsAlive               = fourcc!(b"livn"),
-        kAudioClockDevicePropertyDeviceIsRunning             = fourcc!(b"goin"),
-        kAudioClockDevicePropertyLatency                     = fourcc!(b"ltnc"),
-        kAudioClockDevicePropertyControlList                 = fourcc!(b"ctrl"),
-        kAudioClockDevicePropertyNominalSampleRate           = fourcc!(b"nsrt"),
-        kAudioClockDevicePropertyAvailableNominalSampleRates = fourcc!(b"nsr#"),
+        kAudioClockDevicePropertyDeviceUID = 0x63756964,
+        kAudioClockDevicePropertyTransportType = 0x7472616e,
+        kAudioClockDevicePropertyClockDomain = 0x636c6b64,
+        kAudioClockDevicePropertyDeviceIsAlive = 0x6c69766e,
+        kAudioClockDevicePropertyDeviceIsRunning = 0x676f696e,
+        kAudioClockDevicePropertyLatency = 0x6c746e63,
+        kAudioClockDevicePropertyControlList = 0x6374726c,
+        kAudioClockDevicePropertyNominalSampleRate = 0x6e737274,
+        kAudioClockDevicePropertyAvailableNominalSampleRates = 0x6e737223,
     }
 }
 
@@ -276,7 +276,7 @@ e! {
 e! {
     enum AudioClassID
     {
-        kAudioEndPointDeviceClassID = fourcc!(b"edev"),
+        kAudioEndPointDeviceClassID = 0x65646576,
     }
 }
 
@@ -294,9 +294,9 @@ cs! {
 e! {
     enum AudioObjectPropertySelector
     {
-        kAudioEndPointDevicePropertyComposition         = fourcc!(b"acom"),
-        kAudioEndPointDevicePropertyEndPointList        = fourcc!(b"agrp"),
-        kAudioEndPointDevicePropertyIsPrivate           = fourcc!(b"priv"),
+        kAudioEndPointDevicePropertyComposition = 0x61636f6d,
+        kAudioEndPointDevicePropertyEndPointList = 0x61677270,
+        kAudioEndPointDevicePropertyIsPrivate = 0x70726976,
     }
 }
 
@@ -306,7 +306,7 @@ e! {
 e! {
     enum AudioClassID
     {
-        kAudioEndPointClassID   = fourcc!(b"endp"),
+        kAudioEndPointClassID = 0x656e6470,
     }
 }
 
@@ -335,7 +335,7 @@ s! {
 e! {
     enum AudioClassID
     {
-        kAudioStreamClassID = fourcc!(b"astr"),
+        kAudioStreamClassID = 0x61737472,
     }
 }
 
@@ -343,18 +343,18 @@ e! {
     enum u32
     {
         kAudioStreamTerminalTypeUnknown                 = 0,
-        kAudioStreamTerminalTypeLine                    = fourcc!(b"line"),
-        kAudioStreamTerminalTypeDigitalAudioInterface   = fourcc!(b"spdf"),
-        kAudioStreamTerminalTypeSpeaker                 = fourcc!(b"spkr"),
-        kAudioStreamTerminalTypeHeadphones              = fourcc!(b"hdph"),
-        kAudioStreamTerminalTypeLFESpeaker              = fourcc!(b"lfes"),
-        kAudioStreamTerminalTypeReceiverSpeaker         = fourcc!(b"rspk"),
-        kAudioStreamTerminalTypeMicrophone              = fourcc!(b"micr"),
-        kAudioStreamTerminalTypeHeadsetMicrophone       = fourcc!(b"hmic"),
-        kAudioStreamTerminalTypeReceiverMicrophone      = fourcc!(b"rmic"),
-        kAudioStreamTerminalTypeTTY                     = fourcc!(b"tty_"),
-        kAudioStreamTerminalTypeHDMI                    = fourcc!(b"hdmi"),
-        kAudioStreamTerminalTypeDisplayPort             = fourcc!(b"dprt"),
+        kAudioStreamTerminalTypeLine = 0x6c696e65,
+        kAudioStreamTerminalTypeDigitalAudioInterface = 0x73706466,
+        kAudioStreamTerminalTypeSpeaker = 0x73706b72,
+        kAudioStreamTerminalTypeHeadphones = 0x68647068,
+        kAudioStreamTerminalTypeLFESpeaker = 0x6c666573,
+        kAudioStreamTerminalTypeReceiverSpeaker = 0x7273706b,
+        kAudioStreamTerminalTypeMicrophone = 0x6d696372,
+        kAudioStreamTerminalTypeHeadsetMicrophone = 0x686d6963,
+        kAudioStreamTerminalTypeReceiverMicrophone = 0x726d6963,
+        kAudioStreamTerminalTypeTTY = 0x7474795f,
+        kAudioStreamTerminalTypeHDMI = 0x68646d69,
+        kAudioStreamTerminalTypeDisplayPort = 0x64707274,
     }
 }
 
@@ -364,15 +364,15 @@ e! {
 e! {
     enum AudioObjectPropertySelector
     {
-        kAudioStreamPropertyIsActive                    = fourcc!(b"sact"),
-        kAudioStreamPropertyDirection                   = fourcc!(b"sdir"),
-        kAudioStreamPropertyTerminalType                = fourcc!(b"term"),
-        kAudioStreamPropertyStartingChannel             = fourcc!(b"schn"),
+        kAudioStreamPropertyIsActive = 0x73616374,
+        kAudioStreamPropertyDirection = 0x73646972,
+        kAudioStreamPropertyTerminalType = 0x7465726d,
+        kAudioStreamPropertyStartingChannel = 0x7363686e,
         kAudioStreamPropertyLatency                     = kAudioDevicePropertyLatency,
-        kAudioStreamPropertyVirtualFormat               = fourcc!(b"sfmt"),
-        kAudioStreamPropertyAvailableVirtualFormats     = fourcc!(b"sfma"),
-        kAudioStreamPropertyPhysicalFormat              = fourcc!(b"pft "),
-        kAudioStreamPropertyAvailablePhysicalFormats    = fourcc!(b"pfta"),
+        kAudioStreamPropertyVirtualFormat = 0x73666d74,
+        kAudioStreamPropertyAvailableVirtualFormats = 0x73666d61,
+        kAudioStreamPropertyPhysicalFormat = 0x70667420,
+        kAudioStreamPropertyAvailablePhysicalFormats = 0x70667461,
     }
 }
 
@@ -382,15 +382,15 @@ e! {
 e! {
     enum AudioClassID
     {
-    kAudioControlClassID    = fourcc!(b"actl"),
+        kAudioControlClassID = 0x6163746c,
     }
 }
 
 e! {
     enum AudioObjectPropertySelector
     {
-        kAudioControlPropertyScope      = fourcc!(b"cscp"),
-        kAudioControlPropertyElement    = fourcc!(b"celm"),
+        kAudioControlPropertyScope = 0x63736370,
+        kAudioControlPropertyElement = 0x63656c6d,
     }
 }
 
@@ -400,15 +400,15 @@ e! {
 e! {
     enum AudioClassID
     {
-        kAudioSliderControlClassID  = fourcc!(b"sldr"),
+        kAudioSliderControlClassID = 0x736c6472,
     }
 }
 
 e! {
     enum AudioObjectPropertySelector
     {
-        kAudioSliderControlPropertyValue    = fourcc!(b"sdrv"),
-        kAudioSliderControlPropertyRange    = fourcc!(b"sdrr"),
+        kAudioSliderControlPropertyValue = 0x73647276,
+        kAudioSliderControlPropertyRange = 0x73647272,
     }
 }
 
@@ -418,20 +418,20 @@ e! {
 e! {
     enum AudioClassID
     {
-        kAudioLevelControlClassID       = fourcc!(b"levl"),
-        kAudioVolumeControlClassID      = fourcc!(b"vlme"),
-        kAudioLFEVolumeControlClassID   = fourcc!(b"subv"),
+        kAudioLevelControlClassID = 0x6c65766c,
+        kAudioVolumeControlClassID = 0x766c6d65,
+        kAudioLFEVolumeControlClassID = 0x73756276,
     }
 }
 
 e! {
     enum AudioObjectPropertySelector
     {
-        kAudioLevelControlPropertyScalarValue               = fourcc!(b"lcsv"),
-        kAudioLevelControlPropertyDecibelValue              = fourcc!(b"lcdv"),
-        kAudioLevelControlPropertyDecibelRange              = fourcc!(b"lcdr"),
-        kAudioLevelControlPropertyConvertScalarToDecibels   = fourcc!(b"lcsd"),
-        kAudioLevelControlPropertyConvertDecibelsToScalar   = fourcc!(b"lcds"),
+        kAudioLevelControlPropertyScalarValue = 0x6c637376,
+        kAudioLevelControlPropertyDecibelValue = 0x6c636476,
+        kAudioLevelControlPropertyDecibelRange = 0x6c636472,
+        kAudioLevelControlPropertyConvertScalarToDecibels = 0x6c637364,
+        kAudioLevelControlPropertyConvertDecibelsToScalar = 0x6c636473,
     }
 }
 
@@ -441,23 +441,23 @@ e! {
 e! {
     enum AudioClassID
     {
-        kAudioBooleanControlClassID         = fourcc!(b"togl"),
-        kAudioMuteControlClassID            = fourcc!(b"mute"),
-        kAudioSoloControlClassID            = fourcc!(b"solo"),
-        kAudioJackControlClassID            = fourcc!(b"jack"),
-        kAudioLFEMuteControlClassID         = fourcc!(b"subm"),
-        kAudioPhantomPowerControlClassID    = fourcc!(b"phan"),
-        kAudioPhaseInvertControlClassID     = fourcc!(b"phsi"),
-        kAudioClipLightControlClassID       = fourcc!(b"clip"),
-        kAudioTalkbackControlClassID        = fourcc!(b"talb"),
-        kAudioListenbackControlClassID      = fourcc!(b"lsnb"),
+        kAudioBooleanControlClassID = 0x746f676c,
+        kAudioMuteControlClassID = 0x6d757465,
+        kAudioSoloControlClassID = 0x736f6c6f,
+        kAudioJackControlClassID = 0x6a61636b,
+        kAudioLFEMuteControlClassID = 0x7375626d,
+        kAudioPhantomPowerControlClassID = 0x7068616e,
+        kAudioPhaseInvertControlClassID = 0x70687369,
+        kAudioClipLightControlClassID = 0x636c6970,
+        kAudioTalkbackControlClassID = 0x74616c62,
+        kAudioListenbackControlClassID = 0x6c736e62,
     }
 }
 
 e! {
     enum AudioObjectPropertySelector
     {
-        kAudioBooleanControlPropertyValue   = fourcc!(b"bcvl"),
+        kAudioBooleanControlPropertyValue = 0x6263766c,
     }
 }
 
@@ -467,36 +467,36 @@ e! {
 e! {
     enum AudioClassID
     {
-        kAudioSelectorControlClassID        = fourcc!(b"slct"),
-        kAudioDataSourceControlClassID      = fourcc!(b"dsrc"),
-        kAudioDataDestinationControlClassID = fourcc!(b"dest"),
-        kAudioClockSourceControlClassID     = fourcc!(b"clck"),
-        kAudioLineLevelControlClassID       = fourcc!(b"nlvl"),
-        kAudioHighPassFilterControlClassID  = fourcc!(b"hipf"),
+        kAudioSelectorControlClassID = 0x736c6374,
+        kAudioDataSourceControlClassID = 0x64737263,
+        kAudioDataDestinationControlClassID = 0x64657374,
+        kAudioClockSourceControlClassID = 0x636c636b,
+        kAudioLineLevelControlClassID = 0x6e6c766c,
+        kAudioHighPassFilterControlClassID = 0x68697066,
     }
 }
 
 e! {
     enum AudioObjectPropertySelector
     {
-        kAudioSelectorControlPropertyCurrentItem    = fourcc!(b"scci"),
-        kAudioSelectorControlPropertyAvailableItems = fourcc!(b"scai"),
-        kAudioSelectorControlPropertyItemName       = fourcc!(b"scin"),
-        kAudioSelectorControlPropertyItemKind       = fourcc!(b"clkk"),
+        kAudioSelectorControlPropertyCurrentItem = 0x73636369,
+        kAudioSelectorControlPropertyAvailableItems = 0x73636169,
+        kAudioSelectorControlPropertyItemName = 0x7363696e,
+        kAudioSelectorControlPropertyItemKind = 0x636c6b6b,
     }
 }
 
 e! {
     enum u32
     {
-        kAudioSelectorControlItemKindSpacer = fourcc!(b"spcr"),
+        kAudioSelectorControlItemKindSpacer = 0x73706372,
     }
 }
 
 e! {
     enum u32
     {
-        kAudioClockSourceItemKindInternal   = fourcc!(b"int "),
+        kAudioClockSourceItemKindInternal = 0x696e7420,
     }
 }
 
@@ -505,15 +505,14 @@ e! {
 e! {
     enum AudioClassID
     {
-        kAudioStereoPanControlClassID   = fourcc!(b"span"),
+        kAudioStereoPanControlClassID = 0x7370616e,
     }
 }
 
 e! { 
     enum AudioObjectPropertySelector
     {
-        kAudioStereoPanControlPropertyValue             = fourcc!(b"spcv"),
-        kAudioStereoPanControlPropertyPanningChannels   = fourcc!(b"spcc"),
+        kAudioStereoPanControlPropertyValue = 0x73706376,
+        kAudioStereoPanControlPropertyPanningChannels = 0x73706363,
     }
 }
-

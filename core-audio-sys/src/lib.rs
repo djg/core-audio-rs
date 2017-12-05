@@ -13,15 +13,13 @@ pub use audio_hardware_base::*;
 pub use core_audio_types::*;
 pub use host_time::*;
 
-use std::os::raw::c_uchar;
+pub type Boolean = u8;
+pub type OSStatus = i32;
+pub type FourCharCode = u32;
+pub type OSType = FourCharCode;
 
 pub enum CFDictionary {}
 pub type CFDictionaryRef = *const CFDictionary;
-
-pub type Boolean = c_uchar;
-pub type FourCharCode = u32;
-pub type OSStatus = i32;
-pub type OSType = FourCharCode;
 
 /*
 #[link(name = "CoreAudio", kind = "framework")]

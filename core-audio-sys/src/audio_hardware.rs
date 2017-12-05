@@ -17,20 +17,22 @@ e! {
 //==================================================================================================
 // AudioObject Types
 
-pub type AudioObjectPropertyListenerProc =
-    Option<unsafe extern fn(inObjectID: AudioObjectID,
-                            inNumberAddresses: u32,
-                            inAddresses: *const AudioObjectPropertyAddress,
-                            inClientData: *mut c_void) -> OSStatus>;
+pub type AudioObjectPropertyListenerProc = Option<
+    unsafe extern fn(inObjectID: AudioObjectID,
+                     inNumberAddresses: u32,
+                     inAddresses: *const AudioObjectPropertyAddress,
+                     inClientData: *mut c_void)
+                     -> OSStatus,
+>;
 
 //==================================================================================================
 // AudioObject Properties
 
 e! {
     enum AudioObjectPropertySelector {
-        kAudioObjectPropertyCreator                     = fourcc!(b"oplg"),
-        kAudioObjectPropertyListenerAdded               = fourcc!(b"lisa"),
-        kAudioObjectPropertyListenerRemoved             = fourcc!(b"lisr"),
+        kAudioObjectPropertyCreator = 0x6f706c67,
+        kAudioObjectPropertyListenerAdded = 0x6c697361,
+        kAudioObjectPropertyListenerRemoved = 0x6c697372,
     }
 }
 
@@ -39,36 +41,50 @@ e! {
 
 extern {
     pub fn AudioObjectShow(inObjectID: AudioObjectID);
-    pub fn AudioObjectHasProperty(inObjectID: AudioObjectID,
-                                  inAddress: *const AudioObjectPropertyAddress) -> Boolean;
-    pub fn AudioObjectIsPropertySettable(inObjectID: AudioObjectID,
-                                         inAddress: *const AudioObjectPropertyAddress,
-                                         outIsSettable: *mut Boolean) -> OSStatus;
-    pub fn AudioObjectGetPropertyDataSize(inObjectID: AudioObjectID,
-                                          inAddress: *const  AudioObjectPropertyAddress,
-                                          inQualifierDataSize: u32,
-                                          inQualifierData: *const c_void,
-                                          outDataSize: *mut u32) -> OSStatus;
-    pub fn AudioObjectGetPropertyData(inObjectID: AudioObjectID,
-                                      inAddress: *const AudioObjectPropertyAddress,
-                                      inQualifierDataSize: u32,
-                                      inQualifierData: *const c_void,
-                                      ioDataSize: *mut u32,
-                                      outData: *mut c_void) -> OSStatus;
-    pub fn AudioObjectSetPropertyData(inObjectID: AudioObjectID,
-                                      inAddress: *const AudioObjectPropertyAddress,
-                                      inQualifierDataSize: u32,
-                                      inQualifierData: *const c_void,
-                                      inDataSize: u32,
-                                      inData: *const c_void) -> OSStatus;
-    pub fn AudioObjectAddPropertyListener(inObjectID: AudioObjectID,
-                                          inAddress: *const AudioObjectPropertyAddress,
-                                          inListener: AudioObjectPropertyListenerProc,
-                                          inClientData: *mut c_void) -> OSStatus;
-    pub fn AudioObjectRemovePropertyListener(inObjectID: AudioObjectID,
-                                             inAddress: *const AudioObjectPropertyAddress,
-                                             inListener:     AudioObjectPropertyListenerProc,
-                                             inClientData: *mut c_void) -> OSStatus;
+    pub fn AudioObjectHasProperty(
+        inObjectID: AudioObjectID,
+        inAddress: *const AudioObjectPropertyAddress,
+    ) -> Boolean;
+    pub fn AudioObjectIsPropertySettable(
+        inObjectID: AudioObjectID,
+        inAddress: *const AudioObjectPropertyAddress,
+        outIsSettable: *mut Boolean,
+    ) -> OSStatus;
+    pub fn AudioObjectGetPropertyDataSize(
+        inObjectID: AudioObjectID,
+        inAddress: *const AudioObjectPropertyAddress,
+        inQualifierDataSize: u32,
+        inQualifierData: *const c_void,
+        outDataSize: *mut u32,
+    ) -> OSStatus;
+    pub fn AudioObjectGetPropertyData(
+        inObjectID: AudioObjectID,
+        inAddress: *const AudioObjectPropertyAddress,
+        inQualifierDataSize: u32,
+        inQualifierData: *const c_void,
+        ioDataSize: *mut u32,
+        outData: *mut c_void,
+    ) -> OSStatus;
+    pub fn AudioObjectSetPropertyData(
+        inObjectID: AudioObjectID,
+        inAddress: *const AudioObjectPropertyAddress,
+        inQualifierDataSize: u32,
+        inQualifierData: *const c_void,
+        inDataSize: u32,
+        inData: *const c_void,
+    ) -> OSStatus;
+    pub fn AudioObjectAddPropertyListener(
+        inObjectID: AudioObjectID,
+        inAddress: *const AudioObjectPropertyAddress,
+        inListener: AudioObjectPropertyListenerProc,
+        inClientData: *mut c_void,
+    ) -> OSStatus;
+    pub fn AudioObjectRemovePropertyListener(
+        inObjectID: AudioObjectID,
+        inAddress: *const AudioObjectPropertyAddress,
+        inListener: AudioObjectPropertyListenerProc,
+        inClientData: *mut c_void,
+    ) -> OSStatus;
 }
 
 //==================================================================================================
@@ -76,7 +92,7 @@ extern {
 
 e! {
     enum AudioClassID {
-        kAudioSystemObjectClassID                       = fourcc!(b"asys"),
+        kAudioSystemObjectClassID = 0x61737973,
     }
 }
 
@@ -92,30 +108,30 @@ e! {
 
 e! {
     enum AudioObjectPropertySelector {
-        kAudioHardwarePropertyDevices                               = fourcc!(b"dev#"),
-        kAudioHardwarePropertyDefaultInputDevice                    = fourcc!(b"dIn "),
-        kAudioHardwarePropertyDefaultOutputDevice                   = fourcc!(b"dOut"),
-        kAudioHardwarePropertyDefaultSystemOutputDevice             = fourcc!(b"sOut"),
-        kAudioHardwarePropertyTranslateUIDToDevice                  = fourcc!(b"uidd"),
-        kAudioHardwarePropertyMixStereoToMono                       = fourcc!(b"stmo"),
-        kAudioHardwarePropertyPlugInList                            = fourcc!(b"plg#"),
-        kAudioHardwarePropertyTranslateBundleIDToPlugIn             = fourcc!(b"bidp"),
-        kAudioHardwarePropertyTransportManagerList                  = fourcc!(b"tmg#"),
-        kAudioHardwarePropertyTranslateBundleIDToTransportManager   = fourcc!(b"tmbi"),
-        kAudioHardwarePropertyBoxList                               = fourcc!(b"box#"),
-        kAudioHardwarePropertyTranslateUIDToBox                     = fourcc!(b"uidb"),
-        kAudioHardwarePropertyClockDeviceList                       = fourcc!(b"clk#"),
-        kAudioHardwarePropertyTranslateUIDToClockDevice             = fourcc!(b"uidc"),
-        kAudioHardwarePropertyProcessIsMaster                       = fourcc!(b"mast"),
-        kAudioHardwarePropertyIsInitingOrExiting                    = fourcc!(b"inot"),
-        kAudioHardwarePropertyUserIDChanged                         = fourcc!(b"euid"),
-        kAudioHardwarePropertyProcessIsAudible                      = fourcc!(b"pmut"),
-        kAudioHardwarePropertySleepingIsAllowed                     = fourcc!(b"slep"),
-        kAudioHardwarePropertyUnloadingIsAllowed                    = fourcc!(b"unld"),
-        kAudioHardwarePropertyHogModeIsAllowed                      = fourcc!(b"hogr"),
-        kAudioHardwarePropertyUserSessionIsActiveOrHeadless         = fourcc!(b"user"),
-        kAudioHardwarePropertyServiceRestarted                      = fourcc!(b"srst"),
-        kAudioHardwarePropertyPowerHint                             = fourcc!(b"powh"),
+        kAudioHardwarePropertyDevices = 0x64657623,
+        kAudioHardwarePropertyDefaultInputDevice = 0x64496e20,
+        kAudioHardwarePropertyDefaultOutputDevice = 0x644f7574,
+        kAudioHardwarePropertyDefaultSystemOutputDevice = 0x734f7574,
+        kAudioHardwarePropertyTranslateUIDToDevice = 0x75696464,
+        kAudioHardwarePropertyMixStereoToMono = 0x73746d6f,
+        kAudioHardwarePropertyPlugInList = 0x706c6723,
+        kAudioHardwarePropertyTranslateBundleIDToPlugIn = 0x62696470,
+        kAudioHardwarePropertyTransportManagerList = 0x746d6723,
+        kAudioHardwarePropertyTranslateBundleIDToTransportManager = 0x746d6269,
+        kAudioHardwarePropertyBoxList = 0x626f7823,
+        kAudioHardwarePropertyTranslateUIDToBox = 0x75696462,
+        kAudioHardwarePropertyClockDeviceList = 0x636c6b23,
+        kAudioHardwarePropertyTranslateUIDToClockDevice = 0x75696463,
+        kAudioHardwarePropertyProcessIsMaster = 0x6d617374,
+        kAudioHardwarePropertyIsInitingOrExiting = 0x696e6f74,
+        kAudioHardwarePropertyUserIDChanged = 0x65756964,
+        kAudioHardwarePropertyProcessIsAudible = 0x706d7574,
+        kAudioHardwarePropertySleepingIsAllowed = 0x736c6570,
+        kAudioHardwarePropertyUnloadingIsAllowed = 0x756e6c64,
+        kAudioHardwarePropertyHogModeIsAllowed = 0x686f6772,
+        kAudioHardwarePropertyUserSessionIsActiveOrHeadless = 0x75736572,
+        kAudioHardwarePropertyServiceRestarted = 0x73727374,
+        kAudioHardwarePropertyPowerHint = 0x706f7768,
     }
 }
 
@@ -124,9 +140,11 @@ e! {
 
 extern {
     pub fn AudioHardwareUnload() -> OSStatus;
-    pub fn AudioHardwareCreateAggregateDevice(inDescription: CFDictionaryRef,
-                                              outDeviceID: *mut AudioObjectID) -> OSStatus;
-    pub fn AudioHardwareDestroyAggregateDevice(inDeviceID: AudioObjectID)  -> OSStatus;
+    pub fn AudioHardwareCreateAggregateDevice(
+        inDescription: CFDictionaryRef,
+        outDeviceID: *mut AudioObjectID,
+    ) -> OSStatus;
+    pub fn AudioHardwareDestroyAggregateDevice(inDeviceID: AudioObjectID) -> OSStatus;
 }
 
 //==================================================================================================
@@ -134,8 +152,8 @@ extern {
 
 e! {
     enum AudioObjectPropertySelector {
-        kAudioPlugInCreateAggregateDevice               = fourcc!(b"cagg"),
-        kAudioPlugInDestroyAggregateDevice              = fourcc!(b"dagg"),
+        kAudioPlugInCreateAggregateDevice = 0x63616767,
+        kAudioPlugInDestroyAggregateDevice = 0x64616767,
     }
 }
 
@@ -144,22 +162,24 @@ e! {
 
 e! {
     enum AudioObjectPropertySelector {
-        kAudioTransportManagerCreateEndPointDevice      = fourcc!(b"cdev"),
-        kAudioTransportManagerDestroyEndPointDevice     = fourcc!(b"ddev"),
+        kAudioTransportManagerCreateEndPointDevice = 0x63646576,
+        kAudioTransportManagerDestroyEndPointDevice = 0x64646576,
     }
 }
 
 //==================================================================================================
 // AudioDevice Types
 
-pub type AudioDeviceIOProc =
-    Option<unsafe extern fn(inDevice: AudioObjectID,
-                            inNow: *const AudioTimeStamp,
-                            inInputData: *const AudioBufferList,
-                            inInputTime: *const AudioTimeStamp,
-                            outOutputData: *mut AudioBufferList,
-                            inOutputTime: *const AudioTimeStamp,
-                            inClientData: *mut c_void) -> OSStatus>;
+pub type AudioDeviceIOProc = Option<
+    unsafe extern fn(inDevice: AudioObjectID,
+                     inNow: *const AudioTimeStamp,
+                     inInputData: *const AudioBufferList,
+                     inInputTime: *const AudioTimeStamp,
+                     outOutputData: *mut AudioBufferList,
+                     inOutputTime: *const AudioTimeStamp,
+                     inClientData: *mut c_void)
+                     -> OSStatus,
+>;
 pub type AudioDeviceIOProcID = AudioDeviceIOProc;
 
 s! {
@@ -172,10 +192,7 @@ s! {
 
 impl AudioHardwareIOProcStreamUsage {
     pub fn stream_is_on(&self) -> &[u32] {
-        unsafe {
-            slice::from_raw_parts(&self.mStreamIsOn as *const _,
-                                  self.mNumberStreams as _)
-        }
+        unsafe { slice::from_raw_parts(&self.mStreamIsOn as *const _, self.mNumberStreams as _) }
     }
 }
 
@@ -195,72 +212,72 @@ e! {
 
 e! {
     enum AudioObjectPropertySelector {
-        kAudioDevicePropertyPlugIn                          = fourcc!(b"plug"),
-        kAudioDevicePropertyDeviceHasChanged                = fourcc!(b"diff"),
-        kAudioDevicePropertyDeviceIsRunningSomewhere        = fourcc!(b"gone"),
-        kAudioDeviceProcessorOverload                       = fourcc!(b"over"),
-        kAudioDevicePropertyIOStoppedAbnormally             = fourcc!(b"stpd"),
-        kAudioDevicePropertyHogMode                         = fourcc!(b"oink"),
-        kAudioDevicePropertyBufferFrameSize                 = fourcc!(b"fsiz"),
-        kAudioDevicePropertyBufferFrameSizeRange            = fourcc!(b"fsz#"),
-        kAudioDevicePropertyUsesVariableBufferFrameSizes    = fourcc!(b"vfsz"),
-        kAudioDevicePropertyIOCycleUsage                    = fourcc!(b"ncyc"),
-        kAudioDevicePropertyStreamConfiguration             = fourcc!(b"slay"),
-        kAudioDevicePropertyIOProcStreamUsage               = fourcc!(b"suse"),
-        kAudioDevicePropertyActualSampleRate                = fourcc!(b"asrt"),
-        kAudioDevicePropertyClockDevice                     = fourcc!(b"apcd"),
+        kAudioDevicePropertyPlugIn = 0x706c7567,
+        kAudioDevicePropertyDeviceHasChanged = 0x64696666,
+        kAudioDevicePropertyDeviceIsRunningSomewhere = 0x676f6e65,
+        kAudioDeviceProcessorOverload = 0x6f766572,
+        kAudioDevicePropertyIOStoppedAbnormally = 0x73747064,
+        kAudioDevicePropertyHogMode = 0x6f696e6b,
+        kAudioDevicePropertyBufferFrameSize = 0x6673697a,
+        kAudioDevicePropertyBufferFrameSizeRange = 0x66737a23,
+        kAudioDevicePropertyUsesVariableBufferFrameSizes = 0x7666737a,
+        kAudioDevicePropertyIOCycleUsage = 0x6e637963,
+        kAudioDevicePropertyStreamConfiguration = 0x736c6179,
+        kAudioDevicePropertyIOProcStreamUsage = 0x73757365,
+        kAudioDevicePropertyActualSampleRate = 0x61737274,
+        kAudioDevicePropertyClockDevice = 0x61706364,
     }
 }
 
 e! {
     enum AudioObjectPropertySelector {
-        kAudioDevicePropertyJackIsConnected                                 = fourcc!(b"jack"),
-        kAudioDevicePropertyVolumeScalar                                    = fourcc!(b"volm"),
-        kAudioDevicePropertyVolumeDecibels                                  = fourcc!(b"vold"),
-        kAudioDevicePropertyVolumeRangeDecibels                             = fourcc!(b"vdb#"),
-        kAudioDevicePropertyVolumeScalarToDecibels                          = fourcc!(b"v2db"),
-        kAudioDevicePropertyVolumeDecibelsToScalar                          = fourcc!(b"db2v"),
-        kAudioDevicePropertyStereoPan                                       = fourcc!(b"span"),
-        kAudioDevicePropertyStereoPanChannels                               = fourcc!(b"spn#"),
-        kAudioDevicePropertyMute                                            = fourcc!(b"mute"),
-        kAudioDevicePropertySolo                                            = fourcc!(b"solo"),
-        kAudioDevicePropertyPhantomPower                                    = fourcc!(b"phan"),
-        kAudioDevicePropertyPhaseInvert                                     = fourcc!(b"phsi"),
-        kAudioDevicePropertyClipLight                                       = fourcc!(b"clip"),
-        kAudioDevicePropertyTalkback                                        = fourcc!(b"talb"),
-        kAudioDevicePropertyListenback                                      = fourcc!(b"lsnb"),
-        kAudioDevicePropertyDataSource                                      = fourcc!(b"ssrc"),
-        kAudioDevicePropertyDataSources                                     = fourcc!(b"ssc#"),
-        kAudioDevicePropertyDataSourceNameForIDCFString                     = fourcc!(b"lscn"),
-        kAudioDevicePropertyDataSourceKindForID                             = fourcc!(b"ssck"),
-        kAudioDevicePropertyClockSource                                     = fourcc!(b"csrc"),
-        kAudioDevicePropertyClockSources                                    = fourcc!(b"csc#"),
-        kAudioDevicePropertyClockSourceNameForIDCFString                    = fourcc!(b"lcsn"),
-        kAudioDevicePropertyClockSourceKindForID                            = fourcc!(b"csck"),
-        kAudioDevicePropertyPlayThru                                        = fourcc!(b"thru"),
-        kAudioDevicePropertyPlayThruSolo                                    = fourcc!(b"thrs"),
-        kAudioDevicePropertyPlayThruVolumeScalar                            = fourcc!(b"mvsc"),
-        kAudioDevicePropertyPlayThruVolumeDecibels                          = fourcc!(b"mvdb"),
-        kAudioDevicePropertyPlayThruVolumeRangeDecibels                     = fourcc!(b"mvd#"),
-        kAudioDevicePropertyPlayThruVolumeScalarToDecibels                  = fourcc!(b"mv2d"),
-        kAudioDevicePropertyPlayThruVolumeDecibelsToScalar                  = fourcc!(b"mv2s"),
-        kAudioDevicePropertyPlayThruStereoPan                               = fourcc!(b"mspn"),
-        kAudioDevicePropertyPlayThruStereoPanChannels                       = fourcc!(b"msp#"),
-        kAudioDevicePropertyPlayThruDestination                             = fourcc!(b"mdds"),
-        kAudioDevicePropertyPlayThruDestinations                            = fourcc!(b"mdd#"),
-        kAudioDevicePropertyPlayThruDestinationNameForIDCFString            = fourcc!(b"mddc"),
-        kAudioDevicePropertyChannelNominalLineLevel                         = fourcc!(b"nlvl"),
-        kAudioDevicePropertyChannelNominalLineLevels                        = fourcc!(b"nlv#"),
-        kAudioDevicePropertyChannelNominalLineLevelNameForIDCFString        = fourcc!(b"lcnl"),
-        kAudioDevicePropertyHighPassFilterSetting                           = fourcc!(b"hipf"),
-        kAudioDevicePropertyHighPassFilterSettings                          = fourcc!(b"hip#"),
-        kAudioDevicePropertyHighPassFilterSettingNameForIDCFString          = fourcc!(b"hipl"),
-        kAudioDevicePropertySubVolumeScalar                                 = fourcc!(b"svlm"),
-        kAudioDevicePropertySubVolumeDecibels                               = fourcc!(b"svld"),
-        kAudioDevicePropertySubVolumeRangeDecibels                          = fourcc!(b"svd#"),
-        kAudioDevicePropertySubVolumeScalarToDecibels                       = fourcc!(b"sv2d"),
-        kAudioDevicePropertySubVolumeDecibelsToScalar                       = fourcc!(b"sd2v"),
-        kAudioDevicePropertySubMute                                         = fourcc!(b"smut"),
+        kAudioDevicePropertyJackIsConnected = 0x6a61636b,
+        kAudioDevicePropertyVolumeScalar = 0x766f6c6d,
+        kAudioDevicePropertyVolumeDecibels = 0x766f6c64,
+        kAudioDevicePropertyVolumeRangeDecibels = 0x76646223,
+        kAudioDevicePropertyVolumeScalarToDecibels = 0x76326462,
+        kAudioDevicePropertyVolumeDecibelsToScalar = 0x64623276,
+        kAudioDevicePropertyStereoPan = 0x7370616e,
+        kAudioDevicePropertyStereoPanChannels = 0x73706e23,
+        kAudioDevicePropertyMute = 0x6d757465,
+        kAudioDevicePropertySolo = 0x736f6c6f,
+        kAudioDevicePropertyPhantomPower = 0x7068616e,
+        kAudioDevicePropertyPhaseInvert = 0x70687369,
+        kAudioDevicePropertyClipLight = 0x636c6970,
+        kAudioDevicePropertyTalkback = 0x74616c62,
+        kAudioDevicePropertyListenback = 0x6c736e62,
+        kAudioDevicePropertyDataSource = 0x73737263,
+        kAudioDevicePropertyDataSources = 0x73736323,
+        kAudioDevicePropertyDataSourceNameForIDCFString = 0x6c73636e,
+        kAudioDevicePropertyDataSourceKindForID = 0x7373636b,
+        kAudioDevicePropertyClockSource = 0x63737263,
+        kAudioDevicePropertyClockSources = 0x63736323,
+        kAudioDevicePropertyClockSourceNameForIDCFString = 0x6c63736e,
+        kAudioDevicePropertyClockSourceKindForID = 0x6373636b,
+        kAudioDevicePropertyPlayThru = 0x74687275,
+        kAudioDevicePropertyPlayThruSolo = 0x74687273,
+        kAudioDevicePropertyPlayThruVolumeScalar = 0x6d767363,
+        kAudioDevicePropertyPlayThruVolumeDecibels = 0x6d766462,
+        kAudioDevicePropertyPlayThruVolumeRangeDecibels = 0x6d766423,
+        kAudioDevicePropertyPlayThruVolumeScalarToDecibels = 0x6d763264,
+        kAudioDevicePropertyPlayThruVolumeDecibelsToScalar = 0x6d763273,
+        kAudioDevicePropertyPlayThruStereoPan = 0x6d73706e,
+        kAudioDevicePropertyPlayThruStereoPanChannels = 0x6d737023,
+        kAudioDevicePropertyPlayThruDestination = 0x6d646473,
+        kAudioDevicePropertyPlayThruDestinations = 0x6d646423,
+        kAudioDevicePropertyPlayThruDestinationNameForIDCFString = 0x6d646463,
+        kAudioDevicePropertyChannelNominalLineLevel = 0x6e6c766c,
+        kAudioDevicePropertyChannelNominalLineLevels = 0x6e6c7623,
+        kAudioDevicePropertyChannelNominalLineLevelNameForIDCFString = 0x6c636e6c,
+        kAudioDevicePropertyHighPassFilterSetting = 0x68697066,
+        kAudioDevicePropertyHighPassFilterSettings = 0x68697023,
+        kAudioDevicePropertyHighPassFilterSettingNameForIDCFString = 0x6869706c,
+        kAudioDevicePropertySubVolumeScalar = 0x73766c6d,
+        kAudioDevicePropertySubVolumeDecibels = 0x73766c64,
+        kAudioDevicePropertySubVolumeRangeDecibels = 0x73766423,
+        kAudioDevicePropertySubVolumeScalarToDecibels = 0x73763264,
+        kAudioDevicePropertySubVolumeDecibelsToScalar = 0x73643276,
+        kAudioDevicePropertySubMute = 0x736d7574,
     }
 }
 
@@ -268,28 +285,44 @@ e! {
 // AudioDevice Functions
 
 extern {
-    pub fn AudioDeviceCreateIOProcID(inDevice: AudioObjectID,
-                                     inProc: AudioDeviceIOProc,
-                                     inClientData: *mut c_void,
-                                     outIOProcID: *mut AudioDeviceIOProcID) -> OSStatus;
-    pub fn AudioDeviceDestroyIOProcID(inDevice: AudioObjectID,
-                                      inIOProcID: AudioDeviceIOProcID) -> OSStatus;
-    pub fn AudioDeviceStart(inDevice: AudioObjectID,
-                            inProcID: AudioDeviceIOProcID) -> OSStatus;
-    pub fn AudioDeviceStartAtTime(inDevice: AudioObjectID,
-                                  inProcID: AudioDeviceIOProcID,
-                                  ioRequestedStartTime: *mut AudioTimeStamp,
-                                  inFlags: u32) -> OSStatus;
-    pub fn AudioDeviceStop(inDevice: AudioObjectID,
-                           inProcID: AudioDeviceIOProcID) -> OSStatus;
-    pub fn AudioDeviceGetCurrentTime(inDevice: AudioObjectID,
-                                     outTime: *mut AudioTimeStamp) -> OSStatus;
-    pub fn AudioDeviceTranslateTime(inDevice: AudioObjectID,
-                                    inTime: *const AudioTimeStamp,
-                                    outTime: *mut AudioTimeStamp) -> OSStatus;
-    pub fn AudioDeviceGetNearestStartTime(inDevice:AudioObjectID,
-                                          ioRequestedStartTime: *mut AudioTimeStamp,
-                                          inFlags: u32) -> OSStatus;
+    pub fn AudioDeviceCreateIOProcID(
+        inDevice: AudioObjectID,
+        inProc: AudioDeviceIOProc,
+        inClientData: *mut c_void,
+        outIOProcID: *mut AudioDeviceIOProcID,
+    ) -> OSStatus;
+    pub fn AudioDeviceDestroyIOProcID(
+        inDevice: AudioObjectID,
+        inIOProcID: AudioDeviceIOProcID,
+    ) -> OSStatus;
+    pub fn AudioDeviceStart(
+        inDevice: AudioObjectID,
+        inProcID: AudioDeviceIOProcID,
+    ) -> OSStatus;
+    pub fn AudioDeviceStartAtTime(
+        inDevice: AudioObjectID,
+        inProcID: AudioDeviceIOProcID,
+        ioRequestedStartTime: *mut AudioTimeStamp,
+        inFlags: u32,
+    ) -> OSStatus;
+    pub fn AudioDeviceStop(
+        inDevice: AudioObjectID,
+        inProcID: AudioDeviceIOProcID,
+    ) -> OSStatus;
+    pub fn AudioDeviceGetCurrentTime(
+        inDevice: AudioObjectID,
+        outTime: *mut AudioTimeStamp,
+    ) -> OSStatus;
+    pub fn AudioDeviceTranslateTime(
+        inDevice: AudioObjectID,
+        inTime: *const AudioTimeStamp,
+        outTime: *mut AudioTimeStamp,
+    ) -> OSStatus;
+    pub fn AudioDeviceGetNearestStartTime(
+        inDevice: AudioObjectID,
+        ioRequestedStartTime: *mut AudioTimeStamp,
+        inFlags: u32,
+    ) -> OSStatus;
 }
 
 //==================================================================================================
@@ -297,7 +330,7 @@ extern {
 
 e! {
     enum AudioClassID {
-        kAudioAggregateDeviceClassID                    = fourcc!(b"aagg"),
+        kAudioAggregateDeviceClassID = 0x61616767,
     }
 }
 
@@ -316,11 +349,11 @@ cs! {
 
 e! {
     enum AudioObjectPropertySelector {
-        kAudioAggregateDevicePropertyFullSubDeviceList  = fourcc!(b"grup"),
-        kAudioAggregateDevicePropertyActiveSubDeviceList = fourcc!(b"agrp"),
-        kAudioAggregateDevicePropertyComposition        = fourcc!(b"acom"),
-        kAudioAggregateDevicePropertyMasterSubDevice    = fourcc!(b"amst"),
-        kAudioAggregateDevicePropertyClockDevice        = fourcc!(b"apcd"),
+        kAudioAggregateDevicePropertyFullSubDeviceList = 0x67727570,
+        kAudioAggregateDevicePropertyActiveSubDeviceList = 0x61677270,
+        kAudioAggregateDevicePropertyComposition = 0x61636f6d,
+        kAudioAggregateDevicePropertyMasterSubDevice = 0x616d7374,
+        kAudioAggregateDevicePropertyClockDevice = 0x61706364,
     }
 }
 
@@ -329,7 +362,7 @@ e! {
 
 e! {
     enum AudioClassID {
-        kAudioSubDeviceClassID                          = fourcc!(b"asub"),
+        kAudioSubDeviceClassID = 0x61737562,
     }
 }
 
@@ -359,8 +392,8 @@ cs! {
 
 e! {
     enum AudioObjectPropertySelector {
-        kAudioSubDevicePropertyExtraLatency             = fourcc!(b"xltc"),
-        kAudioSubDevicePropertyDriftCompensation        = fourcc!(b"drft"),
-        kAudioSubDevicePropertyDriftCompensationQuality = fourcc!(b"drfq"),
+        kAudioSubDevicePropertyExtraLatency = 0x786c7463,
+        kAudioSubDevicePropertyDriftCompensation = 0x64726674,
+        kAudioSubDevicePropertyDriftCompensationQuality = 0x64726671,
     }
 }

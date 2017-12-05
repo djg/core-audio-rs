@@ -25,13 +25,6 @@ macro_rules! e {
     (__gen__ $type:ident, $val:expr, ) => {}
 }
 
-macro_rules! fourcc {
-    ($s:expr) => (($s[0] as u32) << 24 & 0xFF_00_00_00 |
-                  ($s[1] as u32) << 16 & 0x00_FF_00_00 |
-                  ($s[2] as u32) <<  8 & 0x00_00_FF_00 |
-                  ($s[3] as u32)       & 0x00_00_00_FF) 
-}
-
 macro_rules! s {
     ($($(#[$attr:meta])* struct $i:ident { $($field:tt)* })*) => ($(
         __item! {
@@ -81,4 +74,3 @@ macro_rules! __cfg_if_apply {
 macro_rules! __item {
     ($i:item) => ($i)
 }
-
