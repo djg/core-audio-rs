@@ -12,5 +12,5 @@ prefer-fixed-point = []
 bitflags = "1.0"
 core-audio-sys = { path = "../core-audio-sys" }
 core-foundation = "0.4"
-ffi-binding = { path = "../../ffi-binding" }
+foreign-types = "0.3"
 libc = "0.2"

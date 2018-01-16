@@ -4,22 +4,25 @@ use core_audio::{audio_system_object, Result};
 use std::error::Error;
 use std::fmt::Debug;
 
-fn print<T: Debug>(name: &str, t: Result<T>) {
+fn print<T: Debug>(name: &str,
+                   t: Result<T>)
+{
     match t {
         Ok(t) => println!("{} = {:?}", name, t),
-        Err(e) => println!("{} not found: {:?}", name, e.description())
+        Err(e) => println!("{} not found: {:?}", name, e.description()),
     }
 }
 
 fn main() {
-    let aso  = audio_system_object();
-   
+    let mut aso = audio_system_object();
+
     println!("\nAudioSystemObject properties...");
     print("class", Ok(aso.class()));
     print("devices", aso.devices());
     print("default input device", aso.default_input_device());
     print("default_output_device", aso.default_output_device());
-    print("default system output device", aso.default_system_output_device());
+    print("default system output device",
+          aso.default_system_output_device());
     print("mix_stereo_to_mono", aso.mix_stereo_to_mono());
     print("plug_in_list", aso.plug_in_list());
     print("transport_manager_list", aso.transport_manager_list());

@@ -1,19 +1,21 @@
 extern crate core_audio;
 
-use core_audio::{AudioDevice, audio_object_iterator, audio_system_object, Result};
+use core_audio::{audio_object_iter, audio_system_object, AudioDevice, Result};
 use std::error::Error;
 use std::fmt::Debug;
 
-fn print<T: Debug>(name: &str, t: Result<T>) {
+fn print<T: Debug>(name: &str,
+                   t: Result<T>)
+{
     match t {
         Ok(t) => println!("{} = {:?}", name, t),
-        Err(e) => println!("{} not found: {:?}", name, e.description())
+        Err(e) => println!("{} not found: {:?}", name, e.description()),
     }
 }
 
 fn main() {
     let devices = audio_system_object().devices().unwrap();
-    for dod in audio_object_iterator(devices) {
+    for dod in audio_object_iter(&devices) {
         if let Some(dod) = dod.downcast_ref::<AudioDevice>() {
             println!("\nDefault Output Device properties...");
             print("base_class", dod.base_class());
@@ -29,19 +31,21 @@ fn main() {
             print("identify", dod.identify());
             print("serial_number", dod.serial_number());
             print("firmware_version", dod.firmware_version());
-            
+
             print("plug_in", dod.plug_in());
-            print("device_is_running_somewhere", dod.device_is_running_somewhere());
+            print("device_is_running_somewhere",
+                  dod.device_is_running_somewhere());
             print("hog_mode", dod.hog_mode());
             print("buffer_frame_size", dod.buffer_frame_size());
             print("buffer_frame_size_range", dod.buffer_frame_size_range());
-            print("uses_variable_buffer_frame_sizes", dod.uses_variable_buffer_frame_sizes());
+            print("uses_variable_buffer_frame_sizes",
+                  dod.uses_variable_buffer_frame_sizes());
             print("io_cycle_usage", dod.io_cycle_usage());
             print("stream_configuration", dod.stream_configuration());
-            print("io_proc_stream_usage", dod.io_proc_stream_usage());
             print("actual_sample_rate", dod.actual_sample_rate());
             print("clock_device", dod.clock_device());
-        }
 
+            print("io_proc_stream_usage", dod.io_proc_stream_usage());
+        }
     }
 }

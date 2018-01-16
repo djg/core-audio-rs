@@ -1,24 +1,29 @@
 #[macro_use]
 extern crate bitflags;
-pub extern crate core_audio_sys as ffi;
 extern crate core_foundation;
-extern crate libc;
 #[macro_use]
-extern crate ffi_binding;
+extern crate foreign_types;
+extern crate libc;
+pub extern crate core_audio_sys as ffi;
+
+#[macro_use]
+mod ffi_types;
 
 mod error;
-#[macro_use]
 mod call;
 mod core_audio_types;
 mod audio_hardware;
 mod host_time;
-mod util;
+mod audio_buffer_list;
+mod audio_channel_layout;
 
 pub type Result<T> = ::std::result::Result<T, error::Error>;
 
-pub use error::*;
-pub use core_audio_types::*;
+pub use audio_buffer_list::*;
+pub use audio_channel_layout::*;
 pub use audio_hardware::*;
+pub use core_audio_types::*;
+pub use error::*;
 pub use host_time::*;
 
 bitflags! {
@@ -46,9 +51,9 @@ bitflags! {
 
 bitflags! {
     pub struct AudioChannelFlags: ffi::AudioChannelFlags {
-        const ALL_OFF = ffi::kAudioChannelFlags_AllOff;
+        const ALL_OFF               = ffi::kAudioChannelFlags_AllOff;
         const RECTANGULAR_COORDINATES = ffi::kAudioChannelFlags_RectangularCoordinates;
         const SPHERICAL_COORDINATES = ffi::kAudioChannelFlags_SphericalCoordinates;
-        const METERS = ffi::kAudioChannelFlags_Meters;
+        const METERS                = ffi::kAudioChannelFlags_Meters;
     }
 }
