@@ -82,13 +82,10 @@ impl AudioFormat {
     pub const MPEG4AAC_HE: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_HE);
     pub const MPEG4AAC_LD: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_LD);
     pub const MPEG4AAC_ELD: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_ELD);
-    pub const MPEG4AAC_ELD_SBR: AudioFormat =
-        AudioFormat(ffi::kAudioFormatMPEG4AAC_ELD_SBR);
-    pub const MPEG4AAC_ELD_V2: AudioFormat =
-        AudioFormat(ffi::kAudioFormatMPEG4AAC_ELD_V2);
+    pub const MPEG4AAC_ELD_SBR: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_ELD_SBR);
+    pub const MPEG4AAC_ELD_V2: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_ELD_V2);
     pub const MPEG4AAC_HE_V2: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_HE_V2);
-    pub const MPEG4AAC_SPATIAL: AudioFormat =
-        AudioFormat(ffi::kAudioFormatMPEG4AAC_Spatial);
+    pub const MPEG4AAC_SPATIAL: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_Spatial);
     pub const AMR: AudioFormat = AudioFormat(ffi::kAudioFormatAMR);
     pub const AMR_WB: AudioFormat = AudioFormat(ffi::kAudioFormatAMR_WB);
     pub const AUDIBLE: AudioFormat = AudioFormat(ffi::kAudioFormatAudible);
@@ -118,13 +115,13 @@ bitflags! {
 }
 
 impl AudioFormatFlags {
-    pub fn with_lpcm_flags(valid_bits_per_channel: u32,
-                           total_bits_per_channel: u32,
-                           is_float: bool,
-                           is_big_endian: bool,
-                           is_non_interleaved: bool)
-                           -> AudioFormatFlags
-    {
+    pub fn with_lpcm_flags(
+        valid_bits_per_channel: u32,
+        total_bits_per_channel: u32,
+        is_float: bool,
+        is_big_endian: bool,
+        is_non_interleaved: bool,
+    ) -> AudioFormatFlags {
         let mut result = if is_float {
             AudioFormatFlags::IS_FLOAT
         } else {
@@ -145,7 +142,6 @@ impl AudioFormatFlags {
     }
 }
 
-
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 pub struct AudioStreamBasicDescription {
@@ -161,20 +157,22 @@ pub struct AudioStreamBasicDescription {
 }
 
 impl AudioStreamBasicDescription {
-    pub fn with_lpcm(sample_rate: f64,
-                     channels_per_frame: u32,
-                     valid_bits_per_channel: u32,
-                     total_bits_per_channel: u32,
-                     is_float: bool,
-                     is_big_endian: bool,
-                     is_non_interleaved: bool)
-                     -> Self
-    {
-        let flags = AudioFormatFlags::with_lpcm_flags(valid_bits_per_channel,
-                                                      total_bits_per_channel,
-                                                      is_float,
-                                                      is_big_endian,
-                                                      is_non_interleaved);
+    pub fn with_lpcm(
+        sample_rate: f64,
+        channels_per_frame: u32,
+        valid_bits_per_channel: u32,
+        total_bits_per_channel: u32,
+        is_float: bool,
+        is_big_endian: bool,
+        is_non_interleaved: bool,
+    ) -> Self {
+        let flags = AudioFormatFlags::with_lpcm_flags(
+            valid_bits_per_channel,
+            total_bits_per_channel,
+            is_float,
+            is_big_endian,
+            is_non_interleaved,
+        );
         let bytes_per_packet = if is_non_interleaved {
             1
         } else {
@@ -186,21 +184,23 @@ impl AudioStreamBasicDescription {
             channels_per_frame
         } * (total_bits_per_channel / 8);
 
-        AudioStreamBasicDescription { sample_rate: sample_rate,
-                                      format_id: AudioFormat::LINEAR_PCM,
-                                      format_flags: flags,
-                                      bytes_per_packet: bytes_per_packet,
-                                      frames_per_packet: 1,
-                                      bytes_per_frame: bytes_per_frame,
-                                      channels_per_frame: channels_per_frame,
-                                      bits_per_channel: valid_bits_per_channel,
-                                      _reserved: 0, }
+        AudioStreamBasicDescription {
+            sample_rate: sample_rate,
+            format_id: AudioFormat::LINEAR_PCM,
+            format_flags: flags,
+            bytes_per_packet: bytes_per_packet,
+            frames_per_packet: 1,
+            bytes_per_frame: bytes_per_frame,
+            channels_per_frame: channels_per_frame,
+            bits_per_channel: valid_bits_per_channel,
+            _reserved: 0,
+        }
     }
 
     pub fn is_native_endian(&self) -> bool {
-        self.format_id == AudioFormat::LINEAR_PCM &&
-        (self.format_flags & AudioFormatFlags::IS_BIG_ENDIAN) ==
-        AudioFormatFlags::NATIVE_ENDIAN
+        self.format_id == AudioFormat::LINEAR_PCM
+            && (self.format_flags & AudioFormatFlags::IS_BIG_ENDIAN)
+                == AudioFormatFlags::NATIVE_ENDIAN
     }
 }
 
@@ -211,10 +211,8 @@ impl AudioStreamBasicDescription {
 #[derive(Clone, Copy, Debug)]
 pub struct AudioChannelLabel(ffi::AudioChannelLabel);
 impl AudioChannelLabel {
-    pub const UNKNOWN: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Unknown);
-    pub const UNUSED: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Unused);
+    pub const UNKNOWN: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Unknown);
+    pub const UNUSED: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Unused);
     pub const USE_COORDINATES: AudioChannelLabel =
         AudioChannelLabel(ffi::kAudioChannelLabel_UseCoordinates);
 }
@@ -223,10 +221,8 @@ pub struct StandardChannelLabel {}
 impl StandardChannelLabel {
     pub const LEFT: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Left);
     pub const RIGHT: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Right);
-    pub const CENTER: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Center);
-    pub const LFESCREEN: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_LFEScreen);
+    pub const CENTER: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Center);
+    pub const LFESCREEN: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_LFEScreen);
     pub const LEFT_SURROUND: AudioChannelLabel =
         AudioChannelLabel(ffi::kAudioChannelLabel_LeftSurround);
     pub const RIGHT_SURROUND: AudioChannelLabel =
@@ -261,19 +257,15 @@ impl StandardChannelLabel {
         AudioChannelLabel(ffi::kAudioChannelLabel_RearSurroundLeft);
     pub const REAR_SURROUND_RIGHT: AudioChannelLabel =
         AudioChannelLabel(ffi::kAudioChannelLabel_RearSurroundRight);
-    pub const LEFT_WIDE: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_LeftWide);
-    pub const RIGHT_WIDE: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_RightWide);
+    pub const LEFT_WIDE: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_LeftWide);
+    pub const RIGHT_WIDE: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_RightWide);
     pub const LFE2: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_LFE2);
-    pub const LEFT_TOTAL: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_LeftTotal);
+    pub const LEFT_TOTAL: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_LeftTotal);
     pub const RIGHT_TOTAL: AudioChannelLabel =
         AudioChannelLabel(ffi::kAudioChannelLabel_RightTotal);
     pub const HEARING_IMPAIRED: AudioChannelLabel =
         AudioChannelLabel(ffi::kAudioChannelLabel_HearingImpaired);
-    pub const NARRATION: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Narration);
+    pub const NARRATION: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Narration);
     pub const MONO: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Mono);
     pub const DIALOG_CENTRIC_MIX: AudioChannelLabel =
         AudioChannelLabel(ffi::kAudioChannelLabel_DialogCentricMix);
@@ -281,29 +273,23 @@ impl StandardChannelLabel {
     pub const CENTER_SURROUND_DIRECT: AudioChannelLabel =
         AudioChannelLabel(ffi::kAudioChannelLabel_CenterSurroundDirect);
 
-    pub const HAPTIC: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Haptic);
+    pub const HAPTIC: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Haptic);
 }
 
 // first order ambisonic channels
 pub struct AmbisonicChannelLabel {}
 impl AmbisonicChannelLabel {
-    pub const W: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Ambisonic_W);
-    pub const X: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Ambisonic_X);
-    pub const Y: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Ambisonic_Y);
-    pub const Z: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Ambisonic_Z);
+    pub const W: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Ambisonic_W);
+    pub const X: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Ambisonic_X);
+    pub const Y: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Ambisonic_Y);
+    pub const Z: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Ambisonic_Z);
 }
 
 // Mid/Side Recording
 pub struct MidSideChannelLabel {}
 impl MidSideChannelLabel {
     pub const MID: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_MS_Mid);
-    pub const SIDE: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_MS_Side);
+    pub const SIDE: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_MS_Side);
 }
 
 // X-Y Recording
@@ -329,28 +315,17 @@ impl OtherChannelLabel {
 // generic discrete channel
 pub struct DiscreteChannelLabel {}
 impl DiscreteChannelLabel {
-    pub const DISCRETE: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Discrete);
-    pub const DISCRETE_0: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_0);
-    pub const DISCRETE_1: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_1);
-    pub const DISCRETE_2: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_2);
-    pub const DISCRETE_3: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_3);
-    pub const DISCRETE_4: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_4);
-    pub const DISCRETE_5: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_5);
-    pub const DISCRETE_6: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_6);
-    pub const DISCRETE_7: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_7);
-    pub const DISCRETE_8: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_8);
-    pub const DISCRETE_9: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_9);
+    pub const DISCRETE: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Discrete);
+    pub const DISCRETE_0: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_0);
+    pub const DISCRETE_1: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_1);
+    pub const DISCRETE_2: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_2);
+    pub const DISCRETE_3: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_3);
+    pub const DISCRETE_4: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_4);
+    pub const DISCRETE_5: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_5);
+    pub const DISCRETE_6: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_6);
+    pub const DISCRETE_7: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_7);
+    pub const DISCRETE_8: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_8);
+    pub const DISCRETE_9: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_9);
     pub const DISCRETE_10: AudioChannelLabel =
         AudioChannelLabel(ffi::kAudioChannelLabel_Discrete_10);
     pub const DISCRETE_11: AudioChannelLabel =
@@ -369,40 +344,23 @@ impl DiscreteChannelLabel {
 
 pub struct HoaAcnChannelLabel {}
 impl HoaAcnChannelLabel {
-    pub const HOA_ACN: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN);
-    pub const HOA_ACN0: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_0);
-    pub const HOA_ACN1: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_1);
-    pub const HOA_ACN2: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_2);
-    pub const HOA_ACN3: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_3);
-    pub const HOA_ACN4: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_4);
-    pub const HOA_ACN5: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_5);
-    pub const HOA_ACN6: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_6);
-    pub const HOA_ACN7: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_7);
-    pub const HOA_ACN8: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_8);
-    pub const HOA_ACN9: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_9);
-    pub const HOA_ACN10: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_10);
-    pub const HOA_ACN11: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_11);
-    pub const HOA_ACN12: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_12);
-    pub const HOA_ACN13: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_13);
-    pub const HOA_ACN14: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_14);
-    pub const HOA_ACN15: AudioChannelLabel =
-        AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_15);
+    pub const HOA_ACN: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN);
+    pub const HOA_ACN0: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_0);
+    pub const HOA_ACN1: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_1);
+    pub const HOA_ACN2: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_2);
+    pub const HOA_ACN3: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_3);
+    pub const HOA_ACN4: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_4);
+    pub const HOA_ACN5: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_5);
+    pub const HOA_ACN6: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_6);
+    pub const HOA_ACN7: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_7);
+    pub const HOA_ACN8: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_8);
+    pub const HOA_ACN9: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_9);
+    pub const HOA_ACN10: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_10);
+    pub const HOA_ACN11: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_11);
+    pub const HOA_ACN12: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_12);
+    pub const HOA_ACN13: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_13);
+    pub const HOA_ACN14: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_14);
+    pub const HOA_ACN15: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_15);
     pub const HOA_ACN65024: AudioChannelLabel =
         AudioChannelLabel(ffi::kAudioChannelLabel_HOA_ACN_65024);
 }
@@ -450,17 +408,20 @@ impl AudioChannelLayoutTag {
         AudioChannelLayoutTag(Self::UNKNOWN.0 | u32::from(channels))
     }
 
-    pub fn channels(&self) -> usize { (self.0 & 0xFFFF) as _ }
+    pub fn channels(&self) -> usize {
+        (self.0 & 0xFFFF) as _
+    }
     pub fn use_channel_descriptions(&self) -> bool {
         *self == Self::USE_CHANNEL_DESCRIPTIONS
     }
-    pub fn use_channel_bitmap(&self) -> bool { *self == Self::USE_CHANNEL_BITMAP }
+    pub fn use_channel_bitmap(&self) -> bool {
+        *self == Self::USE_CHANNEL_BITMAP
+    }
 }
 
 pub struct StandardChannelLayoutTag {}
 impl StandardChannelLayoutTag {
-    pub const MONO: AudioChannelLayoutTag =
-        AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_Mono);
+    pub const MONO: AudioChannelLayoutTag = AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_Mono);
     pub const STEREO: AudioChannelLayoutTag =
         AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_Stereo);
     pub const STEREO_HEADPHONES: AudioChannelLayoutTag =
@@ -469,8 +430,7 @@ impl StandardChannelLayoutTag {
         AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_MatrixStereo);
     pub const MID_SIDE: AudioChannelLayoutTag =
         AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_MidSide);
-    pub const XY: AudioChannelLayoutTag =
-        AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_XY);
+    pub const XY: AudioChannelLayoutTag = AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_XY);
     pub const BINAURAL: AudioChannelLayoutTag =
         AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_Binaural);
     pub const AMBISONIC_B_FORMAT: AudioChannelLayoutTag =
@@ -483,8 +443,7 @@ impl StandardChannelLayoutTag {
         AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_Hexagonal);
     pub const OCTAGONAL: AudioChannelLayoutTag =
         AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_Octagonal);
-    pub const CUBE: AudioChannelLayoutTag =
-        AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_Cube);
+    pub const CUBE: AudioChannelLayoutTag = AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_Cube);
 }
 
 //  MPEG defined layouts
@@ -560,26 +519,16 @@ impl ItuChannelLayoutTag {
 // DVD defined layouts
 pub struct DvdChannelLayoutTag {}
 impl DvdChannelLayoutTag {
-    pub const _0: AudioChannelLayoutTag =
-        AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_0);
-    pub const _1: AudioChannelLayoutTag =
-        AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_1);
-    pub const _2: AudioChannelLayoutTag =
-        AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_2);
-    pub const _3: AudioChannelLayoutTag =
-        AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_3);
-    pub const _4: AudioChannelLayoutTag =
-        AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_4);
-    pub const _5: AudioChannelLayoutTag =
-        AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_5);
-    pub const _6: AudioChannelLayoutTag =
-        AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_6);
-    pub const _7: AudioChannelLayoutTag =
-        AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_7);
-    pub const _8: AudioChannelLayoutTag =
-        AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_8);
-    pub const _9: AudioChannelLayoutTag =
-        AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_9);
+    pub const _0: AudioChannelLayoutTag = AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_0);
+    pub const _1: AudioChannelLayoutTag = AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_1);
+    pub const _2: AudioChannelLayoutTag = AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_2);
+    pub const _3: AudioChannelLayoutTag = AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_3);
+    pub const _4: AudioChannelLayoutTag = AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_4);
+    pub const _5: AudioChannelLayoutTag = AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_5);
+    pub const _6: AudioChannelLayoutTag = AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_6);
+    pub const _7: AudioChannelLayoutTag = AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_7);
+    pub const _8: AudioChannelLayoutTag = AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_8);
+    pub const _9: AudioChannelLayoutTag = AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_9);
     pub const _10: AudioChannelLayoutTag =
         AudioChannelLayoutTag(ffi::kAudioChannelLayoutTag_DVD_10);
     pub const _11: AudioChannelLayoutTag =
@@ -793,7 +742,9 @@ pub struct AudioChannelDescription {
 
 impl AudioChannelDescription {
     pub fn rectangular_coordinate(&self) -> Option<&AudioChannelRectangularCoordinates> {
-        if self.channel_flags.contains(AudioChannelFlags::RECTANGULAR_COORDINATES) {
+        if self.channel_flags
+            .contains(AudioChannelFlags::RECTANGULAR_COORDINATES)
+        {
             Some(unsafe { mem::transmute(&self.coordinates) })
         } else {
             None
@@ -801,7 +752,9 @@ impl AudioChannelDescription {
     }
 
     pub fn spherical_coordinate(&self) -> Option<&AudioChannelSphericalCoordinates> {
-        if self.channel_flags.contains(AudioChannelFlags::SPHERICAL_COORDINATES) {
+        if self.channel_flags
+            .contains(AudioChannelFlags::SPHERICAL_COORDINATES)
+        {
             Some(unsafe { mem::transmute(&self.coordinates) })
         } else {
             None
@@ -855,23 +808,37 @@ bitflags! {
     }
 }
 
-
 #[derive(Clone, Copy, Debug)]
 pub struct SMPTETime(ffi::SMPTETime);
 impl SMPTETime {
-    pub fn subframes(&self) -> i16 { self.0.mSubframes }
-    pub fn subframe_divisor(&self) -> i16 { self.0.mSubframeDivisor }
-    pub fn counter(&self) -> u32 { self.0.mCounter }
-    pub fn kind(&self) -> SMPTETimeType { unsafe { mem::transmute(self.0.mType) } }
+    pub fn subframes(&self) -> i16 {
+        self.0.mSubframes
+    }
+    pub fn subframe_divisor(&self) -> i16 {
+        self.0.mSubframeDivisor
+    }
+    pub fn counter(&self) -> u32 {
+        self.0.mCounter
+    }
+    pub fn kind(&self) -> SMPTETimeType {
+        unsafe { mem::transmute(self.0.mType) }
+    }
     pub fn flags(&self) -> SMPTETimeFlags {
         SMPTETimeFlags::from_bits_truncate(self.0.mFlags)
     }
-    pub fn hours(&self) -> i16 { self.0.mHours }
-    pub fn minutes(&self) -> i16 { self.0.mMinutes }
-    pub fn seconds(&self) -> i16 { self.0.mSeconds }
-    pub fn frames(&self) -> i16 { self.0.mFrames }
+    pub fn hours(&self) -> i16 {
+        self.0.mHours
+    }
+    pub fn minutes(&self) -> i16 {
+        self.0.mMinutes
+    }
+    pub fn seconds(&self) -> i16 {
+        self.0.mSeconds
+    }
+    pub fn frames(&self) -> i16 {
+        self.0.mFrames
+    }
 }
-
 
 ffi_type_stack! {
     type CType = ffi::AudioTimeStamp;
@@ -893,14 +860,9 @@ impl AudioTimeStamp {
         result
     }
 
-    pub fn with_sample_and_host_time(sample_time: f64,
-                                     host_time: u64)
-                                     -> AudioTimeStamp
-    {
+    pub fn with_sample_and_host_time(sample_time: f64, host_time: u64) -> AudioTimeStamp {
         let mut result: AudioTimeStamp = unsafe { mem::uninitialized() };
-        ffi::FillOutAudioTimeStampWithSampleAndHostTime(&mut result.0,
-                                                        sample_time,
-                                                        host_time);
+        ffi::FillOutAudioTimeStampWithSampleAndHostTime(&mut result.0, sample_time, host_time);
         result
     }
 }
@@ -953,10 +915,7 @@ impl AudioTimeStampRef {
 }
 
 impl fmt::Debug for AudioTimeStamp {
-    fn fmt(&self,
-           f: &mut fmt::Formatter)
-           -> fmt::Result
-    {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let mut ds = f.debug_struct("AudioTimeStamp");
         if let Some(sample_time) = self.sample_time() {
             ds.field("sample_time", &sample_time);
@@ -978,5 +937,7 @@ impl fmt::Debug for AudioTimeStamp {
 }
 
 impl Default for AudioTimeStamp {
-    fn default() -> Self { unsafe { mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { mem::zeroed() }
+    }
 }

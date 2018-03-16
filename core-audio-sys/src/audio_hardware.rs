@@ -16,11 +16,14 @@ e! {
 //==============================================================================
 // AudioObject Types
 
-pub type AudioObjectPropertyListenerProc =
-    Option<unsafe extern fn(inObjectID: AudioObjectID,
-            inNumberAddresses: u32,
-            inAddresses: *const AudioObjectPropertyAddress,
-            inClientData: *mut c_void) -> OSStatus>;
+pub type AudioObjectPropertyListenerProc = Option<
+    unsafe extern "C" fn(
+        inObjectID: AudioObjectID,
+        inNumberAddresses: u32,
+        inAddresses: *const AudioObjectPropertyAddress,
+        inClientData: *mut c_void,
+    ) -> OSStatus,
+>;
 
 //==============================================================================
 // AudioObject Properties
@@ -36,40 +39,46 @@ e! {
 //==============================================================================
 // AudioObject Functions
 
-extern {
+extern "C" {
     pub fn AudioObjectShow(inObjectID: AudioObjectID);
-    pub fn AudioObjectHasProperty(inObjectID: AudioObjectID,
-                                  inAddress: *const AudioObjectPropertyAddress)
-                                  -> Boolean;
-    pub fn AudioObjectIsPropertySettable(inObjectID: AudioObjectID,
-                                         inAddress: *const AudioObjectPropertyAddress,
-                                         outIsSettable: *mut Boolean)
-                                         -> OSStatus;
-    pub fn AudioObjectGetPropertyDataSize(inObjectID: AudioObjectID,
-                                          inAddress: *const AudioObjectPropertyAddress,
-                                          inQualifierDataSize: u32,
-                                          inQualifierData: *const c_void,
-                                          outDataSize: *mut u32)
-                                          -> OSStatus;
-    pub fn AudioObjectGetPropertyData(inObjectID: AudioObjectID,
-                                      inAddress: *const AudioObjectPropertyAddress,
-                                      inQualifierDataSize: u32,
-                                      inQualifierData: *const c_void,
-                                      ioDataSize: *mut u32,
-                                      outData: *mut c_void)
-                                      -> OSStatus;
-    pub fn AudioObjectSetPropertyData(inObjectID: AudioObjectID,
-                                      inAddress: *const AudioObjectPropertyAddress,
-                                      inQualifierDataSize: u32,
-                                      inQualifierData: *const c_void,
-                                      inDataSize: u32,
-                                      inData: *const c_void)
-                                      -> OSStatus;
-    pub fn AudioObjectAddPropertyListener(inObjectID: AudioObjectID,
-                                          inAddress: *const AudioObjectPropertyAddress,
-                                          inListener: AudioObjectPropertyListenerProc,
-                                          inClientData: *mut c_void)
-                                          -> OSStatus;
+    pub fn AudioObjectHasProperty(
+        inObjectID: AudioObjectID,
+        inAddress: *const AudioObjectPropertyAddress,
+    ) -> Boolean;
+    pub fn AudioObjectIsPropertySettable(
+        inObjectID: AudioObjectID,
+        inAddress: *const AudioObjectPropertyAddress,
+        outIsSettable: *mut Boolean,
+    ) -> OSStatus;
+    pub fn AudioObjectGetPropertyDataSize(
+        inObjectID: AudioObjectID,
+        inAddress: *const AudioObjectPropertyAddress,
+        inQualifierDataSize: u32,
+        inQualifierData: *const c_void,
+        outDataSize: *mut u32,
+    ) -> OSStatus;
+    pub fn AudioObjectGetPropertyData(
+        inObjectID: AudioObjectID,
+        inAddress: *const AudioObjectPropertyAddress,
+        inQualifierDataSize: u32,
+        inQualifierData: *const c_void,
+        ioDataSize: *mut u32,
+        outData: *mut c_void,
+    ) -> OSStatus;
+    pub fn AudioObjectSetPropertyData(
+        inObjectID: AudioObjectID,
+        inAddress: *const AudioObjectPropertyAddress,
+        inQualifierDataSize: u32,
+        inQualifierData: *const c_void,
+        inDataSize: u32,
+        inData: *const c_void,
+    ) -> OSStatus;
+    pub fn AudioObjectAddPropertyListener(
+        inObjectID: AudioObjectID,
+        inAddress: *const AudioObjectPropertyAddress,
+        inListener: AudioObjectPropertyListenerProc,
+        inClientData: *mut c_void,
+    ) -> OSStatus;
     pub fn AudioObjectRemovePropertyListener(
         inObjectID: AudioObjectID,
         inAddress: *const AudioObjectPropertyAddress,
@@ -129,11 +138,12 @@ e! {
 //==============================================================================
 // AudioSystemObject Functions
 
-extern {
+extern "C" {
     pub fn AudioHardwareUnload() -> OSStatus;
-    pub fn AudioHardwareCreateAggregateDevice(inDescription: CFDictionaryRef,
-                                              outDeviceID: *mut AudioObjectID)
-                                              -> OSStatus;
+    pub fn AudioHardwareCreateAggregateDevice(
+        inDescription: CFDictionaryRef,
+        outDeviceID: *mut AudioObjectID,
+    ) -> OSStatus;
     pub fn AudioHardwareDestroyAggregateDevice(inDeviceID: AudioObjectID) -> OSStatus;
 }
 
@@ -160,14 +170,17 @@ e! {
 //==============================================================================
 // AudioDevice Types
 
-pub type AudioDeviceIOProc =
-    Option<unsafe extern fn(inDevice: AudioObjectID,
-            inNow: *const AudioTimeStamp,
-            inInputData: *const AudioBufferList,
-            inInputTime: *const AudioTimeStamp,
-            outOutputData: *mut AudioBufferList,
-            inOutputTime: *const AudioTimeStamp,
-            inClientData: *mut c_void) -> OSStatus>;
+pub type AudioDeviceIOProc = Option<
+    unsafe extern "C" fn(
+        inDevice: AudioObjectID,
+        inNow: *const AudioTimeStamp,
+        inInputData: *const AudioBufferList,
+        inInputTime: *const AudioTimeStamp,
+        outOutputData: *mut AudioBufferList,
+        inOutputTime: *const AudioTimeStamp,
+        inClientData: *mut c_void,
+    ) -> OSStatus,
+>;
 pub type AudioDeviceIOProcID = AudioDeviceIOProc;
 
 s! {
@@ -181,9 +194,7 @@ s! {
 
 impl AudioHardwareIOProcStreamUsage {
     pub fn stream_is_on(&self) -> &[u32] {
-        unsafe {
-            slice::from_raw_parts(&self.mStreamIsOn as *const _, self.mNumberStreams as _)
-        }
+        unsafe { slice::from_raw_parts(&self.mStreamIsOn as *const _, self.mNumberStreams as _) }
     }
 }
 
@@ -275,37 +286,39 @@ e! {
 //==============================================================================
 // AudioDevice Functions
 
-extern {
-    pub fn AudioDeviceCreateIOProcID(inDevice: AudioObjectID,
-                                     inProc: AudioDeviceIOProc,
-                                     inClientData: *mut c_void,
-                                     outIOProcID: *mut AudioDeviceIOProcID)
-                                     -> OSStatus;
-    pub fn AudioDeviceDestroyIOProcID(inDevice: AudioObjectID,
-                                      inIOProcID: AudioDeviceIOProcID)
-                                      -> OSStatus;
-    pub fn AudioDeviceStart(inDevice: AudioObjectID,
-                            inProcID: AudioDeviceIOProcID)
-                            -> OSStatus;
-    pub fn AudioDeviceStartAtTime(inDevice: AudioObjectID,
-                                  inProcID: AudioDeviceIOProcID,
-                                  ioRequestedStartTime: *mut AudioTimeStamp,
-                                  inFlags: u32)
-                                  -> OSStatus;
-    pub fn AudioDeviceStop(inDevice: AudioObjectID,
-                           inProcID: AudioDeviceIOProcID)
-                           -> OSStatus;
-    pub fn AudioDeviceGetCurrentTime(inDevice: AudioObjectID,
-                                     outTime: *mut AudioTimeStamp)
-                                     -> OSStatus;
-    pub fn AudioDeviceTranslateTime(inDevice: AudioObjectID,
-                                    inTime: *const AudioTimeStamp,
-                                    outTime: *mut AudioTimeStamp)
-                                    -> OSStatus;
-    pub fn AudioDeviceGetNearestStartTime(inDevice: AudioObjectID,
-                                          ioRequestedStartTime: *mut AudioTimeStamp,
-                                          inFlags: u32)
-                                          -> OSStatus;
+extern "C" {
+    pub fn AudioDeviceCreateIOProcID(
+        inDevice: AudioObjectID,
+        inProc: AudioDeviceIOProc,
+        inClientData: *mut c_void,
+        outIOProcID: *mut AudioDeviceIOProcID,
+    ) -> OSStatus;
+    pub fn AudioDeviceDestroyIOProcID(
+        inDevice: AudioObjectID,
+        inIOProcID: AudioDeviceIOProcID,
+    ) -> OSStatus;
+    pub fn AudioDeviceStart(inDevice: AudioObjectID, inProcID: AudioDeviceIOProcID) -> OSStatus;
+    pub fn AudioDeviceStartAtTime(
+        inDevice: AudioObjectID,
+        inProcID: AudioDeviceIOProcID,
+        ioRequestedStartTime: *mut AudioTimeStamp,
+        inFlags: u32,
+    ) -> OSStatus;
+    pub fn AudioDeviceStop(inDevice: AudioObjectID, inProcID: AudioDeviceIOProcID) -> OSStatus;
+    pub fn AudioDeviceGetCurrentTime(
+        inDevice: AudioObjectID,
+        outTime: *mut AudioTimeStamp,
+    ) -> OSStatus;
+    pub fn AudioDeviceTranslateTime(
+        inDevice: AudioObjectID,
+        inTime: *const AudioTimeStamp,
+        outTime: *mut AudioTimeStamp,
+    ) -> OSStatus;
+    pub fn AudioDeviceGetNearestStartTime(
+        inDevice: AudioObjectID,
+        ioRequestedStartTime: *mut AudioTimeStamp,
+        inFlags: u32,
+    ) -> OSStatus;
 }
 
 //==============================================================================

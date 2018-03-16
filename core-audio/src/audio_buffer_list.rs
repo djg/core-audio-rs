@@ -38,7 +38,9 @@ foreign_type!{
 }
 
 impl AudioBufferList {
-    pub fn with_len(len: usize) -> Self { AudioBufferList(new_heap(len)) }
+    pub fn with_len(len: usize) -> Self {
+        AudioBufferList(new_heap(len))
+    }
 }
 
 impl AudioBufferListRef {
@@ -56,8 +58,10 @@ impl ops::Deref for AudioBufferListRef {
     fn deref(&self) -> &Self::Target {
         unsafe {
             let abl = &(*self.as_ptr());
-            slice::from_raw_parts(&abl.mBuffers[0] as *const _ as *const _,
-                                  abl.mNumberBuffers as _)
+            slice::from_raw_parts(
+                &abl.mBuffers[0] as *const _ as *const _,
+                abl.mNumberBuffers as _,
+            )
         }
     }
 }
@@ -66,8 +70,10 @@ impl ops::DerefMut for AudioBufferListRef {
     fn deref_mut(&mut self) -> &mut [AudioBuffer] {
         unsafe {
             let abl = &mut (*self.as_ptr());
-            slice::from_raw_parts_mut(&mut abl.mBuffers[0] as *mut _ as *mut _,
-                                      abl.mNumberBuffers as _)
+            slice::from_raw_parts_mut(
+                &mut abl.mBuffers[0] as *mut _ as *mut _,
+                abl.mNumberBuffers as _,
+            )
         }
     }
 }

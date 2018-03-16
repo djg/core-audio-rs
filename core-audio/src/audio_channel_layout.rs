@@ -12,8 +12,7 @@ struct ACLHeap {
 }
 
 fn new_heap(len: usize) -> *mut ffi::AudioChannelLayout {
-    let n_bytes =
-        mem::size_of::<ACLHeap>() + len * mem::size_of::<AudioChannelDescription>();
+    let n_bytes = mem::size_of::<ACLHeap>() + len * mem::size_of::<AudioChannelDescription>();
     assert_eq!(n_bytes % mem::size_of::<u32>(), 0);
     let n_u32 = n_bytes / mem::size_of::<u32>();
     let mut vec = Vec::<u32>::with_capacity(n_u32);
@@ -29,8 +28,7 @@ fn new_heap(len: usize) -> *mut ffi::AudioChannelLayout {
 
 unsafe fn delete_heap(ptr: *mut ffi::AudioChannelLayout) {
     let len = (*ptr).mNumberChannelDescriptions as usize;
-    let n_bytes =
-        mem::size_of::<ACLHeap>() + len * mem::size_of::<AudioChannelDescription>();
+    let n_bytes = mem::size_of::<ACLHeap>() + len * mem::size_of::<AudioChannelDescription>();
     let n_u32 = n_bytes / mem::size_of::<u32>();
     drop(Vec::<u32>::from_raw_parts(ptr as _, 0, n_u32))
 }
@@ -43,7 +41,9 @@ foreign_type! {
 }
 
 impl AudioChannelLayout {
-    pub fn with_len(len: usize) -> Self { AudioChannelLayout(new_heap(len)) }
+    pub fn with_len(len: usize) -> Self {
+        AudioChannelLayout(new_heap(len))
+    }
 }
 
 impl ops::Deref for AudioChannelLayoutRef {
@@ -52,8 +52,10 @@ impl ops::Deref for AudioChannelLayoutRef {
     fn deref(&self) -> &Self::Target {
         unsafe {
             let acl: &ffi::AudioChannelLayout = &*self.as_ptr();
-            slice::from_raw_parts(&acl.mChannelDescriptions[0] as *const _ as *const _,
-                                  acl.mNumberChannelDescriptions as _)
+            slice::from_raw_parts(
+                &acl.mChannelDescriptions[0] as *const _ as *const _,
+                acl.mNumberChannelDescriptions as _,
+            )
         }
     }
 }
@@ -62,8 +64,10 @@ impl ops::DerefMut for AudioChannelLayoutRef {
     fn deref_mut(&mut self) -> &mut [AudioChannelDescription] {
         unsafe {
             let acl: &ffi::AudioChannelLayout = &*self.as_ptr();
-            slice::from_raw_parts_mut(&acl.mChannelDescriptions[0] as *const _ as *mut _,
-                                      acl.mNumberChannelDescriptions as _)
+            slice::from_raw_parts_mut(
+                &acl.mChannelDescriptions[0] as *const _ as *mut _,
+                acl.mNumberChannelDescriptions as _,
+            )
         }
     }
 }

@@ -64,9 +64,8 @@ impl Into<ffi::OSStatus> for ErrorKind {
             ErrorKind::UnsupportedOperation => ffi::kAudioHardwareUnsupportedOperationError,
             ErrorKind::UnsupportedFormat => ffi::kAudioDeviceUnsupportedFormatError,
             ErrorKind::Permissions => ffi::kAudioDevicePermissionsError,
-            ErrorKind::Other => panic!()
+            ErrorKind::Other => panic!(),
         }
-
     }
 }
 
@@ -119,17 +118,17 @@ impl error::Error for Error {
 
 fn decode_error_kind(err: ffi::OSStatus) -> ErrorKind {
     match err {
-        ffi::kAudioHardwareNotRunningError           => ErrorKind::NotRunning,
-        ffi::kAudioHardwareUnspecifiedError          => ErrorKind::Unspecified,
-        ffi::kAudioHardwareUnknownPropertyError      => ErrorKind::UnknownProperty,
-        ffi::kAudioHardwareBadPropertySizeError      => ErrorKind::BadPropertySize,
-        ffi::kAudioHardwareIllegalOperationError     => ErrorKind::IllegalOperation,
-        ffi::kAudioHardwareBadObjectError            => ErrorKind::BadObject,
-        ffi::kAudioHardwareBadDeviceError            => ErrorKind::BadDevice,
-        ffi::kAudioHardwareBadStreamError            => ErrorKind::BadStream,
+        ffi::kAudioHardwareNotRunningError => ErrorKind::NotRunning,
+        ffi::kAudioHardwareUnspecifiedError => ErrorKind::Unspecified,
+        ffi::kAudioHardwareUnknownPropertyError => ErrorKind::UnknownProperty,
+        ffi::kAudioHardwareBadPropertySizeError => ErrorKind::BadPropertySize,
+        ffi::kAudioHardwareIllegalOperationError => ErrorKind::IllegalOperation,
+        ffi::kAudioHardwareBadObjectError => ErrorKind::BadObject,
+        ffi::kAudioHardwareBadDeviceError => ErrorKind::BadDevice,
+        ffi::kAudioHardwareBadStreamError => ErrorKind::BadStream,
         ffi::kAudioHardwareUnsupportedOperationError => ErrorKind::UnsupportedOperation,
-        ffi::kAudioDeviceUnsupportedFormatError      => ErrorKind::UnsupportedFormat,
-        ffi::kAudioDevicePermissionsError            => ErrorKind::Permissions,
+        ffi::kAudioDeviceUnsupportedFormatError => ErrorKind::UnsupportedFormat,
+        ffi::kAudioDevicePermissionsError => ErrorKind::Permissions,
 
         _ => ErrorKind::Other,
     }

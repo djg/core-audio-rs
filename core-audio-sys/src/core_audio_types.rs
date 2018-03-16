@@ -204,18 +204,18 @@ cfg_if! {
 
 #[inline]
 pub fn IsAudioFormatNativeEndian(f: &AudioStreamBasicDescription) -> bool {
-    f.mFormatID == kAudioFormatLinearPCM &&
-    (f.mFormatFlags & kAudioFormatFlagIsBigEndian) == kAudioFormatFlagsNativeEndian
+    f.mFormatID == kAudioFormatLinearPCM
+        && (f.mFormatFlags & kAudioFormatFlagIsBigEndian) == kAudioFormatFlagsNativeEndian
 }
 
 #[inline]
-pub fn CalculateLPCMFlags(inValidBitsPerChannel: u32,
-                          inTotalBitsPerChannel: u32,
-                          inIsFloat: bool,
-                          inIsBigEndian: bool,
-                          inIsNonInterleaved: bool)
-                          -> AudioFormatFlags
-{
+pub fn CalculateLPCMFlags(
+    inValidBitsPerChannel: u32,
+    inTotalBitsPerChannel: u32,
+    inIsFloat: bool,
+    inIsBigEndian: bool,
+    inIsNonInterleaved: bool,
+) -> AudioFormatFlags {
     (match inIsFloat {
         true => kAudioFormatFlagIsFloat,
         _ => kAudioFormatFlagIsSignedInteger,
@@ -233,22 +233,25 @@ pub fn CalculateLPCMFlags(inValidBitsPerChannel: u32,
 }
 
 #[inline]
-pub fn FillOutASBDForLPCM(outASBD: &mut AudioStreamBasicDescription,
-                          inSampleRate: f64,
-                          inChannelsPerFrame: u32,
-                          inValidBitsPerChannel: u32,
-                          inTotalBitsPerChannel: u32,
-                          inIsFloat: bool,
-                          inIsBigEndian: bool,
-                          inIsNonInterleaved: bool)
-{
+pub fn FillOutASBDForLPCM(
+    outASBD: &mut AudioStreamBasicDescription,
+    inSampleRate: f64,
+    inChannelsPerFrame: u32,
+    inValidBitsPerChannel: u32,
+    inTotalBitsPerChannel: u32,
+    inIsFloat: bool,
+    inIsBigEndian: bool,
+    inIsNonInterleaved: bool,
+) {
     outASBD.mSampleRate = inSampleRate;
     outASBD.mFormatID = kAudioFormatLinearPCM;
-    outASBD.mFormatFlags = CalculateLPCMFlags(inValidBitsPerChannel,
-                                              inTotalBitsPerChannel,
-                                              inIsFloat,
-                                              inIsBigEndian,
-                                              inIsNonInterleaved);
+    outASBD.mFormatFlags = CalculateLPCMFlags(
+        inValidBitsPerChannel,
+        inTotalBitsPerChannel,
+        inIsFloat,
+        inIsBigEndian,
+        inIsNonInterleaved,
+    );
     outASBD.mBytesPerPacket = match inIsNonInterleaved {
         true => 1,
         _ => inChannelsPerFrame,
@@ -299,7 +302,6 @@ e! {
     }
 }
 
-
 s! {
     #[derive(Clone, Copy)]
     struct SMPTETime {
@@ -340,9 +342,7 @@ s! {
     }
 }
 
-pub fn FillOutAudioTimeStampWithSampleTime(outATS: &mut AudioTimeStamp,
-                                           inSampleTime: f64)
-{
+pub fn FillOutAudioTimeStampWithSampleTime(outATS: &mut AudioTimeStamp, inSampleTime: f64) {
     outATS.mSampleTime = inSampleTime;
     outATS.mHostTime = 0;
     outATS.mRateScalar = 0.0;
@@ -351,9 +351,7 @@ pub fn FillOutAudioTimeStampWithSampleTime(outATS: &mut AudioTimeStamp,
     outATS.mFlags = kAudioTimeStampSampleTimeValid;
 }
 
-pub fn FillOutAudioTimeStampWithHostTime(outATS: &mut AudioTimeStamp,
-                                         inHostTime: u64)
-{
+pub fn FillOutAudioTimeStampWithHostTime(outATS: &mut AudioTimeStamp, inHostTime: u64) {
     outATS.mSampleTime = 0.0;
     outATS.mHostTime = inHostTime;
     outATS.mRateScalar = 0.0;
@@ -362,10 +360,11 @@ pub fn FillOutAudioTimeStampWithHostTime(outATS: &mut AudioTimeStamp,
     outATS.mFlags = kAudioTimeStampHostTimeValid;
 }
 
-pub fn FillOutAudioTimeStampWithSampleAndHostTime(outATS: &mut AudioTimeStamp,
-                                                  inSampleTime: f64,
-                                                  inHostTime: u64)
-{
+pub fn FillOutAudioTimeStampWithSampleAndHostTime(
+    outATS: &mut AudioTimeStamp,
+    inSampleTime: f64,
+    inHostTime: u64,
+) {
     outATS.mSampleTime = inSampleTime;
     outATS.mHostTime = inHostTime;
     outATS.mRateScalar = 0.0;
@@ -726,13 +725,14 @@ s! {
 impl AudioChannelLayout {
     pub fn channel_descriptions(&self) -> &[AudioChannelDescription] {
         unsafe {
-            slice::from_raw_parts(&self.mChannelDescriptions as *const _,
-                                  self.mNumberChannelDescriptions as _)
+            slice::from_raw_parts(
+                &self.mChannelDescriptions as *const _,
+                self.mNumberChannelDescriptions as _,
+            )
         }
     }
 }
 
-pub fn AudioChannelLayoutTag_GetNumberOfChannels(inLayoutTag: AudioChannelLayoutTag)
-                                                 -> u32 {
+pub fn AudioChannelLayoutTag_GetNumberOfChannels(inLayoutTag: AudioChannelLayoutTag) -> u32 {
     inLayoutTag & 0x0000FFFF
 }
