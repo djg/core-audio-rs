@@ -1,8 +1,5 @@
-#![allow(non_snake_case,non_upper_case_globals)]
-#![recursion_limit="256"]
+#![allow(non_snake_case, non_upper_case_globals)]
 
-#[macro_use]
-mod macros;
 mod audio_hardware;
 mod audio_hardware_base;
 mod core_audio_types;

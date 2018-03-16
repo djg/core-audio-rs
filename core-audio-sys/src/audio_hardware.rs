@@ -1,17 +1,10 @@
 use super::*;
-use std::default::Default;
-use std::mem;
 use std::os::raw::c_void;
-use std::slice;
 
 //==============================================================================
 // Basic Constants
 
-e! {
-    enum AudioObjectID {
-        kAudioObjectSystemObject                        = 1,
-    }
-}
+pub const kAudioObjectSystemObject: AudioObjectID = 1;
 
 //==============================================================================
 // AudioObject Types
@@ -28,13 +21,9 @@ pub type AudioObjectPropertyListenerProc = Option<
 //==============================================================================
 // AudioObject Properties
 
-e! {
-    enum AudioObjectPropertySelector {
-        kAudioObjectPropertyCreator = 0x6f706c67,
-        kAudioObjectPropertyListenerAdded = 0x6c697361,
-        kAudioObjectPropertyListenerRemoved = 0x6c697372,
-    }
-}
+pub const kAudioObjectPropertyCreator: AudioObjectPropertySelector = 1869638759;
+pub const kAudioObjectPropertyListenerAdded: AudioObjectPropertySelector = 1818850145;
+pub const kAudioObjectPropertyListenerRemoved: AudioObjectPropertySelector = 1818850162;
 
 //==============================================================================
 // AudioObject Functions
@@ -90,50 +79,41 @@ extern "C" {
 //==============================================================================
 // AudioSystemObject Constants
 
-e! {
-    enum AudioClassID {
-        kAudioSystemObjectClassID = 0x61737973,
-    }
-}
+pub const kAudioSystemObjectClassID: AudioClassID = 1634957683;
 
-e! {
-    enum AudioHardwarePowerHint: u32 {
-        kAudioHardwarePowerHintNone                     = 0,
-        kAudioHardwarePowerHintFavorSavingPower         = 1,
-    }
-}
+pub type AudioHardwarePowerHint = u32;
+pub const kAudioHardwarePowerHintNone: u32 = 0;
+pub const kAudioHardwarePowerHintFavorSavingPower: u32 = 1;
 
 //==============================================================================
 // AudioSystemObject Properties
 
-e! {
-    enum AudioObjectPropertySelector {
-        kAudioHardwarePropertyDevices = 0x64657623,
-        kAudioHardwarePropertyDefaultInputDevice = 0x64496e20,
-        kAudioHardwarePropertyDefaultOutputDevice = 0x644f7574,
-        kAudioHardwarePropertyDefaultSystemOutputDevice = 0x734f7574,
-        kAudioHardwarePropertyTranslateUIDToDevice = 0x75696464,
-        kAudioHardwarePropertyMixStereoToMono = 0x73746d6f,
-        kAudioHardwarePropertyPlugInList = 0x706c6723,
-        kAudioHardwarePropertyTranslateBundleIDToPlugIn = 0x62696470,
-        kAudioHardwarePropertyTransportManagerList = 0x746d6723,
-        kAudioHardwarePropertyTranslateBundleIDToTransportManager = 0x746d6269,
-        kAudioHardwarePropertyBoxList = 0x626f7823,
-        kAudioHardwarePropertyTranslateUIDToBox = 0x75696462,
-        kAudioHardwarePropertyClockDeviceList = 0x636c6b23,
-        kAudioHardwarePropertyTranslateUIDToClockDevice = 0x75696463,
-        kAudioHardwarePropertyProcessIsMaster = 0x6d617374,
-        kAudioHardwarePropertyIsInitingOrExiting = 0x696e6f74,
-        kAudioHardwarePropertyUserIDChanged = 0x65756964,
-        kAudioHardwarePropertyProcessIsAudible = 0x706d7574,
-        kAudioHardwarePropertySleepingIsAllowed = 0x736c6570,
-        kAudioHardwarePropertyUnloadingIsAllowed = 0x756e6c64,
-        kAudioHardwarePropertyHogModeIsAllowed = 0x686f6772,
-        kAudioHardwarePropertyUserSessionIsActiveOrHeadless = 0x75736572,
-        kAudioHardwarePropertyServiceRestarted = 0x73727374,
-        kAudioHardwarePropertyPowerHint = 0x706f7768,
-    }
-}
+pub const kAudioHardwarePropertyDevices: AudioObjectPropertySelector = 1684370979;
+pub const kAudioHardwarePropertyDefaultInputDevice: AudioObjectPropertySelector = 1682533920;
+pub const kAudioHardwarePropertyDefaultOutputDevice: AudioObjectPropertySelector = 1682929012;
+pub const kAudioHardwarePropertyDefaultSystemOutputDevice: AudioObjectPropertySelector = 1934587252;
+pub const kAudioHardwarePropertyTranslateUIDToDevice: AudioObjectPropertySelector = 1969841252;
+pub const kAudioHardwarePropertyMixStereoToMono: AudioObjectPropertySelector = 1937010031;
+pub const kAudioHardwarePropertyPlugInList: AudioObjectPropertySelector = 1886152483;
+pub const kAudioHardwarePropertyTranslateBundleIDToPlugIn: AudioObjectPropertySelector = 1651074160;
+pub const kAudioHardwarePropertyTransportManagerList: AudioObjectPropertySelector = 1953326883;
+pub const kAudioHardwarePropertyTranslateBundleIDToTransportManager: AudioObjectPropertySelector =
+    1953325673;
+pub const kAudioHardwarePropertyBoxList: AudioObjectPropertySelector = 1651472419;
+pub const kAudioHardwarePropertyTranslateUIDToBox: AudioObjectPropertySelector = 1969841250;
+pub const kAudioHardwarePropertyClockDeviceList: AudioObjectPropertySelector = 1668049699;
+pub const kAudioHardwarePropertyTranslateUIDToClockDevice: AudioObjectPropertySelector = 1969841251;
+pub const kAudioHardwarePropertyProcessIsMaster: AudioObjectPropertySelector = 1835103092;
+pub const kAudioHardwarePropertyIsInitingOrExiting: AudioObjectPropertySelector = 1768845172;
+pub const kAudioHardwarePropertyUserIDChanged: AudioObjectPropertySelector = 1702193508;
+pub const kAudioHardwarePropertyProcessIsAudible: AudioObjectPropertySelector = 1886221684;
+pub const kAudioHardwarePropertySleepingIsAllowed: AudioObjectPropertySelector = 1936483696;
+pub const kAudioHardwarePropertyUnloadingIsAllowed: AudioObjectPropertySelector = 1970170980;
+pub const kAudioHardwarePropertyHogModeIsAllowed: AudioObjectPropertySelector = 1752131442;
+pub const kAudioHardwarePropertyUserSessionIsActiveOrHeadless: AudioObjectPropertySelector =
+    1970496882;
+pub const kAudioHardwarePropertyServiceRestarted: AudioObjectPropertySelector = 1936880500;
+pub const kAudioHardwarePropertyPowerHint: AudioObjectPropertySelector = 1886353256;
 
 //==============================================================================
 // AudioSystemObject Functions
@@ -150,22 +130,14 @@ extern "C" {
 //==============================================================================
 // AudioPlugIn Properties
 
-e! {
-    enum AudioObjectPropertySelector {
-        kAudioPlugInCreateAggregateDevice = 0x63616767,
-        kAudioPlugInDestroyAggregateDevice = 0x64616767,
-    }
-}
+pub const kAudioPlugInCreateAggregateDevice: AudioObjectPropertySelector = 1667327847;
+pub const kAudioPlugInDestroyAggregateDevice: AudioObjectPropertySelector = 1684105063;
 
 //==============================================================================
 // AudioTransportManager Properties
 
-e! {
-    enum AudioObjectPropertySelector {
-        kAudioTransportManagerCreateEndPointDevice = 0x63646576,
-        kAudioTransportManagerDestroyEndPointDevice = 0x64646576,
-    }
-}
+pub const kAudioTransportManagerCreateEndPointDevice: AudioObjectPropertySelector = 1667523958;
+pub const kAudioTransportManagerDestroyEndPointDevice: AudioObjectPropertySelector = 1684301174;
 
 //==============================================================================
 // AudioDevice Types
@@ -183,105 +155,93 @@ pub type AudioDeviceIOProc = Option<
 >;
 pub type AudioDeviceIOProcID = AudioDeviceIOProc;
 
-s! {
-    #[repr(packed)]
-    struct AudioHardwareIOProcStreamUsage {
-        pub mIOProc: *mut c_void,
-        pub mNumberStreams: u32,
-        pub mStreamIsOn: [u32;0],
-    }
-}
-
-impl AudioHardwareIOProcStreamUsage {
-    pub fn stream_is_on(&self) -> &[u32] {
-        unsafe { slice::from_raw_parts(&self.mStreamIsOn as *const _, self.mNumberStreams as _) }
-    }
+#[repr(C)]
+#[derive(Debug)]
+pub struct AudioHardwareIOProcStreamUsage {
+    pub mIOProc: *mut c_void,
+    pub mNumberStreams: u32,
+    pub mStreamIsOn: [u32; 1],
 }
 
 //==============================================================================
 // AudioDevice Constants
 
-e! {
-    enum u32 {
-        kAudioDeviceStartTimeIsInputFlag                = (1 << 0),
-        kAudioDeviceStartTimeDontConsultDeviceFlag      = (1 << 1),
-        kAudioDeviceStartTimeDontConsultHALFlag         = (1 << 2),
-    }
-}
+pub const kAudioDeviceStartTimeIsInputFlag: u32 = (1 << 0);
+pub const kAudioDeviceStartTimeDontConsultDeviceFlag: u32 = (1 << 1);
+pub const kAudioDeviceStartTimeDontConsultHALFlag: u32 = (1 << 2);
 
 //==============================================================================
 // AudioDevice Properties
 
-e! {
-    enum AudioObjectPropertySelector {
-        kAudioDevicePropertyPlugIn = 0x706c7567,
-        kAudioDevicePropertyDeviceHasChanged = 0x64696666,
-        kAudioDevicePropertyDeviceIsRunningSomewhere = 0x676f6e65,
-        kAudioDeviceProcessorOverload = 0x6f766572,
-        kAudioDevicePropertyIOStoppedAbnormally = 0x73747064,
-        kAudioDevicePropertyHogMode = 0x6f696e6b,
-        kAudioDevicePropertyBufferFrameSize = 0x6673697a,
-        kAudioDevicePropertyBufferFrameSizeRange = 0x66737a23,
-        kAudioDevicePropertyUsesVariableBufferFrameSizes = 0x7666737a,
-        kAudioDevicePropertyIOCycleUsage = 0x6e637963,
-        kAudioDevicePropertyStreamConfiguration = 0x736c6179,
-        kAudioDevicePropertyIOProcStreamUsage = 0x73757365,
-        kAudioDevicePropertyActualSampleRate = 0x61737274,
-        kAudioDevicePropertyClockDevice = 0x61706364,
-    }
-}
+pub const kAudioDevicePropertyPlugIn: AudioObjectPropertySelector = 1886156135;
+pub const kAudioDevicePropertyDeviceHasChanged: AudioObjectPropertySelector = 1684629094;
+pub const kAudioDevicePropertyDeviceIsRunningSomewhere: AudioObjectPropertySelector = 1735356005;
+pub const kAudioDeviceProcessorOverload: AudioObjectPropertySelector = 1870030194;
+pub const kAudioDevicePropertyIOStoppedAbnormally: AudioObjectPropertySelector = 1937010788;
+pub const kAudioDevicePropertyHogMode: AudioObjectPropertySelector = 1869180523;
+pub const kAudioDevicePropertyBufferFrameSize: AudioObjectPropertySelector = 1718839674;
+pub const kAudioDevicePropertyBufferFrameSizeRange: AudioObjectPropertySelector = 1718843939;
+pub const kAudioDevicePropertyUsesVariableBufferFrameSizes: AudioObjectPropertySelector =
+    1986425722;
+pub const kAudioDevicePropertyIOCycleUsage: AudioObjectPropertySelector = 1852012899;
+pub const kAudioDevicePropertyStreamConfiguration: AudioObjectPropertySelector = 1936482681;
+pub const kAudioDevicePropertyIOProcStreamUsage: AudioObjectPropertySelector = 1937077093;
+pub const kAudioDevicePropertyActualSampleRate: AudioObjectPropertySelector = 1634955892;
+pub const kAudioDevicePropertyClockDevice: AudioObjectPropertySelector = 1634755428;
 
-e! {
-    enum AudioObjectPropertySelector {
-        kAudioDevicePropertyJackIsConnected = 0x6a61636b,
-        kAudioDevicePropertyVolumeScalar = 0x766f6c6d,
-        kAudioDevicePropertyVolumeDecibels = 0x766f6c64,
-        kAudioDevicePropertyVolumeRangeDecibels = 0x76646223,
-        kAudioDevicePropertyVolumeScalarToDecibels = 0x76326462,
-        kAudioDevicePropertyVolumeDecibelsToScalar = 0x64623276,
-        kAudioDevicePropertyStereoPan = 0x7370616e,
-        kAudioDevicePropertyStereoPanChannels = 0x73706e23,
-        kAudioDevicePropertyMute = 0x6d757465,
-        kAudioDevicePropertySolo = 0x736f6c6f,
-        kAudioDevicePropertyPhantomPower = 0x7068616e,
-        kAudioDevicePropertyPhaseInvert = 0x70687369,
-        kAudioDevicePropertyClipLight = 0x636c6970,
-        kAudioDevicePropertyTalkback = 0x74616c62,
-        kAudioDevicePropertyListenback = 0x6c736e62,
-        kAudioDevicePropertyDataSource = 0x73737263,
-        kAudioDevicePropertyDataSources = 0x73736323,
-        kAudioDevicePropertyDataSourceNameForIDCFString = 0x6c73636e,
-        kAudioDevicePropertyDataSourceKindForID = 0x7373636b,
-        kAudioDevicePropertyClockSource = 0x63737263,
-        kAudioDevicePropertyClockSources = 0x63736323,
-        kAudioDevicePropertyClockSourceNameForIDCFString = 0x6c63736e,
-        kAudioDevicePropertyClockSourceKindForID = 0x6373636b,
-        kAudioDevicePropertyPlayThru = 0x74687275,
-        kAudioDevicePropertyPlayThruSolo = 0x74687273,
-        kAudioDevicePropertyPlayThruVolumeScalar = 0x6d767363,
-        kAudioDevicePropertyPlayThruVolumeDecibels = 0x6d766462,
-        kAudioDevicePropertyPlayThruVolumeRangeDecibels = 0x6d766423,
-        kAudioDevicePropertyPlayThruVolumeScalarToDecibels = 0x6d763264,
-        kAudioDevicePropertyPlayThruVolumeDecibelsToScalar = 0x6d763273,
-        kAudioDevicePropertyPlayThruStereoPan = 0x6d73706e,
-        kAudioDevicePropertyPlayThruStereoPanChannels = 0x6d737023,
-        kAudioDevicePropertyPlayThruDestination = 0x6d646473,
-        kAudioDevicePropertyPlayThruDestinations = 0x6d646423,
-        kAudioDevicePropertyPlayThruDestinationNameForIDCFString = 0x6d646463,
-        kAudioDevicePropertyChannelNominalLineLevel = 0x6e6c766c,
-        kAudioDevicePropertyChannelNominalLineLevels = 0x6e6c7623,
-        kAudioDevicePropertyChannelNominalLineLevelNameForIDCFString = 0x6c636e6c,
-        kAudioDevicePropertyHighPassFilterSetting = 0x68697066,
-        kAudioDevicePropertyHighPassFilterSettings = 0x68697023,
-        kAudioDevicePropertyHighPassFilterSettingNameForIDCFString = 0x6869706c,
-        kAudioDevicePropertySubVolumeScalar = 0x73766c6d,
-        kAudioDevicePropertySubVolumeDecibels = 0x73766c64,
-        kAudioDevicePropertySubVolumeRangeDecibels = 0x73766423,
-        kAudioDevicePropertySubVolumeScalarToDecibels = 0x73763264,
-        kAudioDevicePropertySubVolumeDecibelsToScalar = 0x73643276,
-        kAudioDevicePropertySubMute = 0x736d7574,
-    }
-}
+pub const kAudioDevicePropertyJackIsConnected: AudioObjectPropertySelector = 1784767339;
+pub const kAudioDevicePropertyVolumeScalar: AudioObjectPropertySelector = 1987013741;
+pub const kAudioDevicePropertyVolumeDecibels: AudioObjectPropertySelector = 1987013732;
+pub const kAudioDevicePropertyVolumeRangeDecibels: AudioObjectPropertySelector = 1986290211;
+pub const kAudioDevicePropertyVolumeScalarToDecibels: AudioObjectPropertySelector = 1983013986;
+pub const kAudioDevicePropertyVolumeDecibelsToScalar: AudioObjectPropertySelector = 1684157046;
+pub const kAudioDevicePropertyStereoPan: AudioObjectPropertySelector = 1936744814;
+pub const kAudioDevicePropertyStereoPanChannels: AudioObjectPropertySelector = 1936748067;
+pub const kAudioDevicePropertyMute: AudioObjectPropertySelector = 1836414053;
+pub const kAudioDevicePropertySolo: AudioObjectPropertySelector = 1936682095;
+pub const kAudioDevicePropertyPhantomPower: AudioObjectPropertySelector = 1885888878;
+pub const kAudioDevicePropertyPhaseInvert: AudioObjectPropertySelector = 1885893481;
+pub const kAudioDevicePropertyClipLight: AudioObjectPropertySelector = 1668049264;
+pub const kAudioDevicePropertyTalkback: AudioObjectPropertySelector = 1952541794;
+pub const kAudioDevicePropertyListenback: AudioObjectPropertySelector = 1819504226;
+pub const kAudioDevicePropertyDataSource: AudioObjectPropertySelector = 1936945763;
+pub const kAudioDevicePropertyDataSources: AudioObjectPropertySelector = 1936941859;
+pub const kAudioDevicePropertyDataSourceNameForIDCFString: AudioObjectPropertySelector = 1819501422;
+pub const kAudioDevicePropertyDataSourceKindForID: AudioObjectPropertySelector = 1936941931;
+pub const kAudioDevicePropertyClockSource: AudioObjectPropertySelector = 1668510307;
+pub const kAudioDevicePropertyClockSources: AudioObjectPropertySelector = 1668506403;
+pub const kAudioDevicePropertyClockSourceNameForIDCFString: AudioObjectPropertySelector =
+    1818456942;
+pub const kAudioDevicePropertyClockSourceKindForID: AudioObjectPropertySelector = 1668506475;
+pub const kAudioDevicePropertyPlayThru: AudioObjectPropertySelector = 1953002101;
+pub const kAudioDevicePropertyPlayThruSolo: AudioObjectPropertySelector = 1953002099;
+pub const kAudioDevicePropertyPlayThruVolumeScalar: AudioObjectPropertySelector = 1836479331;
+pub const kAudioDevicePropertyPlayThruVolumeDecibels: AudioObjectPropertySelector = 1836475490;
+pub const kAudioDevicePropertyPlayThruVolumeRangeDecibels: AudioObjectPropertySelector = 1836475427;
+pub const kAudioDevicePropertyPlayThruVolumeScalarToDecibels: AudioObjectPropertySelector =
+    1836462692;
+pub const kAudioDevicePropertyPlayThruVolumeDecibelsToScalar: AudioObjectPropertySelector =
+    1836462707;
+pub const kAudioDevicePropertyPlayThruStereoPan: AudioObjectPropertySelector = 1836281966;
+pub const kAudioDevicePropertyPlayThruStereoPanChannels: AudioObjectPropertySelector = 1836281891;
+pub const kAudioDevicePropertyPlayThruDestination: AudioObjectPropertySelector = 1835295859;
+pub const kAudioDevicePropertyPlayThruDestinations: AudioObjectPropertySelector = 1835295779;
+pub const kAudioDevicePropertyPlayThruDestinationNameForIDCFString: AudioObjectPropertySelector =
+    1835295843;
+pub const kAudioDevicePropertyChannelNominalLineLevel: AudioObjectPropertySelector = 1852601964;
+pub const kAudioDevicePropertyChannelNominalLineLevels: AudioObjectPropertySelector = 1852601891;
+pub const kAudioDevicePropertyChannelNominalLineLevelNameForIDCFString:
+        AudioObjectPropertySelector = 1818455660;
+pub const kAudioDevicePropertyHighPassFilterSetting: AudioObjectPropertySelector = 1751740518;
+pub const kAudioDevicePropertyHighPassFilterSettings: AudioObjectPropertySelector = 1751740451;
+pub const kAudioDevicePropertyHighPassFilterSettingNameForIDCFString: AudioObjectPropertySelector =
+    1751740524;
+pub const kAudioDevicePropertySubVolumeScalar: AudioObjectPropertySelector = 1937140845;
+pub const kAudioDevicePropertySubVolumeDecibels: AudioObjectPropertySelector = 1937140836;
+pub const kAudioDevicePropertySubVolumeRangeDecibels: AudioObjectPropertySelector = 1937138723;
+pub const kAudioDevicePropertySubVolumeScalarToDecibels: AudioObjectPropertySelector = 1937125988;
+pub const kAudioDevicePropertySubVolumeDecibelsToScalar: AudioObjectPropertySelector = 1935946358;
+pub const kAudioDevicePropertySubMute: AudioObjectPropertySelector = 1936553332;
 
 //==============================================================================
 // AudioDevice Functions
@@ -324,72 +284,49 @@ extern "C" {
 //==============================================================================
 // AudioAggregateDevice Constants
 
-e! {
-    enum AudioClassID {
-        kAudioAggregateDeviceClassID = 0x61616767,
-    }
-}
+pub const kAudioAggregateDeviceClassID: AudioClassID = 1633773415;
 
-cs! {
-    kAudioAggregateDeviceUIDKey                         = "uid";
-    kAudioAggregateDeviceNameKey                        = "name";
-    kAudioAggregateDeviceSubDeviceListKey               = "subdevices";
-    kAudioAggregateDeviceMasterSubDeviceKey             = "master";
-    kAudioAggregateDeviceClockDeviceKey                 = "clock";
-    kAudioAggregateDeviceIsPrivateKey                   = "private";
-    kAudioAggregateDeviceIsStackedKey                   = "stacked";
-}
+pub const kAudioAggregateDeviceUIDKey: &'static str = "uid";
+pub const kAudioAggregateDeviceNameKey: &'static str = "name";
+pub const kAudioAggregateDeviceSubDeviceListKey: &'static str = "subdevices";
+pub const kAudioAggregateDeviceMasterSubDeviceKey: &'static str = "master";
+pub const kAudioAggregateDeviceClockDeviceKey: &'static str = "clock";
+pub const kAudioAggregateDeviceIsPrivateKey: &'static str = "private";
+pub const kAudioAggregateDeviceIsStackedKey: &'static str = "stacked";
 
 //==============================================================================
 // AudioAggregateDevice Properties
 
-e! {
-    enum AudioObjectPropertySelector {
-        kAudioAggregateDevicePropertyFullSubDeviceList = 0x67727570,
-        kAudioAggregateDevicePropertyActiveSubDeviceList = 0x61677270,
-        kAudioAggregateDevicePropertyComposition = 0x61636f6d,
-        kAudioAggregateDevicePropertyMasterSubDevice = 0x616d7374,
-        kAudioAggregateDevicePropertyClockDevice = 0x61706364,
-    }
-}
+pub const kAudioAggregateDevicePropertyFullSubDeviceList: AudioObjectPropertySelector = 1735554416;
+pub const kAudioAggregateDevicePropertyActiveSubDeviceList: AudioObjectPropertySelector =
+    1634169456;
+pub const kAudioAggregateDevicePropertyComposition: AudioObjectPropertySelector = 1633906541;
+pub const kAudioAggregateDevicePropertyMasterSubDevice: AudioObjectPropertySelector = 1634562932;
+pub const kAudioAggregateDevicePropertyClockDevice: AudioObjectPropertySelector = 1634755428;
 
 //==============================================================================
 // AudioSubDevice Constants
 
-e! {
-    enum AudioClassID {
-        kAudioSubDeviceClassID = 0x61737562,
-    }
-}
+pub const kAudioSubDeviceClassID: AudioClassID = 1634956642;
 
-e! {
-    enum u32 {
-        kAudioSubDeviceDriftCompensationMinQuality      = 0,
-        kAudioSubDeviceDriftCompensationLowQuality      = 0x20,
-        kAudioSubDeviceDriftCompensationMediumQuality   = 0x40,
-        kAudioSubDeviceDriftCompensationHighQuality     = 0x60,
-        kAudioSubDeviceDriftCompensationMaxQuality      = 0x7F,
-    }
-}
+pub const kAudioSubDeviceDriftCompensationMinQuality: u32 = 0;
+pub const kAudioSubDeviceDriftCompensationLowQuality: u32 = 32;
+pub const kAudioSubDeviceDriftCompensationMediumQuality: u32 = 64;
+pub const kAudioSubDeviceDriftCompensationHighQuality: u32 = 96;
+pub const kAudioSubDeviceDriftCompensationMaxQuality: u32 = 127;
 
-cs! {
-    kAudioSubDeviceUIDKey                               = "uid";
-    kAudioSubDeviceNameKey                              = "name";
-    kAudioSubDeviceInputChannelsKey                     = "channels-in";
-    kAudioSubDeviceOutputChannelsKey                    = "channels-out";
-    kAudioSubDeviceExtraInputLatencyKey                 = "latency-in";
-    kAudioSubDeviceExtraOutputLatencyKey                = "latency-out";
-    kAudioSubDeviceDriftCompensationKey                 = "drift";
-    kAudioSubDeviceDriftCompensationQualityKey          = "drift quality";
-}
+pub const kAudioSubDeviceUIDKey: &'static str = "uid";
+pub const kAudioSubDeviceNameKey: &'static str = "name";
+pub const kAudioSubDeviceInputChannelsKey: &'static str = "channels-in";
+pub const kAudioSubDeviceOutputChannelsKey: &'static str = "channels-out";
+pub const kAudioSubDeviceExtraInputLatencyKey: &'static str = "latency-in";
+pub const kAudioSubDeviceExtraOutputLatencyKey: &'static str = "latency-out";
+pub const kAudioSubDeviceDriftCompensationKey: &'static str = "drift";
+pub const kAudioSubDeviceDriftCompensationQualityKey: &'static str = "drift quality";
 
 //==============================================================================
 // AudioSubDevice Properties
 
-e! {
-    enum AudioObjectPropertySelector {
-        kAudioSubDevicePropertyExtraLatency = 0x786c7463,
-        kAudioSubDevicePropertyDriftCompensation = 0x64726674,
-        kAudioSubDevicePropertyDriftCompensationQuality = 0x64726671,
-    }
-}
+pub const kAudioSubDevicePropertyExtraLatency: AudioObjectPropertySelector = 2020373603;
+pub const kAudioSubDevicePropertyDriftCompensation: AudioObjectPropertySelector = 1685218932;
+pub const kAudioSubDevicePropertyDriftCompensationQuality: AudioObjectPropertySelector = 1685218929;

@@ -1,10 +1,11 @@
 [package]
 name = "core-audio-sys"
 description = "Native bindings to Core Audio for OS X"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["Dan Glastonbury <dan.glastonbury@gmail.com>"]
 license = "MIT / Apache-2.0"
 build = "build.rs"
 
 [features]
+deprecated = []
 prefer-fixed-point = []
