@@ -1,0 +1,2 @@
+[workspace]
+members = ["core-audio", "core-audio-sys", "systest"]
