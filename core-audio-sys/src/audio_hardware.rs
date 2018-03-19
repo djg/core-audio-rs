@@ -166,7 +166,7 @@ pub struct AudioHardwareIOProcStreamUsage {
 //==============================================================================
 // AudioDevice Constants
 
-pub const kAudioDeviceStartTimeIsInputFlag: u32 = (1 << 0);
+pub const kAudioDeviceStartTimeIsInputFlag: u32 = 1;
 pub const kAudioDeviceStartTimeDontConsultDeviceFlag: u32 = (1 << 1);
 pub const kAudioDeviceStartTimeDontConsultHALFlag: u32 = (1 << 2);
 
@@ -286,13 +286,13 @@ extern "C" {
 
 pub const kAudioAggregateDeviceClassID: AudioClassID = 1633773415;
 
-pub const kAudioAggregateDeviceUIDKey: &'static str = "uid";
-pub const kAudioAggregateDeviceNameKey: &'static str = "name";
-pub const kAudioAggregateDeviceSubDeviceListKey: &'static str = "subdevices";
-pub const kAudioAggregateDeviceMasterSubDeviceKey: &'static str = "master";
-pub const kAudioAggregateDeviceClockDeviceKey: &'static str = "clock";
-pub const kAudioAggregateDeviceIsPrivateKey: &'static str = "private";
-pub const kAudioAggregateDeviceIsStackedKey: &'static str = "stacked";
+pub const kAudioAggregateDeviceUIDKey: &str = "uid";
+pub const kAudioAggregateDeviceNameKey: &str = "name";
+pub const kAudioAggregateDeviceSubDeviceListKey: &str = "subdevices";
+pub const kAudioAggregateDeviceMasterSubDeviceKey: &str = "master";
+pub const kAudioAggregateDeviceClockDeviceKey: &str = "clock";
+pub const kAudioAggregateDeviceIsPrivateKey: &str = "private";
+pub const kAudioAggregateDeviceIsStackedKey: &str = "stacked";
 
 //==============================================================================
 // AudioAggregateDevice Properties
@@ -315,14 +315,14 @@ pub const kAudioSubDeviceDriftCompensationMediumQuality: u32 = 64;
 pub const kAudioSubDeviceDriftCompensationHighQuality: u32 = 96;
 pub const kAudioSubDeviceDriftCompensationMaxQuality: u32 = 127;
 
-pub const kAudioSubDeviceUIDKey: &'static str = "uid";
-pub const kAudioSubDeviceNameKey: &'static str = "name";
-pub const kAudioSubDeviceInputChannelsKey: &'static str = "channels-in";
-pub const kAudioSubDeviceOutputChannelsKey: &'static str = "channels-out";
-pub const kAudioSubDeviceExtraInputLatencyKey: &'static str = "latency-in";
-pub const kAudioSubDeviceExtraOutputLatencyKey: &'static str = "latency-out";
-pub const kAudioSubDeviceDriftCompensationKey: &'static str = "drift";
-pub const kAudioSubDeviceDriftCompensationQualityKey: &'static str = "drift quality";
+pub const kAudioSubDeviceUIDKey: &str = "uid";
+pub const kAudioSubDeviceNameKey: &str = "name";
+pub const kAudioSubDeviceInputChannelsKey: &str = "channels-in";
+pub const kAudioSubDeviceOutputChannelsKey: &str = "channels-out";
+pub const kAudioSubDeviceExtraInputLatencyKey: &str = "latency-in";
+pub const kAudioSubDeviceExtraOutputLatencyKey: &str = "latency-out";
+pub const kAudioSubDeviceDriftCompensationKey: &str = "drift";
+pub const kAudioSubDeviceDriftCompensationQualityKey: &str = "drift quality";
 
 //==============================================================================
 // AudioSubDevice Properties

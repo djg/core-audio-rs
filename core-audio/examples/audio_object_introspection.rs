@@ -192,18 +192,18 @@ where
     };
 
     println!("\n\n{} {:?} Global Properties...", desc, dev);
-    introspect(&dev, ffi::kAudioObjectPropertyScopeGlobal);
+    introspect(dev, ffi::kAudioObjectPropertyScopeGlobal);
     println!("\n{} {:?} Input Properties...", desc, dev);
-    introspect(&dev, ffi::kAudioObjectPropertyScopeInput);
+    introspect(dev, ffi::kAudioObjectPropertyScopeInput);
     println!("\n{} {:?} Output Properties...", desc, dev);
-    introspect(&dev, ffi::kAudioObjectPropertyScopeOutput);
+    introspect(dev, ffi::kAudioObjectPropertyScopeOutput);
     println!("\n{} {:?} Play Through Properties...", desc, dev);
-    introspect(&dev, ffi::kAudioObjectPropertyScopePlayThrough);
+    introspect(dev, ffi::kAudioObjectPropertyScopePlayThrough);
 
     println!("\n\nDefault Output {:?} Owned Objects...", dev);
     for obj in audio_object_iter(&dev.owned_objects().unwrap()) {
         println!("Object {:?} Global Properties...", obj);
-        introspect(&obj, ffi::kAudioObjectPropertyScopeGlobal);
+        introspect(obj, ffi::kAudioObjectPropertyScopeGlobal);
         // println!("\nObject {:?} Input Properties...", obj);
         // introspect(&obj, ffi::kAudioObjectPropertyScopeInput);
         // println!("\nObject {:?} Output Properties...", obj);

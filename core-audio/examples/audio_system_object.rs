@@ -41,6 +41,7 @@ fn main() {
     print("is_active_or_headless", aso.is_active_or_headless());
     print("power_hint", aso.power_hint());
 
-    aso.set_sleeping_is_allowed(true);
-    print("sleeping_is_allowed", aso.sleeping_is_allowed());
+    if aso.set_sleeping_is_allowed(true).is_ok() {
+        print("sleeping_is_allowed", aso.sleeping_is_allowed());
+    };
 }

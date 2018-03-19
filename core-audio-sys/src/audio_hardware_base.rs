@@ -183,11 +183,11 @@ pub const kAudioClockDevicePropertyAvailableNominalSampleRates: AudioObjectPrope
 
 pub const kAudioEndPointDeviceClassID: AudioClassID = 1701078390;
 
-pub const kAudioEndPointDeviceUIDKey: &'static str = "uid";
-pub const kAudioEndPointDeviceNameKey: &'static str = "name";
-pub const kAudioEndPointDeviceEndPointListKey: &'static str = "endpoints";
-pub const kAudioEndPointDeviceMasterEndPointKey: &'static str = "master";
-pub const kAudioEndPointDeviceIsPrivateKey: &'static str = "private";
+pub const kAudioEndPointDeviceUIDKey: &str = "uid";
+pub const kAudioEndPointDeviceNameKey: &str = "name";
+pub const kAudioEndPointDeviceEndPointListKey: &str = "endpoints";
+pub const kAudioEndPointDeviceMasterEndPointKey: &str = "master";
+pub const kAudioEndPointDeviceIsPrivateKey: &str = "private";
 
 //==============================================================================
 // AudioEndPointDevice Properties
@@ -201,10 +201,10 @@ pub const kAudioEndPointDevicePropertyIsPrivate: AudioObjectPropertySelector = 1
 
 pub const kAudioEndPointClassID: AudioClassID = 1701733488;
 
-pub const kAudioEndPointUIDKey: &'static str = "uid";
-pub const kAudioEndPointNameKey: &'static str = "name";
-pub const kAudioEndPointInputChannelsKey: &'static str = "channels-in";
-pub const kAudioEndPointOutputChannelsKey: &'static str = "channels-out";
+pub const kAudioEndPointUIDKey: &str = "uid";
+pub const kAudioEndPointNameKey: &str = "name";
+pub const kAudioEndPointInputChannelsKey: &str = "channels-in";
+pub const kAudioEndPointOutputChannelsKey: &str = "channels-out";
 
 //==============================================================================
 // AudioStream Types

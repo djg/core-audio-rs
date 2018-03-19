@@ -132,7 +132,7 @@ pub const kAudioFormatEnhancedAC3: AudioFormatID = 1700998451;
 pub const kAudioFormatFLAC: AudioFormatID = 1718378851;
 pub const kAudioFormatOpus: AudioFormatID = 1869641075;
 
-pub const kAudioFormatFlagIsFloat: AudioFormatFlags = (1 << 0);
+pub const kAudioFormatFlagIsFloat: AudioFormatFlags = 1;
 pub const kAudioFormatFlagIsBigEndian: AudioFormatFlags = (1 << 1);
 pub const kAudioFormatFlagIsSignedInteger: AudioFormatFlags = (1 << 2);
 pub const kAudioFormatFlagIsPacked: AudioFormatFlags = (1 << 3);
@@ -210,8 +210,8 @@ pub const kSMPTETimeType2398: u32 = 11;
 
 pub type SMPTETimeFlags = u32;
 pub const kSMPTETimeUnknown: u32 = 0;
-pub const kSMPTETimeValid: u32 = (1 << 0);
-pub const kSMPTETimeRunning: u32 = (1 << 1);
+pub const kSMPTETimeValid: u32 = 1;
+pub const kSMPTETimeRunning: u32 = 2;
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
@@ -229,7 +229,7 @@ pub struct SMPTETime {
 
 pub type AudioTimeStampFlags = u32;
 pub const kAudioTimeStampNothingValid: u32 = 0;
-pub const kAudioTimeStampSampleTimeValid: u32 = (1 << 0);
+pub const kAudioTimeStampSampleTimeValid: u32 = 1;
 pub const kAudioTimeStampHostTimeValid: u32 = (1 << 1);
 pub const kAudioTimeStampRateScalarValid: u32 = (1 << 2);
 pub const kAudioTimeStampWordClockTimeValid: u32 = (1 << 3);
@@ -238,7 +238,7 @@ pub const kAudioTimeStampSampleHostTimeValid: u32 =
     (kAudioTimeStampSampleTimeValid | kAudioTimeStampHostTimeValid);
 
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct AudioTimeStamp {
     pub mSampleTime: c_double,
     pub mHostTime: u64,
@@ -317,7 +317,7 @@ pub const kAudioChannelLabel_HeadphonesRight: AudioChannelLabel = 302;
 pub const kAudioChannelLabel_ClickTrack: AudioChannelLabel = 304;
 pub const kAudioChannelLabel_ForeignLanguage: AudioChannelLabel = 305;
 pub const kAudioChannelLabel_Discrete: AudioChannelLabel = 400;
-pub const kAudioChannelLabel_Discrete_0: AudioChannelLabel = (1 << 16) | 0;
+pub const kAudioChannelLabel_Discrete_0: AudioChannelLabel = (1 << 16);
 pub const kAudioChannelLabel_Discrete_1: AudioChannelLabel = (1 << 16) | 1;
 pub const kAudioChannelLabel_Discrete_2: AudioChannelLabel = (1 << 16) | 2;
 pub const kAudioChannelLabel_Discrete_3: AudioChannelLabel = (1 << 16) | 3;
@@ -335,7 +335,7 @@ pub const kAudioChannelLabel_Discrete_14: AudioChannelLabel = (1 << 16) | 14;
 pub const kAudioChannelLabel_Discrete_15: AudioChannelLabel = (1 << 16) | 15;
 pub const kAudioChannelLabel_Discrete_65535: AudioChannelLabel = (1 << 16) | 65535;
 pub const kAudioChannelLabel_HOA_ACN: AudioChannelLabel = 500;
-pub const kAudioChannelLabel_HOA_ACN_0: AudioChannelLabel = (2 << 16) | 0;
+pub const kAudioChannelLabel_HOA_ACN_0: AudioChannelLabel = (2 << 16);
 pub const kAudioChannelLabel_HOA_ACN_1: AudioChannelLabel = (2 << 16) | 1;
 pub const kAudioChannelLabel_HOA_ACN_2: AudioChannelLabel = (2 << 16) | 2;
 pub const kAudioChannelLabel_HOA_ACN_3: AudioChannelLabel = (2 << 16) | 3;
@@ -354,7 +354,7 @@ pub const kAudioChannelLabel_HOA_ACN_15: AudioChannelLabel = (2 << 16) | 15;
 pub const kAudioChannelLabel_HOA_ACN_65024: AudioChannelLabel = (2 << 16) | 65024;
 
 pub type AudioChannelBitmap = u32;
-pub const kAudioChannelBit_Left: u32 = (1 << 0);
+pub const kAudioChannelBit_Left: u32 = 1;
 pub const kAudioChannelBit_Right: u32 = (1 << 1);
 pub const kAudioChannelBit_Center: u32 = (1 << 2);
 pub const kAudioChannelBit_LFEScreen: u32 = (1 << 3);
@@ -375,8 +375,8 @@ pub const kAudioChannelBit_TopBackRight: u32 = (1 << 17);
 
 pub type AudioChannelFlags = u32;
 pub const kAudioChannelFlags_AllOff: u32 = 0;
-pub const kAudioChannelFlags_RectangularCoordinates: u32 = (1 << 0);
-pub const kAudioChannelFlags_SphericalCoordinates: u32 = (1 << 1);
+pub const kAudioChannelFlags_RectangularCoordinates: u32 = 1;
+pub const kAudioChannelFlags_SphericalCoordinates: u32 = 1;
 pub const kAudioChannelFlags_Meters: u32 = (1 << 2);
 
 pub type AudioChannelCoordinateIndex = u32;
@@ -389,8 +389,8 @@ pub const kAudioChannelCoordinates_Distance: u32 = 2;
 
 pub type AudioChannelLayoutTag = u32;
 
-pub const kAudioChannelLayoutTag_UseChannelDescriptions: AudioChannelLayoutTag = (0 << 16) | 0;
-pub const kAudioChannelLayoutTag_UseChannelBitmap: AudioChannelLayoutTag = (1 << 16) | 0;
+pub const kAudioChannelLayoutTag_UseChannelDescriptions: AudioChannelLayoutTag = 0;
+pub const kAudioChannelLayoutTag_UseChannelBitmap: AudioChannelLayoutTag = (1 << 16);
 pub const kAudioChannelLayoutTag_Mono: AudioChannelLayoutTag = (100 << 16) | 1;
 pub const kAudioChannelLayoutTag_Stereo: AudioChannelLayoutTag = (101 << 16) | 2;
 pub const kAudioChannelLayoutTag_StereoHeadphones: AudioChannelLayoutTag = (102 << 16) | 2;
@@ -526,9 +526,9 @@ pub const kAudioChannelLayoutTag_DTS_8_0_B: AudioChannelLayoutTag = (179 << 16) 
 pub const kAudioChannelLayoutTag_DTS_8_1_A: AudioChannelLayoutTag = (180 << 16) | 9;
 pub const kAudioChannelLayoutTag_DTS_8_1_B: AudioChannelLayoutTag = (181 << 16) | 9;
 pub const kAudioChannelLayoutTag_DTS_6_1_D: AudioChannelLayoutTag = (182 << 16) | 7;
-pub const kAudioChannelLayoutTag_HOA_ACN_SN3D: AudioChannelLayoutTag = (190 << 16) | 0;
-pub const kAudioChannelLayoutTag_HOA_ACN_N3D: AudioChannelLayoutTag = (191 << 16) | 0;
-pub const kAudioChannelLayoutTag_DiscreteInOrder: AudioChannelLayoutTag = (147 << 16) | 0;
+pub const kAudioChannelLayoutTag_HOA_ACN_SN3D: AudioChannelLayoutTag = (190 << 16);
+pub const kAudioChannelLayoutTag_HOA_ACN_N3D: AudioChannelLayoutTag = (191 << 16);
+pub const kAudioChannelLayoutTag_DiscreteInOrder: AudioChannelLayoutTag = (147 << 16);
 pub const kAudioChannelLayoutTag_Unknown: AudioChannelLayoutTag = 4294901760;
 
 #[repr(C)]

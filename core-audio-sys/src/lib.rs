@@ -1,4 +1,5 @@
 #![allow(non_snake_case, non_upper_case_globals)]
+#![cfg_attr(feature = "cargo-clippy", allow(unreadable_literal))]
 
 mod audio_hardware;
 mod audio_hardware_base;
