@@ -4,7 +4,6 @@ use core_foundation::array::CFArray;
 use core_foundation::dictionary::CFDictionary;
 use core_foundation::string::CFString;
 use ffi;
-use foreign_types::ForeignType;
 use libc::pid_t;
 use std::{fmt, iter, mem, ops, ptr, slice};
 use std::os::raw::c_void;
@@ -46,18 +45,6 @@ macro_rules! audio_object {
         impl ClassID for $name {
             const CLASS_ID: AudioClassID = AudioClassID(ffi::$class);
         }
-
-        // impl Binding for $name {
-        //     type Ffi = ffi::AudioObjectID;
-
-        //     fn as_ffi(&self) -> Self::Ffi {
-        //         self.0
-        //     }
-
-        //     unsafe fn from_ffi(ffi: Self::Ffi) -> Self {
-        //         $name(ffi)
-        //     }
-        // }
 
         impl fmt::Debug for $name {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -1126,14 +1113,15 @@ audio_object! {
 audio_object_is_a!(AudioSubDevice, AudioDevice);
 
 impl AudioSubDevice {
-    pub const UID_KEY: &'static str = "uid";
-    pub const NAME_KEY: &'static str = "name";
-    pub const INPUT_CHANNELS_KEY: &'static str = "channels-in";
-    pub const OUTPUT_CHANNELS_KEY: &'static str = "channels-out";
-    pub const EXTRA_INPUT_LATENCY_KEY: &'static str = "latency-in";
-    pub const EXTRA_OUTPUT_LATENCY_KEY: &'static str = "latency-out";
-    pub const DRIFT_COMPENSATION_KEY: &'static str = "drift";
-    pub const DRIFT_COMPENSATION_QUALITY_KEY: &'static str = "drift quality";
+    pub const UID_KEY: &'static str = ffi::kAudioSubDeviceUIDKey;
+    pub const NAME_KEY: &'static str = ffi::kAudioSubDeviceNameKey;
+    pub const INPUT_CHANNELS_KEY: &'static str = ffi::kAudioSubDeviceInputChannelsKey;
+    pub const OUTPUT_CHANNELS_KEY: &'static str = ffi::kAudioSubDeviceOutputChannelsKey;
+    pub const EXTRA_INPUT_LATENCY_KEY: &'static str = ffi::kAudioSubDeviceExtraInputLatencyKey;
+    pub const EXTRA_OUTPUT_LATENCY_KEY: &'static str = ffi::kAudioSubDeviceExtraOutputLatencyKey;
+    pub const DRIFT_COMPENSATION_KEY: &'static str = ffi::kAudioSubDeviceDriftCompensationKey;
+    pub const DRIFT_COMPENSATION_QUALITY_KEY: &'static str =
+        ffi::kAudioSubDeviceDriftCompensationQualityKey;
 
     getters! {
         extra_latency => kAudioSubDevicePropertyExtraLatency -> f64;

@@ -1,6 +1,5 @@
 use audio_channel_layout::AudioChannelLayoutRef;
 use ffi;
-use foreign_types::*;
 use std::{fmt, mem, ops, slice};
 
 //==============================================================================
@@ -109,7 +108,9 @@ bitflags! {
         const IS_NON_MIXABLE       = ffi::kAudioFormatFlagIsNonMixable;
         const ARE_ALL_CLEAR        = ffi::kAudioFormatFlagsAreAllClear;
         const NATIVE_ENDIAN        = ffi::kAudioFormatFlagsNativeEndian;
+        #[cfg(feature = "deprecated")]
         const CANONICAL            = ffi::kAudioFormatFlagsCanonical;
+        #[cfg(feature = "deprecated")]
         const AUDIO_UNIT_CANONICAL = ffi::kAudioFormatFlagsAudioUnitCanonical;
     }
 }
@@ -185,13 +186,13 @@ impl AudioStreamBasicDescription {
         } * (total_bits_per_channel / 8);
 
         AudioStreamBasicDescription {
-            sample_rate: sample_rate,
+            sample_rate,
             format_id: AudioFormat::LINEAR_PCM,
             format_flags: flags,
-            bytes_per_packet: bytes_per_packet,
+            bytes_per_packet,
             frames_per_packet: 1,
-            bytes_per_frame: bytes_per_frame,
-            channels_per_frame: channels_per_frame,
+            bytes_per_frame,
+            channels_per_frame,
             bits_per_channel: valid_bits_per_channel,
             _reserved: 0,
         }
@@ -849,65 +850,73 @@ ffi_type_stack! {
 
 impl AudioTimeStamp {
     pub fn with_sample_time(sample_time: f64) -> AudioTimeStamp {
-        let mut result: AudioTimeStamp = unsafe { mem::uninitialized() };
-        ffi::FillOutAudioTimeStampWithSampleTime(&mut result.0, sample_time);
-        result
+        AudioTimeStamp(ffi::AudioTimeStamp {
+            mSampleTime: sample_time,
+            mFlags: ffi::kAudioTimeStampSampleTimeValid,
+            ..ffi::AudioTimeStamp::default()
+        })
     }
 
     pub fn with_host_time(host_time: u64) -> AudioTimeStamp {
-        let mut result: AudioTimeStamp = unsafe { mem::uninitialized() };
-        ffi::FillOutAudioTimeStampWithHostTime(&mut result.0, host_time);
-        result
+        AudioTimeStamp(ffi::AudioTimeStamp {
+            mHostTime: host_time,
+            mFlags: ffi::kAudioTimeStampHostTimeValid,
+            ..ffi::AudioTimeStamp::default()
+        })
     }
 
     pub fn with_sample_and_host_time(sample_time: f64, host_time: u64) -> AudioTimeStamp {
-        let mut result: AudioTimeStamp = unsafe { mem::uninitialized() };
-        ffi::FillOutAudioTimeStampWithSampleAndHostTime(&mut result.0, sample_time, host_time);
-        result
+        AudioTimeStamp(ffi::AudioTimeStamp {
+            mSampleTime: sample_time,
+            mHostTime: host_time,
+            mFlags: ffi::kAudioTimeStampSampleTimeValid | ffi::kAudioTimeStampHostTimeValid,
+            ..ffi::AudioTimeStamp::default()
+        })
     }
 }
 
 impl AudioTimeStampRef {
+    #[doc(hidden)]
+    #[inline]
+    fn get_ref(&self) -> &ffi::AudioTimeStamp {
+        unsafe { &*self.as_ptr() }
+    }
+
     pub fn sample_time(&self) -> Option<f64> {
-        let ts = unsafe { &*self.as_ptr() };
-        if ts.mFlags & ffi::kAudioTimeStampSampleTimeValid != 0 {
-            Some(ts.mSampleTime)
+        if self.get_ref().mFlags & ffi::kAudioTimeStampSampleTimeValid != 0 {
+            Some(self.get_ref().mSampleTime)
         } else {
             None
         }
     }
 
     pub fn host_time(&self) -> Option<u64> {
-        let ts = unsafe { &*self.as_ptr() };
-        if ts.mFlags & ffi::kAudioTimeStampHostTimeValid != 0 {
-            Some(ts.mHostTime)
+        if self.get_ref().mFlags & ffi::kAudioTimeStampHostTimeValid != 0 {
+            Some(self.get_ref().mHostTime)
         } else {
             None
         }
     }
 
     pub fn rate_scalar(&self) -> Option<f64> {
-        let ts = unsafe { &*self.as_ptr() };
-        if ts.mFlags & ffi::kAudioTimeStampRateScalarValid != 0 {
-            Some(ts.mRateScalar)
+        if self.get_ref().mFlags & ffi::kAudioTimeStampRateScalarValid != 0 {
+            Some(self.get_ref().mRateScalar)
         } else {
             None
         }
     }
 
     pub fn word_clock_time(&self) -> Option<u64> {
-        let ts = unsafe { &*self.as_ptr() };
-        if ts.mFlags & ffi::kAudioTimeStampWordClockTimeValid != 0 {
-            Some(ts.mWordClockTime)
+        if self.get_ref().mFlags & ffi::kAudioTimeStampWordClockTimeValid != 0 {
+            Some(self.get_ref().mWordClockTime)
         } else {
             None
         }
     }
 
     pub fn smpte_time(&self) -> Option<SMPTETime> {
-        let ts = unsafe { &*self.as_ptr() };
-        if ts.mFlags & ffi::kAudioTimeStampSMPTETimeValid != 0 {
-            Some(SMPTETime(ts.mSMPTETime))
+        if self.get_ref().mFlags & ffi::kAudioTimeStampSMPTETimeValid != 0 {
+            Some(SMPTETime(self.get_ref().mSMPTETime))
         } else {
             None
         }
@@ -933,11 +942,5 @@ impl fmt::Debug for AudioTimeStamp {
             ds.field("smpte_time", &smpte_time);
         }
         ds.finish()
-    }
-}
-
-impl Default for AudioTimeStamp {
-    fn default() -> Self {
-        unsafe { mem::zeroed() }
     }
 }

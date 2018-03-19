@@ -1,10 +1,8 @@
 #[macro_use]
 extern crate bitflags;
-pub extern crate core_audio_sys as ffi;
 extern crate core_foundation;
-#[macro_use]
-extern crate foreign_types;
 extern crate libc;
+pub extern crate core_audio_sys as ffi;
 
 #[macro_use]
 mod ffi_types;

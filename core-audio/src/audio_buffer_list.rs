@@ -1,5 +1,4 @@
 use ::*;
-use foreign_types::ForeignTypeRef;
 use std::{mem, ops, ptr, slice};
 
 #[repr(C)]
@@ -30,7 +29,7 @@ unsafe fn delete_heap(ptr: *mut ffi::AudioBufferList) {
     drop(Vec::<u32>::from_raw_parts(ptr as _, 0, n_u32))
 }
 
-foreign_type!{
+ffi_type_heap!{
     type CType = ffi::AudioBufferList;
     fn drop = delete_heap;
     pub struct AudioBufferList;
