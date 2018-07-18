@@ -495,18 +495,39 @@ impl PropertyListenerThunk {
 //==============================================================================
 // AudioStream
 
-#[repr(u32)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum AudioStreamDirection {
     Output = 0,
     Input = 1,
 }
 
-#[repr(C)]
-#[derive(Clone, Copy, Debug)]
-pub struct AudioStreamRangedDescription {
-    pub format: AudioStreamBasicDescription,
-    pub sample_rate_range: AudioValueRange,
+ffi_type_stack! {
+    type CType = ffi::AudioStreamRangedDescription;
+
+    pub struct AudioStreamRangedDescription;
+    pub struct AudioStreamRangedDescriptionRef;
+}
+
+impl AudioStreamRangedDescriptionRef {
+    #[doc(hidden)]
+    #[inline]
+    fn get_ref(&self) -> &ffi::AudioStreamRangedDescription {
+        unsafe { &*self.as_ptr() }
+    }
+
+    pub fn sample_rate_range(&self) -> &AudioValueRange {
+        &self.get_ref().mSampleRateRange
+    }
+}
+
+impl ops::Deref for AudioStreamRangedDescriptionRef {
+    type Target = AudioStreamBasicDescriptionRef;
+
+    fn deref(&self) -> &AudioStreamBasicDescriptionRef {
+        unsafe {
+            AudioStreamBasicDescriptionRef::from_ptr(&self.get_ref().mFormat as *const _ as *mut _)
+        }
+    }
 }
 
 #[repr(u32)]

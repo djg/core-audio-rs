@@ -2,9 +2,7 @@ use audio_channel_layout::AudioChannelLayoutRef;
 use ffi;
 use std::{fmt, mem, ops, slice};
 
-//==============================================================================
-// AudioValueRange
-
+/// This struct represents a continuous range of values.
 pub type AudioValueRange = ffi::AudioValueRange;
 
 //==============================================================================
@@ -17,7 +15,9 @@ pub type AudioValueRange = ffi::AudioValueRange;
 
 ffi_type_stack! {
     type CType = ffi::AudioBuffer;
+    /// Holds a buffer of audio data.
     pub struct AudioBuffer;
+    /// A reference to a borrowed buffer of audio data.
     pub struct AudioBufferRef;
 }
 
@@ -50,62 +50,255 @@ impl ops::DerefMut for AudioBufferRef {
 }
 
 //==============================================================================
+// AudioBufferList
+
+//==============================================================================
 // Audio Formats
 
+#[cfg(feature = "deprecated")]
+pub type AudioSampleType = ffi::AudioSampleType;
+#[cfg(feature = "deprecated")]
+pub type AudioUnitSampleType = ffi::AudioUnitSampleType;
+
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub struct AudioFormat(ffi::AudioFormatID);
-impl AudioFormat {
-    pub const LINEAR_PCM: AudioFormat = AudioFormat(ffi::kAudioFormatLinearPCM);
-    pub const AC3: AudioFormat = AudioFormat(ffi::kAudioFormatAC3);
-    pub const _60958AC3: AudioFormat = AudioFormat(ffi::kAudioFormat60958AC3);
-    pub const APPLE_IMA4: AudioFormat = AudioFormat(ffi::kAudioFormatAppleIMA4);
-    pub const MPEG4_AAC: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC);
-    pub const MPEG4_CELP: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4CELP);
-    pub const MPEG4_HVXC: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4HVXC);
-    pub const MPEG4_TWIN_VQ: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4TwinVQ);
-    pub const MACE3: AudioFormat = AudioFormat(ffi::kAudioFormatMACE3);
-    pub const MACE6: AudioFormat = AudioFormat(ffi::kAudioFormatMACE6);
-    pub const U_LAW: AudioFormat = AudioFormat(ffi::kAudioFormatULaw);
-    pub const A_LAW: AudioFormat = AudioFormat(ffi::kAudioFormatALaw);
-    pub const QDESIGN: AudioFormat = AudioFormat(ffi::kAudioFormatQDesign);
-    pub const QDESIGN2: AudioFormat = AudioFormat(ffi::kAudioFormatQDesign2);
-    pub const QUALCOMM: AudioFormat = AudioFormat(ffi::kAudioFormatQUALCOMM);
-    pub const MPEGLAYER1: AudioFormat = AudioFormat(ffi::kAudioFormatMPEGLayer1);
-    pub const MPEGLAYER2: AudioFormat = AudioFormat(ffi::kAudioFormatMPEGLayer2);
-    pub const MPEGLAYER3: AudioFormat = AudioFormat(ffi::kAudioFormatMPEGLayer3);
-    pub const TIME_CODE: AudioFormat = AudioFormat(ffi::kAudioFormatTimeCode);
-    pub const MIDI_STREAM: AudioFormat = AudioFormat(ffi::kAudioFormatMIDIStream);
-    pub const PARAMETER_VALUE_STREAM: AudioFormat =
-        AudioFormat(ffi::kAudioFormatParameterValueStream);
-    pub const APPLE_LOSSLESS: AudioFormat = AudioFormat(ffi::kAudioFormatAppleLossless);
-    pub const MPEG4AAC_HE: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_HE);
-    pub const MPEG4AAC_LD: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_LD);
-    pub const MPEG4AAC_ELD: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_ELD);
-    pub const MPEG4AAC_ELD_SBR: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_ELD_SBR);
-    pub const MPEG4AAC_ELD_V2: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_ELD_V2);
-    pub const MPEG4AAC_HE_V2: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_HE_V2);
-    pub const MPEG4AAC_SPATIAL: AudioFormat = AudioFormat(ffi::kAudioFormatMPEG4AAC_Spatial);
-    pub const AMR: AudioFormat = AudioFormat(ffi::kAudioFormatAMR);
-    pub const AMR_WB: AudioFormat = AudioFormat(ffi::kAudioFormatAMR_WB);
-    pub const AUDIBLE: AudioFormat = AudioFormat(ffi::kAudioFormatAudible);
-    pub const ILBC: AudioFormat = AudioFormat(ffi::kAudioFormatiLBC);
-    pub const DVI_INTEL_IMA: AudioFormat = AudioFormat(ffi::kAudioFormatDVIIntelIMA);
-    pub const MICROSOFT_GSM: AudioFormat = AudioFormat(ffi::kAudioFormatMicrosoftGSM);
-    pub const AES3: AudioFormat = AudioFormat(ffi::kAudioFormatAES3);
-    pub const ENHANCED_AC3: AudioFormat = AudioFormat(ffi::kAudioFormatEnhancedAC3);
-    pub const FLAC: AudioFormat = AudioFormat(ffi::kAudioFormatFLAC);
-    pub const OPUS: AudioFormat = AudioFormat(ffi::kAudioFormatOpus);
+/// A four char code indicating the general kind of data in the stream.
+pub enum AudioFormat {
+    /// Linear PCM, uses the standard flags.
+    LinearPcm,
+    /// AC-3, has no flags.
+    Ac3,
+    /// AC-3 packaged for transport over an IEC 60958 compliant digital
+    /// audio interface. Uses the standard flags.
+    _60958Ac3,
+    /// Apples implementation of IMA 4:1 ADPCM, has no flags.
+    AppleIma4,
+    /// MPEG-4 Low Complexity AAC audio object, has no flags.
+    Mpeg4Aac,
+    /// MPEG-4 CELP audio object, has no flags.
+    Mpeg4Celp,
+    /// MPEG-4 HVXC audio object, has no flags.
+    Mpeg4Hvxc,
+    /// MPEG-4 TwinVQ audio object type, has no flags.
+    Mpeg4TwinVq,
+    /// MACE 3:1, has no flags.
+    Mace3,
+    /// MACE 6:1, has no flags.
+    Mace6,
+    /// µLaw 2:1, has no flags.
+    ULaw,
+    /// aLaw 2:1, has no flags.
+    ALaw,
+    /// QDesign music, has no flags
+    Qdesign,
+    /// QDesign2 music, has no flags
+    Qdesign2,
+    /// QUALCOMM PureVoice, has no flags
+    Qualcomm,
+    /// MPEG-1/2, Layer 1 audio, has no flags
+    MpegLayer1,
+    /// MPEG-1/2, Layer 2 audio, has no flags
+    MpegLayer2,
+    /// MPEG-1/2, Layer 3 audio, has no flags
+    MpegLayer3,
+    /// A stream of `IOAudioTimeStamps`, uses the `IOAudioTimeStamp flags` (see IOKit/audio/IOAudioTypes.h).
+    TimeCode,
+    /// A stream of MIDIPacketLists where the time stamps in the
+    /// MIDIPacketList are sample offsets in the stream.
+    ///
+    /// The `sample_rate` field is used to describe how time is passed
+    /// in this kind of stream and an AudioUnit that receives or
+    /// generates this stream can use this sample rate, the number of
+    /// frames it is rendering and the sample offsets within the
+    /// MIDIPacketList to define the time for any MIDI event within
+    /// this list. It has no flags.
+    MidiStream,
+    /// A "side-chain" of Float32 data that can be fed or generated by an AudioUnit
+    /// and is used to send a high density of parameter value control information.
+    /// An AU will typically run a ParameterValueStream at either the sample rate of
+    /// the AudioUnit's audio data, or some integer divisor of this (say a half or a
+    /// third of the sample rate of the audio). The Sample Rate of the ASBD
+    /// describes this relationship. It has no flags.
+    ParameterValueStream,
+    /// Apple Lossless, the flags indicate the bit depth of the source material.
+    AppleLossless,
+    /// MPEG-4 High Efficiency AAC audio object, has no flags.
+    Mpeg4AacHe,
+    /// MPEG-4 AAC Low Delay audio object, has no flags.
+    Mpeg4AacLd,
+    /// MPEG-4 AAC Enhanced Low Delay audio object, has no flags. This
+    /// is the formatID of the base layer without the SBR
+    /// extension. See also kAudioFormatMPEG4AAC_ELD_SBR
+    Mpeg4AacEld,
+    /// MPEG-4 AAC Enhanced Low Delay audio object with SBR extension
+    /// layer, has no flags.
+    Mpeg4AacEldSbr,
+    Mpeg4AacEldV2,
+    /// MPEG-4 High Efficiency AAC Version 2 audio object, has no flags.
+    Mpeg4AacHeV2,
+    /// MPEG-4 Spatial Audio audio object, has no flags.
+    Mpeg4AacSpatial,
+    /// The AMR Narrow Band speech codec.
+    Amr,
+    /// The AMR Wide Band speech codec.
+    AmrWb,
+    /// The format used for Audible audio books. It has no flags.
+    Audible,
+    /// The iLBC narrow band speech codec. It has no flags.
+    Ilbc,
+    /// DVI/Intel IMA ADPCM - ACM code 17.
+    DviIntelIma,
+    /// Microsoft GSM 6.10 - ACM code 49.
+    MicrosoftGsm,
+    /// This format is defined by AES3-2003, and adopted into MXF and
+    /// MPEG-2 containers and SDTI transport streams with SMPTE specs
+    /// 302M-2002 and 331M-2000. It has no flags.
+    Aes3,
+    /// Enhanced AC-3, has no flags.
+    EnhancedAc3,
+    /// Free Lossless Audio Codec, the flags indicate the bit depth of
+    /// the source material.
+    Flac,
+    /// Opus codec, has no flags.
+    Opus,
+    /// Unknown four char code.
+    Unknown(ffi::AudioFormatID),
+}
+
+impl From<ffi::AudioFormatID> for AudioFormat {
+    fn from(x: ffi::AudioFormatID) -> Self {
+        use AudioFormat::*;
+        match x {
+            ffi::kAudioFormatLinearPCM => LinearPcm,
+            ffi::kAudioFormatAC3 => Ac3,
+            ffi::kAudioFormat60958AC3 => _60958Ac3,
+            ffi::kAudioFormatAppleIMA4 => AppleIma4,
+            ffi::kAudioFormatMPEG4AAC => Mpeg4Aac,
+            ffi::kAudioFormatMPEG4CELP => Mpeg4Celp,
+            ffi::kAudioFormatMPEG4HVXC => Mpeg4Hvxc,
+            ffi::kAudioFormatMPEG4TwinVQ => Mpeg4TwinVq,
+            ffi::kAudioFormatMACE3 => Mace3,
+            ffi::kAudioFormatMACE6 => Mace6,
+            ffi::kAudioFormatULaw => ULaw,
+            ffi::kAudioFormatALaw => ALaw,
+            ffi::kAudioFormatQDesign => Qdesign,
+            ffi::kAudioFormatQDesign2 => Qdesign2,
+            ffi::kAudioFormatQUALCOMM => Qualcomm,
+            ffi::kAudioFormatMPEGLayer1 => MpegLayer1,
+            ffi::kAudioFormatMPEGLayer2 => MpegLayer2,
+            ffi::kAudioFormatMPEGLayer3 => MpegLayer3,
+            ffi::kAudioFormatTimeCode => TimeCode,
+            ffi::kAudioFormatMIDIStream => MidiStream,
+            ffi::kAudioFormatParameterValueStream => ParameterValueStream,
+            ffi::kAudioFormatAppleLossless => AppleLossless,
+            ffi::kAudioFormatMPEG4AAC_HE => Mpeg4AacHe,
+            ffi::kAudioFormatMPEG4AAC_LD => Mpeg4AacLd,
+            ffi::kAudioFormatMPEG4AAC_ELD => Mpeg4AacEld,
+            ffi::kAudioFormatMPEG4AAC_ELD_SBR => Mpeg4AacEldSbr,
+            ffi::kAudioFormatMPEG4AAC_ELD_V2 => Mpeg4AacEldV2,
+            ffi::kAudioFormatMPEG4AAC_HE_V2 => Mpeg4AacHeV2,
+            ffi::kAudioFormatMPEG4AAC_Spatial => Mpeg4AacSpatial,
+            ffi::kAudioFormatAMR => Amr,
+            ffi::kAudioFormatAMR_WB => AmrWb,
+            ffi::kAudioFormatAudible => Audible,
+            ffi::kAudioFormatiLBC => Ilbc,
+            ffi::kAudioFormatDVIIntelIMA => DviIntelIma,
+            ffi::kAudioFormatMicrosoftGSM => MicrosoftGsm,
+            ffi::kAudioFormatAES3 => Aes3,
+            ffi::kAudioFormatEnhancedAC3 => EnhancedAc3,
+            ffi::kAudioFormatFLAC => Flac,
+            ffi::kAudioFormatOpus => Opus,
+            x => Unknown(x),
+        }
+    }
+}
+
+impl Into<ffi::AudioFormatID> for AudioFormat {
+    fn into(self) -> ffi::AudioFormatID {
+        use AudioFormat::*;
+        match self {
+            LinearPcm => ffi::kAudioFormatLinearPCM,
+            Ac3 => ffi::kAudioFormatAC3,
+            _60958Ac3 => ffi::kAudioFormat60958AC3,
+            AppleIma4 => ffi::kAudioFormatAppleIMA4,
+            Mpeg4Aac => ffi::kAudioFormatMPEG4AAC,
+            Mpeg4Celp => ffi::kAudioFormatMPEG4CELP,
+            Mpeg4Hvxc => ffi::kAudioFormatMPEG4HVXC,
+            Mpeg4TwinVq => ffi::kAudioFormatMPEG4TwinVQ,
+            Mace3 => ffi::kAudioFormatMACE3,
+            Mace6 => ffi::kAudioFormatMACE6,
+            ULaw => ffi::kAudioFormatULaw,
+            ALaw => ffi::kAudioFormatALaw,
+            Qdesign => ffi::kAudioFormatQDesign,
+            Qdesign2 => ffi::kAudioFormatQDesign2,
+            Qualcomm => ffi::kAudioFormatQUALCOMM,
+            MpegLayer1 => ffi::kAudioFormatMPEGLayer1,
+            MpegLayer2 => ffi::kAudioFormatMPEGLayer2,
+            MpegLayer3 => ffi::kAudioFormatMPEGLayer3,
+            TimeCode => ffi::kAudioFormatTimeCode,
+            MidiStream => ffi::kAudioFormatMIDIStream,
+            ParameterValueStream => ffi::kAudioFormatParameterValueStream,
+            AppleLossless => ffi::kAudioFormatAppleLossless,
+            Mpeg4AacHe => ffi::kAudioFormatMPEG4AAC_HE,
+            Mpeg4AacLd => ffi::kAudioFormatMPEG4AAC_LD,
+            Mpeg4AacEld => ffi::kAudioFormatMPEG4AAC_ELD,
+            Mpeg4AacEldSbr => ffi::kAudioFormatMPEG4AAC_ELD_SBR,
+            Mpeg4AacEldV2 => ffi::kAudioFormatMPEG4AAC_ELD_V2,
+            Mpeg4AacHeV2 => ffi::kAudioFormatMPEG4AAC_HE_V2,
+            Mpeg4AacSpatial => ffi::kAudioFormatMPEG4AAC_Spatial,
+            Amr => ffi::kAudioFormatAMR,
+            AmrWb => ffi::kAudioFormatAMR_WB,
+            Audible => ffi::kAudioFormatAudible,
+            Ilbc => ffi::kAudioFormatiLBC,
+            DviIntelIma => ffi::kAudioFormatDVIIntelIMA,
+            MicrosoftGsm => ffi::kAudioFormatMicrosoftGSM,
+            Aes3 => ffi::kAudioFormatAES3,
+            EnhancedAc3 => ffi::kAudioFormatEnhancedAC3,
+            Flac => ffi::kAudioFormatFLAC,
+            Opus => ffi::kAudioFormatOpus,
+            Unknown(x) => x,
+        }
+    }
 }
 
 bitflags! {
+    /// Flags that are specific to each `AudioFormat`.
     pub struct AudioFormatFlags: ffi::AudioFormatFlags {
+        /// Floating point format.
         const IS_FLOAT             = ffi::kAudioFormatFlagIsFloat;
+        /// Big endian integer format.
         const IS_BIG_ENDIAN        = ffi::kAudioFormatFlagIsBigEndian;
+        /// Signed integer format. This in only valid if `IS_FLOAT` is
+        /// not set.
         const IS_SIGNED_INTEGER    = ffi::kAudioFormatFlagIsSignedInteger;
+        /// Sample bits occupy the entire available bits for the channel.
+        ///
+        /// # Note
+        ///
+        /// Even if this flag is not set, it is implied that this flag
+        /// is set if the `AudioStreamBasicDescription` is filled out
+        /// such that the fields have the following relationship:
+        ///
+        /// ```
+        /// ((bits_per_sample / 8) * channels_per_frame) == bytes_per_frame
+        /// ```
         const IS_PACKED            = ffi::kAudioFormatFlagIsPacked;
+        /// Sample bits are placed into the high bits of the
+        /// channel. This is only valid if `IS_PACKED` is not set.
         const IS_ALIGNED_HIGH      = ffi::kAudioFormatFlagIsAlignedHigh;
+        ///  Set if the samples for each channel are located
+        ///  contiguously and the channels are layed out end to end,
+        ///  clear if the samples for each frame are layed out
+        ///  contiguously and the frames layed out end to end.
         const IS_NON_INTERLEAVED   = ffi::kAudioFormatFlagIsNonInterleaved;
+        ///  Indicate when a format is non-mixable.
+        ///
+        /// # Note
+        ///
+        /// This flag is only used when interacting with the HAL's
+        /// stream format information. It is not a valid flag for any
+        /// other uses.
         const IS_NON_MIXABLE       = ffi::kAudioFormatFlagIsNonMixable;
+        /// Set if all the flags would be clear in order to preserve 0 as the wild card value.
         const ARE_ALL_CLEAR        = ffi::kAudioFormatFlagsAreAllClear;
         const NATIVE_ENDIAN        = ffi::kAudioFormatFlagsNativeEndian;
         #[cfg(feature = "deprecated")]
@@ -116,6 +309,12 @@ bitflags! {
 }
 
 impl AudioFormatFlags {
+    /// Create `AudioFormatFlags` for linear PCM data.
+    ///
+    /// # Note
+    ///
+    /// This function does not support specifying sample formats that
+    /// are either unsigned integer or low-aligned.
     pub fn with_lpcm_flags(
         valid_bits_per_channel: u32,
         total_bits_per_channel: u32,
@@ -143,21 +342,104 @@ impl AudioFormatFlags {
     }
 }
 
-#[repr(C)]
-#[derive(Clone, Copy, Debug)]
-pub struct AudioStreamBasicDescription {
-    pub sample_rate: f64,
-    pub format_id: AudioFormat,
-    pub format_flags: AudioFormatFlags,
-    pub bytes_per_packet: u32,
-    pub frames_per_packet: u32,
-    pub bytes_per_frame: u32,
-    pub channels_per_frame: u32,
-    pub bits_per_channel: u32,
-    _reserved: u32,
+/// Flags specific to `AudioFormat::LinearPcm`
+///
+/// The linear PCM flags contain a 6-bit bitfield indicating that an
+/// integer format is to be interpreted as fixed point. The value
+/// indicates the number of bits are used to represent the fractional
+/// portion of each sample value.  This constant indicates the bit
+/// position (counting from the right) of the bitfield in
+/// mFormatFlags.
+pub struct LinearPcmFlags(ffi::AudioFormatFlags);
+
+impl LinearPcmFlags {
+    const SAMPLE_FRACTION_SHIFT: u32 = ffi::kLinearPCMFormatFlagsSampleFractionShift;
+    const SAMPLE_FRACTION_MASK: u32 = ffi::kLinearPCMFormatFlagsSampleFractionMask;
+
+    pub fn number_fractional_bits(&self) -> usize {
+        ((self.0 & Self::SAMPLE_FRACTION_MASK) >> Self::SAMPLE_FRACTION_SHIFT) as usize
+    }
+}
+
+impl From<ffi::AudioFormatFlags> for LinearPcmFlags {
+    fn from(x: ffi::AudioFormatFlags) -> Self {
+        LinearPcmFlags(x)
+    }
+}
+
+impl Into<ffi::AudioFormatFlags> for LinearPcmFlags {
+    fn into(self) -> ffi::AudioFormatFlags {
+        self.0
+    }
+}
+
+impl AsRef<AudioFormatFlags> for LinearPcmFlags {
+    fn as_ref(&self) -> &AudioFormatFlags {
+        unsafe { mem::transmute(&self.0) }
+    }
+}
+
+/// Flags specific to `AudioFormat::AppleLossless`
+pub enum AppleLosslessFormatFlags {
+    SourceData16Bit = 1,
+    SourceData20Bit,
+    SourceData24Bit,
+    SourceData32Bit,
+}
+
+impl Into<ffi::AudioFormatFlags> for AppleLosslessFormatFlags {
+    fn into(self) -> ffi::AudioFormatFlags {
+        use AppleLosslessFormatFlags::*;
+        match self {
+            SourceData16Bit => ffi::kAppleLosslessFormatFlag_16BitSourceData,
+            SourceData20Bit => ffi::kAppleLosslessFormatFlag_20BitSourceData,
+            SourceData24Bit => ffi::kAppleLosslessFormatFlag_24BitSourceData,
+            SourceData32Bit => ffi::kAppleLosslessFormatFlag_32BitSourceData,
+        }
+    }
+}
+
+ffi_type_stack! {
+    type CType = ffi::AudioStreamBasicDescription;
+    /// This structure encapsulates all the information for describing the
+    /// basic format properties of a stream of audio data.
+    ///
+    /// This structure is sufficient to describe any constant bit rate
+    /// format that has channels that are the same size. Extensions are
+    /// required for variable bit rate data and for constant bit rate data
+    /// where the channels have unequal sizes.  However, where applicable,
+    /// the appropriate fields will be filled out correctly for these
+    /// kinds of formats (the extra data is provided via separate
+    /// properties).  In all fields, a value of 0 indicates that the field
+    /// is either unknown, not applicable or otherwise is inapproprate for
+    /// the format and should be ignored.  Note that 0 is still a valid
+    /// value for most formats in the mFormatFlags field.
+    ///
+    /// In audio data a frame is one sample across all channels. In
+    /// non-interleaved audio, the per frame fields identify one
+    /// channel. In interleaved audio, the per frame fields identify the
+    /// set of n channels. In uncompressed audio, a Packet is one frame,
+    /// (`frames_per_packet` == 1). In compressed audio, a Packet is an
+    /// indivisible chunk of compressed data, for example an AAC packet
+    /// will contain 1024 sample frames.
+    pub struct AudioStreamBasicDescription;
+    pub struct AudioStreamBasicDescriptionRef;
 }
 
 impl AudioStreamBasicDescription {
+    /// The format can use any sample rate.
+    ///
+    /// # Note
+    ///
+    /// This constant can only appear in listings of supported
+    /// formats. It will never appear in a current format.
+    pub const ANY_RATE: f64 = ffi::kAudioStreamAnyRate;
+
+    /// Create an `AudioStreamBasicDescription` to describe linear PCM data.
+    ///
+    /// # Note
+    ///
+    /// This function does not support specifying sample formats that are either unsigned integer or low-aligned.
     pub fn with_lpcm(
         sample_rate: f64,
         channels_per_frame: u32,
@@ -185,32 +467,287 @@ impl AudioStreamBasicDescription {
             channels_per_frame
         } * (total_bits_per_channel / 8);
 
-        AudioStreamBasicDescription {
-            sample_rate,
-            format_id: AudioFormat::LINEAR_PCM,
-            format_flags: flags,
-            bytes_per_packet,
-            frames_per_packet: 1,
-            bytes_per_frame,
-            channels_per_frame,
-            bits_per_channel: valid_bits_per_channel,
-            _reserved: 0,
-        }
+        let mut desc = ffi::AudioStreamBasicDescription::default();
+        desc.mSampleRate = sample_rate;
+        desc.mFormatID = ffi::kAudioFormatLinearPCM;
+        desc.mFormatFlags = flags.bits();
+        desc.mBytesPerPacket = bytes_per_packet;
+        desc.mFramesPerPacket = 1;
+        desc.mBytesPerFrame = bytes_per_frame;
+        desc.mChannelsPerFrame = channels_per_frame;
+        desc.mBitsPerChannel = valid_bits_per_channel;
+
+        AudioStreamBasicDescription::from(desc)
+    }
+}
+
+impl AudioStreamBasicDescriptionRef {
+    #[doc(hidden)]
+    fn get_ref(&self) -> &ffi::AudioStreamBasicDescription {
+        unsafe { &*self.as_ptr() }
+    }
+
+    /// The number of sample frames per second in the stream.
+    pub fn sample_rate(&self) -> f64 {
+        self.get_ref().mSampleRate
+    }
+
+    /// The `AudioFormat` indicating the general kind of data in the stream.
+    pub fn format_id(&self) -> AudioFormat {
+        AudioFormat::from(self.get_ref().mFormatID)
+    }
+    /// The `AudioFormatFlags` for the format indicated by `format_id`.
+    pub fn format_flags(&self) -> AudioFormatFlags {
+        AudioFormatFlags::from_bits_truncate(self.get_ref().mFormatFlags)
+    }
+    /// The number of bytes in a packet of data.
+    pub fn bytes_per_packet(&self) -> u32 {
+        self.get_ref().mBytesPerPacket
+    }
+    /// The number of frames in each packet of data.
+    pub fn frames_per_packet(&self) -> u32 {
+        self.get_ref().mFramesPerPacket
+    }
+    /// The number of bytes in a sample frame of data.
+    pub fn bytes_per_frame(&self) -> u32 {
+        self.get_ref().mBytesPerFrame
+    }
+    /// The number of channels in each frame of data.
+    pub fn channels_per_frame(&self) -> u32 {
+        self.get_ref().mChannelsPerFrame
+    }
+    /// The number of bits of sample data per channel in a frame of data.
+    pub fn bits_per_channel(&self) -> u32 {
+        self.get_ref().mBitsPerChannel
     }
 
     pub fn is_native_endian(&self) -> bool {
-        self.format_id == AudioFormat::LINEAR_PCM
-            && (self.format_flags & AudioFormatFlags::IS_BIG_ENDIAN)
+        self.format_id() == AudioFormat::LinearPcm
+            && (self.format_flags() & AudioFormatFlags::IS_BIG_ENDIAN)
                 == AudioFormatFlags::NATIVE_ENDIAN
     }
 }
 
+ffi_type_stack! {
+    type CType = ffi::AudioStreamPacketDescription;
+    /// This structure describes the packet layout of a buffer of data
+    /// where the size of each packet may not be the same or where
+    /// there is extraneous data between packets.
+    pub struct AudioStreamPacketDesc;
+    pub struct AudioStreamPacketDescRef;
+}
+
+impl AudioStreamPacketDescRef {
+    #[doc(hidden)]
+    #[inline]
+    fn get_ref(&self) -> &ffi::AudioStreamPacketDescription {
+        unsafe { &*self.as_ptr() }
+    }
+
+    /// The number of bytes from the start of the buffer to the
+    /// beginning of the packet.
+    pub fn start_offset(&self) -> i64 {
+        self.get_ref().mStartOffset
+    }
+
+    /// The number of sample frames of data in the packet. For formats
+    /// with a constant number of frames per packet, this returns 0.
+    pub fn variable_frames_in_packet(&self) -> u32 {
+        self.get_ref().mVariableFramesInPacket
+    }
+
+    /// The number of bytes in the packet.
+    pub fn data_byte_size(&self) -> u32 {
+        self.get_ref().mDataByteSize
+    }
+}
+
+//==============================================================================
+// Audio Time Stamps
+
+#[repr(u32)]
+pub enum SMPTETimeType {
+    /// 24 Frame
+    _24 = ffi::kSMPTETimeType24,
+    /// 25 Frame
+    _25 = ffi::kSMPTETimeType25,
+    /// 30 Drop Frame
+    _30Drop = ffi::kSMPTETimeType30Drop,
+    /// 30 Frame
+    _30 = ffi::kSMPTETimeType30,
+    /// 29.97 Frame
+    _2997 = ffi::kSMPTETimeType2997,
+    /// 29.97 Drop Frame
+    _2997Drop = ffi::kSMPTETimeType2997Drop,
+    /// 60 Frame
+    _60 = ffi::kSMPTETimeType60,
+    /// 59.94 Frame
+    _5994 = ffi::kSMPTETimeType5994,
+    /// 60 Drop Frame
+    _60Drop = ffi::kSMPTETimeType60Drop,
+    /// 59.94 Drop Frame
+    _5994Drop = ffi::kSMPTETimeType5994Drop,
+    /// 50 Frame
+    _50 = ffi::kSMPTETimeType50,
+    /// 23.98 Frame
+    _2398 = ffi::kSMPTETimeType2398,
+}
+
+bitflags! {
+    pub struct SMPTETimeFlags: ffi::SMPTETimeFlags {
+        const UNKNOWN = ffi::kSMPTETimeUnknown;
+        const VALID   = ffi::kSMPTETimeValid;
+        const RUNNING = ffi::kSMPTETimeRunning;
+    }
+}
+
+#[derive(Clone, Copy, Debug)]
+pub struct SMPTETime(ffi::SMPTETime);
+impl SMPTETime {
+    pub fn subframes(&self) -> i16 {
+        self.0.mSubframes
+    }
+    pub fn subframe_divisor(&self) -> i16 {
+        self.0.mSubframeDivisor
+    }
+    pub fn counter(&self) -> u32 {
+        self.0.mCounter
+    }
+    pub fn kind(&self) -> SMPTETimeType {
+        unsafe { mem::transmute(self.0.mType) }
+    }
+    pub fn flags(&self) -> SMPTETimeFlags {
+        SMPTETimeFlags::from_bits_truncate(self.0.mFlags)
+    }
+    pub fn hours(&self) -> i16 {
+        self.0.mHours
+    }
+    pub fn minutes(&self) -> i16 {
+        self.0.mMinutes
+    }
+    pub fn seconds(&self) -> i16 {
+        self.0.mSeconds
+    }
+    pub fn frames(&self) -> i16 {
+        self.0.mFrames
+    }
+}
+
+ffi_type_stack! {
+    type CType = ffi::AudioTimeStamp;
+
+    pub struct AudioTimeStamp;
+    pub struct AudioTimeStampRef;
+}
+
+impl AudioTimeStamp {
+    pub fn with_sample_time(sample_time: f64) -> AudioTimeStamp {
+        AudioTimeStamp(ffi::AudioTimeStamp {
+            mSampleTime: sample_time,
+            mFlags: ffi::kAudioTimeStampSampleTimeValid,
+            ..ffi::AudioTimeStamp::default()
+        })
+    }
+
+    pub fn with_host_time(host_time: u64) -> AudioTimeStamp {
+        AudioTimeStamp(ffi::AudioTimeStamp {
+            mHostTime: host_time,
+            mFlags: ffi::kAudioTimeStampHostTimeValid,
+            ..ffi::AudioTimeStamp::default()
+        })
+    }
+
+    pub fn with_sample_and_host_time(sample_time: f64, host_time: u64) -> AudioTimeStamp {
+        AudioTimeStamp(ffi::AudioTimeStamp {
+            mSampleTime: sample_time,
+            mHostTime: host_time,
+            mFlags: ffi::kAudioTimeStampSampleTimeValid | ffi::kAudioTimeStampHostTimeValid,
+            ..ffi::AudioTimeStamp::default()
+        })
+    }
+}
+
+impl AudioTimeStampRef {
+    #[doc(hidden)]
+    #[inline]
+    fn get_ref(&self) -> &ffi::AudioTimeStamp {
+        unsafe { &*self.as_ptr() }
+    }
+
+    pub fn sample_time(&self) -> Option<f64> {
+        if self.get_ref().mFlags & ffi::kAudioTimeStampSampleTimeValid != 0 {
+            Some(self.get_ref().mSampleTime)
+        } else {
+            None
+        }
+    }
+
+    pub fn host_time(&self) -> Option<u64> {
+        if self.get_ref().mFlags & ffi::kAudioTimeStampHostTimeValid != 0 {
+            Some(self.get_ref().mHostTime)
+        } else {
+            None
+        }
+    }
+
+    pub fn rate_scalar(&self) -> Option<f64> {
+        if self.get_ref().mFlags & ffi::kAudioTimeStampRateScalarValid != 0 {
+            Some(self.get_ref().mRateScalar)
+        } else {
+            None
+        }
+    }
+
+    pub fn word_clock_time(&self) -> Option<u64> {
+        if self.get_ref().mFlags & ffi::kAudioTimeStampWordClockTimeValid != 0 {
+            Some(self.get_ref().mWordClockTime)
+        } else {
+            None
+        }
+    }
+
+    pub fn smpte_time(&self) -> Option<SMPTETime> {
+        if self.get_ref().mFlags & ffi::kAudioTimeStampSMPTETimeValid != 0 {
+            Some(SMPTETime(self.get_ref().mSMPTETime))
+        } else {
+            None
+        }
+    }
+}
+
+impl fmt::Debug for AudioTimeStamp {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let mut ds = f.debug_struct("AudioTimeStamp");
+        if let Some(sample_time) = self.sample_time() {
+            ds.field("sample_time", &sample_time);
+        }
+        if let Some(host_time) = self.host_time() {
+            ds.field("host_time", &host_time);
+        }
+        if let Some(rate_scalar) = self.rate_scalar() {
+            ds.field("rate_scalar", &rate_scalar);
+        }
+        if let Some(word_clock_time) = self.word_clock_time() {
+            ds.field("word_clock_time", &word_clock_time);
+        }
+        if let Some(smpte_time) = self.smpte_time() {
+            ds.field("smpte_time", &smpte_time);
+        }
+        ds.finish()
+    }
+}
+
+//==============================================================================
+// AudioClassDescription
+
 //==============================================================================
 // Audio Channel Layout
 
+/// A tag identifying how the channel is to be used.
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 pub struct AudioChannelLabel(ffi::AudioChannelLabel);
+
 impl AudioChannelLabel {
     pub const UNKNOWN: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Unknown);
     pub const UNUSED: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Unused);
@@ -218,6 +755,7 @@ impl AudioChannelLabel {
         AudioChannelLabel(ffi::kAudioChannelLabel_UseCoordinates);
 }
 
+/// A tag identifying a particular pre-defined channel layout.
 pub struct StandardChannelLabel {}
 impl StandardChannelLabel {
     pub const LEFT: AudioChannelLabel = AudioChannelLabel(ffi::kAudioChannelLabel_Left);
@@ -741,6 +1279,7 @@ pub struct AudioChannelDescription {
     coordinates: [f32; 3],
 }
 
+/// Describes a single channel.
 impl AudioChannelDescription {
     pub fn rectangular_coordinate(&self) -> Option<&AudioChannelRectangularCoordinates> {
         if self.channel_flags
@@ -763,9 +1302,6 @@ impl AudioChannelDescription {
     }
 }
 
-//==============================================================================
-// Audio Channel Layout
-
 impl AudioChannelLayoutRef {
     pub fn channel_layout_tag(&self) -> AudioChannelLayoutTag {
         unsafe {
@@ -783,164 +1319,3 @@ impl AudioChannelLayoutRef {
 }
 
 //==============================================================================
-// Audio Time Stamps
-
-#[repr(u32)]
-pub enum SMPTETimeType {
-    _24 = ffi::kSMPTETimeType24,
-    _25 = ffi::kSMPTETimeType25,
-    _30Drop = ffi::kSMPTETimeType30Drop,
-    _30 = ffi::kSMPTETimeType30,
-    _2997 = ffi::kSMPTETimeType2997,
-    _2997Drop = ffi::kSMPTETimeType2997Drop,
-    _60 = ffi::kSMPTETimeType60,
-    _5994 = ffi::kSMPTETimeType5994,
-    _60Drop = ffi::kSMPTETimeType60Drop,
-    _5994Drop = ffi::kSMPTETimeType5994Drop,
-    _50 = ffi::kSMPTETimeType50,
-    _2398 = ffi::kSMPTETimeType2398,
-}
-
-bitflags! {
-    pub struct SMPTETimeFlags: ffi::SMPTETimeFlags {
-        const UNKNOWN = ffi::kSMPTETimeUnknown;
-        const VALID   = ffi::kSMPTETimeValid;
-        const RUNNING = ffi::kSMPTETimeRunning;
-    }
-}
-
-#[derive(Clone, Copy, Debug)]
-pub struct SMPTETime(ffi::SMPTETime);
-impl SMPTETime {
-    pub fn subframes(&self) -> i16 {
-        self.0.mSubframes
-    }
-    pub fn subframe_divisor(&self) -> i16 {
-        self.0.mSubframeDivisor
-    }
-    pub fn counter(&self) -> u32 {
-        self.0.mCounter
-    }
-    pub fn kind(&self) -> SMPTETimeType {
-        unsafe { mem::transmute(self.0.mType) }
-    }
-    pub fn flags(&self) -> SMPTETimeFlags {
-        SMPTETimeFlags::from_bits_truncate(self.0.mFlags)
-    }
-    pub fn hours(&self) -> i16 {
-        self.0.mHours
-    }
-    pub fn minutes(&self) -> i16 {
-        self.0.mMinutes
-    }
-    pub fn seconds(&self) -> i16 {
-        self.0.mSeconds
-    }
-    pub fn frames(&self) -> i16 {
-        self.0.mFrames
-    }
-}
-
-ffi_type_stack! {
-    type CType = ffi::AudioTimeStamp;
-
-    pub struct AudioTimeStamp;
-    pub struct AudioTimeStampRef;
-}
-
-impl AudioTimeStamp {
-    pub fn with_sample_time(sample_time: f64) -> AudioTimeStamp {
-        AudioTimeStamp(ffi::AudioTimeStamp {
-            mSampleTime: sample_time,
-            mFlags: ffi::kAudioTimeStampSampleTimeValid,
-            ..ffi::AudioTimeStamp::default()
-        })
-    }
-
-    pub fn with_host_time(host_time: u64) -> AudioTimeStamp {
-        AudioTimeStamp(ffi::AudioTimeStamp {
-            mHostTime: host_time,
-            mFlags: ffi::kAudioTimeStampHostTimeValid,
-            ..ffi::AudioTimeStamp::default()
-        })
-    }
-
-    pub fn with_sample_and_host_time(sample_time: f64, host_time: u64) -> AudioTimeStamp {
-        AudioTimeStamp(ffi::AudioTimeStamp {
-            mSampleTime: sample_time,
-            mHostTime: host_time,
-            mFlags: ffi::kAudioTimeStampSampleTimeValid | ffi::kAudioTimeStampHostTimeValid,
-            ..ffi::AudioTimeStamp::default()
-        })
-    }
-}
-
-impl AudioTimeStampRef {
-    #[doc(hidden)]
-    #[inline]
-    fn get_ref(&self) -> &ffi::AudioTimeStamp {
-        unsafe { &*self.as_ptr() }
-    }
-
-    pub fn sample_time(&self) -> Option<f64> {
-        if self.get_ref().mFlags & ffi::kAudioTimeStampSampleTimeValid != 0 {
-            Some(self.get_ref().mSampleTime)
-        } else {
-            None
-        }
-    }
-
-    pub fn host_time(&self) -> Option<u64> {
-        if self.get_ref().mFlags & ffi::kAudioTimeStampHostTimeValid != 0 {
-            Some(self.get_ref().mHostTime)
-        } else {
-            None
-        }
-    }
-
-    pub fn rate_scalar(&self) -> Option<f64> {
-        if self.get_ref().mFlags & ffi::kAudioTimeStampRateScalarValid != 0 {
-            Some(self.get_ref().mRateScalar)
-        } else {
-            None
-        }
-    }
-
-    pub fn word_clock_time(&self) -> Option<u64> {
-        if self.get_ref().mFlags & ffi::kAudioTimeStampWordClockTimeValid != 0 {
-            Some(self.get_ref().mWordClockTime)
-        } else {
-            None
-        }
-    }
-
-    pub fn smpte_time(&self) -> Option<SMPTETime> {
-        if self.get_ref().mFlags & ffi::kAudioTimeStampSMPTETimeValid != 0 {
-            Some(SMPTETime(self.get_ref().mSMPTETime))
-        } else {
-            None
-        }
-    }
-}
-
-impl fmt::Debug for AudioTimeStamp {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let mut ds = f.debug_struct("AudioTimeStamp");
-        if let Some(sample_time) = self.sample_time() {
-            ds.field("sample_time", &sample_time);
-        }
-        if let Some(host_time) = self.host_time() {
-            ds.field("host_time", &host_time);
-        }
-        if let Some(rate_scalar) = self.rate_scalar() {
-            ds.field("rate_scalar", &rate_scalar);
-        }
-        if let Some(word_clock_time) = self.word_clock_time() {
-            ds.field("word_clock_time", &word_clock_time);
-        }
-        if let Some(smpte_time) = self.smpte_time() {
-            ds.field("smpte_time", &smpte_time);
-        }
-        ds.finish()
-    }
-}
