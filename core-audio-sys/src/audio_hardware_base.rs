@@ -1,5 +1,7 @@
 use super::*;
 
+use std::mem;
+
 //==============================================================================
 // Basic Types
 
@@ -214,6 +216,12 @@ pub const kAudioEndPointOutputChannelsKey: &str = "channels-out";
 pub struct AudioStreamRangedDescription {
     pub mFormat: AudioStreamBasicDescription,
     pub mSampleRateRange: AudioValueRange,
+}
+
+impl Default for AudioStreamRangedDescription {
+    fn default() -> Self {
+        unsafe { mem::zeroed() }
+    }
 }
 
 //==============================================================================

@@ -90,6 +90,12 @@ pub struct AudioStreamBasicDescription {
     mReserved: u32,
 }
 
+impl Default for AudioStreamBasicDescription {
+    fn default() -> Self {
+        unsafe { mem::zeroed() }
+    }
+}
+
 pub const kAudioStreamAnyRate: c_double = 0.0;
 
 pub const kAudioFormatLinearPCM: AudioFormatID = 1819304813;
@@ -189,6 +195,12 @@ pub struct AudioStreamPacketDescription {
     pub mStartOffset: i64,
     pub mVariableFramesInPacket: u32,
     pub mDataByteSize: u32,
+}
+
+impl Default for AudioStreamPacketDescription {
+    fn default() -> Self {
+        unsafe { mem::zeroed() }
+    }
 }
 
 //==============================================================================
